@@ -1,11 +1,3 @@
-# CLI-Common Language Infrastructure
-
-cmd: developer command prompt->ildasm
-
-platform-neutral environment for executing applications written in multiple high-level programming languages
-
-c# code -> IL code -> Jit Compiler-> Hardware
-
 ## **Difference between Class and Objects in C#**
 
 a Class is a template or blueprint for creating Objects, and every Object in C# must belong to a Class

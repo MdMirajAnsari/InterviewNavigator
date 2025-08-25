@@ -1,3 +1,38 @@
+# What is the CLR, and why is it important?
+
+
+The Common Language Runtime (CLR) is the execution environment for .NET applications. It provides  **automatic memory management, security, and performance optimizations** , making applications more reliable and efficient.
+
+How it works:
+
+* Code written in C# or another .NET language compiles into Common Intermediate Language (CIL)
+* The Just-In-Time (JIT) compiler translates CIL into machine code at runtime
+* The Garbage Collector (GC) automatically manages memory by reclaiming unused objects
+* The CLR enforces security policies and prevents unauthorized memory access
+
+
+## What are the differences between .NET Framework, .NET Core, and .NET 5+?
+
+
+NET has evolved from a Windows-only framework to a modern, cross-platform ecosystem. Each version has different capabilities and use cases.
+
+Key differences:
+
+* **.NET Framework** – Windows-only, supports WinForms, WPF, and older ASP.NET Web Forms. Still used in enterprise applications but no longer receives major updates
+* **.NET Core** – The first cross-platform version, optimized for cloud and high-performance applications. Supports Docker, Kubernetes, and microservices
+* **.NET 5+** – Replaces .NET Core, unifying desktop, mobile, cloud, and AI under a single framework. The latest long-term support (LTS) version is .NET 8 (2023) and the latest stable short-term support release (STS) is .NET 9 (2024).
+
+
+## What is CIL (Common Intermediate Language)?
+
+
+When you compile C# code, it doesn’t turn into machine code directly. Instead, it compiles into Common Intermediate Language (CIL), which is then executed by the CLR.
+
+CIL enables:
+
+* **Cross-platform compatibility** – Code written in any .NET language can run on different operating systems via the CLR
+* **Language interoperability** – Since all .NET languages compile to CIL, C#, F#, and VB.NET can interact seamlessly
+
 # EXTENSION METHODS
 
 Extension method allow us to seemingly add methods to an existing type without modifying this type's source code.
