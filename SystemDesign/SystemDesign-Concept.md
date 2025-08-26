@@ -1,3 +1,11 @@
+## What are solid principles ?
+
+S- Single responsibility - Each class should have single job/responsibility.
+O - Open/Closed Principle. Classes must be open to extension but closed to modification.
+L - Liskov principle - If class A is subtype of class B then, Class B should be able to replace Class A with out disrupting the behaviour of our program.
+I - Interface segregation - Clients should not be forced to depend on methods that they do not use.
+D - Dependency inversion - High level modules should not depend on low level modules. Both must depend on abstraction.
+
 ## What is **DDD?**
 
 Benefits of DDD in System DesignBusiness Alignment: The software reflects real-world business processes, improving usability and relevance.
@@ -157,14 +165,6 @@ How Webhooks Work1. **Setup**: The receiving application provides a URL (the web
 * **API Gateway**: Manages and routes API requests, handling authentication, rate limiting, and aggregation for multiple services. An API Gateway can expose webhook endpoints but serves broader purposes like load balancing and protocol translation.
 
 ## Idempotent API
-
-# What are solid principles ?
-
-S- Single responsibility - Each class should have single job/responsibility.
-O - Open/Closed Principle. Classes must be open to extension but closed to modification.
-L - Liskov principle - If class A is subtype of class B then, Class B should be able to replace Class A with out disrupting the behaviour of our program.
-I - Interface segregation - Clients should not be forced to depend on methods that they do not use.
-D - Dependency inversion - High level modules should not depend on low level modules. Both must depend on abstraction.
 
 # What are DRY, YAGNI, KISS principles ?
 
