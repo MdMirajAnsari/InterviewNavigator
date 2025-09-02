@@ -181,3 +181,166 @@ public class Program
 # ACCESS MODIFIER
 
 Protected:- members can be used in the derived classess, but they can't be used outside.
+
+
+## Delagate
+
+A delagate is pointer to a function
+
+```csharp
+using System;
+
+public class Program
+{
+    // Step 1: Declare a delegate type
+    public delegate void MyDelegate(string message);
+
+    // Method 1
+    public static void MethodA(string msg)
+    {
+        Console.WriteLine("MethodA called with: " + msg);
+    }
+
+    // Method 2
+    public static void MethodB(string msg)
+    {
+        Console.WriteLine("MethodB called with: " + msg);
+    }
+
+    public static void Main()
+    {
+        // Step 2: Create delegate instance pointing to MethodA
+        MyDelegate del = MethodA;
+        del("Hello");
+
+        // Step 3: Reassign to MethodB
+        del = MethodB;
+        del("World");
+    }
+}
+
+```
+
+## Multicast Delegate
+
+```csharp
+using System;
+
+public class Program
+{
+    public delegate void MyDelegate(string message);
+
+    public static void MethodA(string msg)
+    {
+        Console.WriteLine("MethodA: " + msg);
+    }
+
+    public static void MethodB(string msg)
+    {
+        Console.WriteLine("MethodB: " + msg);
+    }
+
+    public static void Main()
+    {
+        MyDelegate del = MethodA;
+        del += MethodB;   // Adding another method
+
+        del("Multicast Delegate Example");
+
+        // Removing MethodA
+        del -= MethodA;
+        del("Only MethodB is called now");
+    }
+}
+
+```
+
+## Events
+
+An **event** is a wrapper around a delegate.
+
+It provides a **publisher-subscriber** model.
+
+```csharp
+using System;
+
+public class Publisher
+{
+    // Step 1: Declare a delegate
+    public delegate void Notify(string message);
+
+    // Step 2: Declare an event based on that delegate
+    public event Notify OnPublish;
+
+    public void PublishMessage(string msg)
+    {
+        Console.WriteLine("Publisher: Publishing message...");
+        OnPublish?.Invoke(msg); // Invoke event if not null
+    }
+}
+
+public class Subscriber
+{
+    public void ReceiveMessage(string msg)
+    {
+        Console.WriteLine("Subscriber received: " + msg);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Publisher pub = new Publisher();
+        Subscriber sub1 = new Subscriber();
+        Subscriber sub2 = new Subscriber();
+
+        // Step 3: Subscribers subscribe to the event
+        pub.OnPublish += sub1.ReceiveMessage;
+        pub.OnPublish += sub2.ReceiveMessage;
+
+        pub.PublishMessage("Hello Subscribers!");
+
+        // Step 4: Unsubscribe one subscriber
+        pub.OnPublish -= sub2.ReceiveMessage;
+
+        pub.PublishMessage("Only Sub1 will receive this");
+    }
+}
+
+```
+
+## Generic Delegates (Built-in)
+
+### (a) **Func<T, TResult>**
+
+* Returns a value.
+* Can have 0 to 16 input parameters.
+
+```csharp
+Func<int, int, int> add = (a, b) => a + b;
+Console.WriteLine(add(5, 10));  // 15
+
+```
+
+
+### (b) **Action`<T>`**
+
+* Does **not return** a value.
+* Can have 0 to 16 input parameters.
+* ```csharp
+  Action<string> greet = name => Console.WriteLine("Hello " + name);
+  greet("Miraj");
+
+  ```
+
+
+### (c) **Predicate`<T>`**
+
+* Returns a **bool** only.
+* Used for conditions/filters.
+  ```csharp
+  Predicate<int> isEven = num => num % 2 == 0;
+  Console.WriteLine(isEven(10));  // True
+
+  ```
