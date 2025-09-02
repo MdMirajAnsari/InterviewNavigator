@@ -90,12 +90,6 @@ Class1 obj1 = new Class1();
 obj1.show();
 ```
 
-## **INTERFACE**
-
-An interface is a contract: An interface is an empty shell. There are only the signatures of the methods, which implies that the methods do not have a body. The interface can't do anything. It's just a pattern.
-
-An abstract class is a class that is only partially implemented by the programmer. It may contain one or more abstract methods. An abstract method is simply a function definition that serves to tell the programmer that the method must be implemented in a child class.
-
 # Struct and Class
 
 A structure is a value type so it is stored on the stack, but a class is a reference type and is stored on the heap.
@@ -106,11 +100,10 @@ By default, all the struct members are public but class members are by default p
 
 As a structure is a value type, we can't assign null to a struct object, but it is not the case for a class.
 
-# What is the difference between constant and readonly in C#
-
 # Difference between the Equality Operator (==) and Equals() Method in C#
 
-# What is Boxing and Unboxing in C#
+* **==** Operator**: This is a comparison operator used to check if two things are "equal." For reference types (like objects), it usually checks if both variables point to the **same memory location** (reference equality). For value types (like **int**, **double**), it checks if the values are the same.**
+* **Equals()** Method**: This is a method defined in the **Object** class that every .NET type inherits. By default, it checks reference equality for reference types (like **==**), but you can override it to compare the **actual content** of objects (like the values of their properties).**
 
 # IMPLICITLY AND EXPLICITLY VARIABLE
 
@@ -125,6 +118,15 @@ var num = 5;
 string word ="ABC";
 
 int num =5;
+
+* **Implicitly Declared Variables** (using **var**):
+  * **You use the **var** keyword, and the C# compiler **infers** (guesses) the type of the variable based on the value assigned to it.**
+  * **The type is determined at **compile time**, so it’s still strongly typed (not dynamic).**
+  * **Example: **var word = "ABC";** → The compiler infers **word** is a **string** because **"ABC"** is a string literal.**
+* **Explicitly Declared Variables**:
+  * **You explicitly specify the type of the variable (e.g., **string**, **int**) when declaring it.**
+  * **You tell the compiler exactly what type the variable is, leaving no room for inference.**
+  * **Example: **string word = "ABC";** → You explicitly say **word** is a **string**.**
 
 # DATA HIDING
 
@@ -161,12 +163,16 @@ public class Program
 	public static void Main()
 	{
 		BaseClass b = new BaseClass();
-		b.Method1();
-		b.Method2();
+		b.Method1(); //BaseClass M1
+		b.Method2(); //BaseClass M2
 
 		BaseClass c = new DerivedClass();
-		c.Method1();
-		c.Method2();
+		c.Method1(); //DerivedClass M1
+		c.Method2(); //BaseClass M2
+
+		DerivedClass k = new DerivedClass();
+		k.Method1(); //DerivedClass M1
+		k.method2(); //DerivedClass M2
 
 	}
 }

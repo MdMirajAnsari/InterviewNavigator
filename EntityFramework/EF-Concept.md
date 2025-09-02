@@ -5,3 +5,7 @@ DbContext and DbSet
 Explicit Loading
 
 how to implement transaction in ef core?
+
+## lastest version
+
+ef core 9
