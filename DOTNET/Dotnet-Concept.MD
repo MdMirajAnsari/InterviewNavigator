@@ -1,6 +1,5 @@
 # What is the CLR, and why is it important?
 
-
 The Common Language Runtime (CLR) is the execution environment for .NET applications. It provides  **automatic memory management, security, and performance optimizations** , making applications more reliable and efficient.
 
 How it works:
@@ -10,9 +9,7 @@ How it works:
 * The Garbage Collector (GC) automatically manages memory by reclaiming unused objects
 * The CLR enforces security policies and prevents unauthorized memory access
 
-
 ## What are the differences between .NET Framework, .NET Core, and .NET 5+?
-
 
 NET has evolved from a Windows-only framework to a modern, cross-platform ecosystem. Each version has different capabilities and use cases.
 
@@ -22,9 +19,7 @@ Key differences:
 * **.NET Core** – The first cross-platform version, optimized for cloud and high-performance applications. Supports Docker, Kubernetes, and microservices
 * **.NET 5+** – Replaces .NET Core, unifying desktop, mobile, cloud, and AI under a single framework. The latest long-term support (LTS) version is .NET 8 (2023) and the latest stable short-term support release (STS) is .NET 9 (2024).
 
-
 ## What is CIL (Common Intermediate Language)?
-
 
 When you compile C# code, it doesn’t turn into machine code directly. Instead, it compiles into Common Intermediate Language (CIL), which is then executed by the CLR.
 
@@ -35,29 +30,256 @@ CIL enables:
 
 # EXTENSION METHODS
 
-Extension method allow us to seemingly add methods to an existing type without modifying this type's source code.
+an extension method is a static method that allows you to add functionality to an existing type (class, interface, or struct) without modifying its source code or creating a derived class. Extension methods are defined in a static class and use the this keyword in the parameter list to specify the type they extend.
 
-They are static method, but they're called as if they were instance methods on the extended type.
+```csharp
+using System;
 
-```
-namespace Polymorphism.Extensions
+public static class StringExtensions
 {
-	public static class StringExtensions
-	{
-		public static int CountLines(this string input)=> input.Split(Environment.NewLine).Length;
-	}
+    // Extension method for string
+    public static int WordCount(this string str)
+    {
+        if (string.IsNullOrEmpty(str))
+            return 0;
+        return str.Split(new[] { ' ', '\t', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        string text = "Hello world, this is a test!";
+        int count = text.WordCount(); // Called like an instance method
+        Console.WriteLine($"Word count: {count}");
+    }
 }
 ```
 
 # How to manage state in asp.net core?
 
+viewData and ViewBag
+
+```csharp
+// Controller
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        ViewData["Message"] = "Hello from ViewData!";
+        ViewBag.UserName = "Alice";
+        return View();
+    }
+}
+
+// View (Index.cshtml)
+<h1>@ViewData["Message"]</h1>
+<h2>Welcome, @ViewBag.UserName!</h2>
+```
+
+TempData
+
+```csharp
+// Startup.cs or Program.cs (Configure services)
+builder.Services.AddSession(); // Enable session
+app.UseSession(); // Add session middleware
+
+// Controller
+public class HomeController : Controller
+{
+    public IActionResult Save()
+    {
+        TempData["SuccessMessage"] = "Data saved successfully!";
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Index()
+    {
+        string message = TempData["SuccessMessage"]?.ToString();
+        return View(model: message);
+    }
+}
+
+// View (Index.cshtml)
+@if (Model != null)
+{
+    <div class="alert alert-success">@Model</div>
+}
+```
+
+Cookies
+
+```csharp
+// Controller
+public class HomeController : Controller
+{
+    public IActionResult SetCookie()
+    {
+        Response.Cookies.Append("UserTheme", "Dark", new CookieOptions
+        {
+            Expires = DateTimeOffset.Now.AddDays(7),
+            HttpOnly = true,
+            Secure = true
+        });
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Index()
+    {
+        string theme = Request.Cookies["UserTheme"] ?? "Light";
+        return View(model: theme);
+    }
+}
+
+// View (Index.cshtml)
+<h1>Current Theme: @Model</h1>
+```
+
 # How to handle cors?
 
+```csharp
+// Program.cs
+var builder = WebApplication.CreateBuilder(args);
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") // Allow specific origin
+               .AllowAnyHeader()                    // Allow any header
+               .AllowAnyMethod();                   // Allow any HTTP method (GET, POST, etc.)
+    });
+});
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+// Enable CORS middleware
+app.UseCors("AllowSpecificOrigin");
+
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+```
+
 # How to secure web api
+
+```csharp
+// Program.cs
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add JWT authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseAuthentication(); // Add authentication middleware
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+```
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
+{
+    private readonly IConfiguration _config;
+
+    public AuthController(IConfiguration config)
+    {
+        _config = config;
+    }
+
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginModel model)
+    {
+        // Validate credentials (e.g., check username/password against database)
+        if (model.Username == "test" && model.Password == "password") // Simplified for demo
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, model.Username),
+                new Claim(ClaimTypes.Role, "User")
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: creds);
+
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        }
+        return Unauthorized();
+    }
+}
+
+public class LoginModel
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
+}
+```
 
 # Difference between ActionResult and IActionResult
 
 # How to implement API versioning?
+
+```csharp
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0); // Default version (v1.0)
+    options.AssumeDefaultVersionWhenUnspecified = true; // Use default if version not specified
+    options.ReportApiVersions = true; // Include version in response headers
+    options.ApiVersionReader = new UrlSegmentApiVersionReader(); // URL path versioning
+});
+```
+
+```csharp
+[ApiController]
+[Route("api/v{version:apiVersion}/[controller]")] // Version in URL
+[ApiVersion("1.0")]
+```
 
 # CONVENTIONAL AND ATTRIBUTE ROUTING
 
@@ -206,51 +428,221 @@ To receive model collections from the controller: `@model List<modelClassNameHer
 
 # Filters
 
-Filters in ASP.NET Core Web API are reusable components (attributes or classes) that allow developers to execute custom logic before or after an action method is invoked in a controller. Filters help decouple concerns such as validation, logging, security, and exception handling, making the code more modular and easier to maintain.
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
-#### **Types of Filters in ASP.NET Core Web API**
+// Authorization Filter (Custom)
+public class CustomAuthorizationFilter : IAuthorizationFilter
+{
+    public void OnAuthorization(AuthorizationFilterContext context)
+    {
+        // Check for a specific header (e.g., X-API-Key)
+        if (!context.HttpContext.Request.Headers.TryGetValue("X-API-Key", out var apiKey) || apiKey != "secret-key")
+        {
+            context.Result = new UnauthorizedResult();
+        }
+    }
+}
 
-ASP.NET Core provides several types of filters, each serving a specific purpose:
+// Resource Filter (Caching)
+public class CacheResourceFilter : IResourceFilter
+{
+    private static readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
 
-##### **1. Authorization Filters**
+    public void OnResourceExecuting(ResourceExecutingContext context)
+    {
+        // Check cache before executing the action
+        var cacheKey = context.HttpContext.Request.Path;
+        if (_cache.TryGetValue(cacheKey, out var cachedResult))
+        {
+            context.Result = new OkObjectResult(cachedResult); // Short-circuit with cached result
+        }
+    }
 
-Authorization filters run first in the filter pipeline. They handle security concerns such as ensuring that the request is authorized to proceed. These filters are primarily used to authenticate the user and check if the user has the necessary permissions (roles, claims, etc.) to access a specific resource or endpoint.
+    public void OnResourceExecuted(ResourceExecutedContext context)
+    {
+        // Cache the result after execution
+        if (context.Result is OkObjectResult okResult && okResult.Value != null)
+        {
+            var cacheKey = context.HttpContext.Request.Path;
+            _cache[cacheKey] = okResult.Value;
+        }
+    }
+}
 
-* **How It Works:** The Authorization Filter verifies whether the user is authenticated and authorized. For example, it checks whether the user has a valid token and if the user’s role matches the required role to access the resource.
-* **Example:** The [Authorize] attribute is a built-in authorization filter that is applied to controller actions or controllers themselves to ensure only authenticated and authorized users can access certain endpoints.
-* **Real-time Use Case:** In an admin dashboard API endpoint, you can apply the [Authorize(Roles = “Admin”)] filter to ensure that only users with the “Admin” role can access the endpoint. If a user without the “Admin” role tries to access it, the filter will prevent them from doing so and return a 403 Forbidden response.
+// Action Filter (Logging and Validation)
+public class LoggingActionFilter : IActionFilter
+{
+    private readonly ILogger<LoggingActionFilter> _logger;
 
-##### **2. Action Filters**
+    public LoggingActionFilter(ILogger<LoggingActionFilter> logger)
+    {
+        _logger = logger;
+    }
 
-Action filters execute before and after an action method runs. They are typically used for tasks such as logging, modifying inputs or outputs, or measuring performance. They allow you to add logic before or after the execution of the action method.
+    public void OnActionExecuting(ActionExecutingContext context)
+    {
+        // Log action start and validate input
+        _logger.LogInformation($"Executing action {context.ActionDescriptor.DisplayName}");
+        if (context.ActionArguments.TryGetValue("model", out var model) && model == null)
+        {
+            context.Result = new BadRequestObjectResult("Model cannot be null");
+        }
+    }
 
-* **How It Works:** Action Filters run at two points during the request. Before the action method is executed, they allow you to modify input data or perform validation. After the action method has completed, they allow you to modify the action result or log the output.
-* **Example:** An action filter that logs every incoming request and its parameters for auditing purposes.
-* **Real-time Use Case:** For example, in an e-commerce application, you can log every user activity by using an action filter. Each time a user performs an action like adding an item to the cart or making a purchase, an action filter can log the request and parameters into a log file or database for auditing purposes.
+    public void OnActionExecuted(ActionExecutedContext context)
+    {
+        _logger.LogInformation($"Finished executing action {context.ActionDescriptor.DisplayName}");
+    }
+}
 
-##### **3. Result Filters**
+// Result Filter (Modify Response)
+public class CustomResultFilter : IResultFilter
+{
+    public void OnResultExecuting(ResultExecutingContext context)
+    {
+        // Add custom header to response
+        context.HttpContext.Response.Headers.Add("X-Custom-Header", "ModifiedByResultFilter");
+    }
 
-Result filters execute after the action method has run but before the response is sent to the client. They are useful for modifying or logging the final response, such as adding headers, modifying the body, or compressing large response payloads. The result filter provides a final opportunity to alter the response before it’s sent to the client.
+    public void OnResultExecuted(ResultExecutedContext context)
+    {
+        // Post-processing (e.g., logging)
+    }
+}
 
-* **How It Works:** The Result Filter is executed after the action method has returned its result. It allows you to modify the result before it is sent out, such as adding custom headers, changing the response content, or compressing the response data.
-* **Example:** A result filter that compresses large JSON data before returning it to the client.
-* **Real-time Use Case:** Suppose you are building an API that returns a list of products. If the list is very large, you can apply a result filter to compress the response to make it more efficient for network transfer. For example, you could apply gzip compression to the response before sending it to the client to reduce the payload size.
+// Exception Filter (Error Handling)
+public class CustomExceptionFilter : IExceptionFilter
+{
+    private readonly ILogger<CustomExceptionFilter> _logger;
 
-##### **4. Exception Filters**
+    public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger)
+    {
+        _logger = logger;
+    }
 
-Exception filters catch and handle any unhandled exceptions thrown by action methods. They are used to manage errors in a centralized way, returning custom error messages or logging the error details. Exception filters allow you to intercept exceptions and provide user-friendly error responses.
+    public void OnException(ExceptionContext context)
+    {
+        _logger.LogError(context.Exception, "An unhandled exception occurred");
+        context.Result = new ObjectResult(new { error = "An unexpected error occurred" })
+        {
+            StatusCode = 500
+        };
+        context.ExceptionHandled = true;
+    }
+}
 
-* **How It Works:** Exception Filters are triggered when an unhandled exception is thrown during the execution of an action method. You can catch these exceptions and decide how to handle them, such as logging the error or returning a custom error message to the client.
-* **Example:** An exception filter that catches a database connection failure and returns a custom error message.
-* **Real-time Use Case:** If a user submits an invalid ID in the request body, and the action method attempts to query a database with that invalid ID, an exception filter can catch the resulting error. It could then return a 400 Bad Request status code along with a message detailing the issue (e.g., “Invalid product ID”).
+// Program.cs configuration (minimal for brevity)
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-##### **5. Resource Filters**
+        // Add services
+        builder.Services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        }).AddApiExplorer();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend", builder =>
+            {
+                builder.WithOrigins("https://localhost:3000")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+        });
+        builder.Services.AddControllers(options =>
+        {
+            // Register global filters (optional)
+            options.Filters.Add<CustomExceptionFilter>();
+        });
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.AddSession();
+        builder.Services.AddAuthentication().AddJwtBearer(options => { /* JWT config */ });
+        builder.Services.AddLogging();
 
-Resource filters run before all other filters in the pipeline. They are typically used for resource management tasks such as caching, authentication, or processing requests before reaching the action method. These filters are ideal for scenarios where early-stage resource management is required.
+        var app = builder.Build();
 
-* **How It Works:** Resource Filters are executed before authorization filters and action filters. They are often used for tasks like caching results or managing resources, such as limiting the number of concurrent requests to a resource.
-* **Example:** A resource filter that checks if data is cached and returns the cached data if available, preventing redundant processing or database calls.
-* **Real-time Use Case:** In a weather forecast API, a resource filter could cache the results of weather data for a particular location. If a user makes a subsequent request for the same location within a certain time frame, the filter can return the cached data instead of querying the database again, thus improving performance and reducing database load.
+        app.UseHttpsRedirection();
+        app.UseCors("AllowFrontend");
+        app.UseSession();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.Run();
+    }
+}
+
+// Model and DbContext
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+
+public class AppDbContext : DbContext
+{
+    public DbSet<Person> People { get; set; }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+}
+
+// Controller with Filters
+[ApiController]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("1.0")]
+[Authorize] // Built-in Authorization Filter (relates to Web API security)
+[CustomAuthorizationFilter] // Custom Authorization Filter
+[CacheResourceFilter] // Resource Filter for caching
+[CustomResultFilter] // Result Filter for modifying response
+public class PeopleController : ControllerBase
+{
+    private readonly AppDbContext _context;
+    private readonly ILogger<PeopleController> _logger;
+
+    public PeopleController(AppDbContext context, ILogger<PeopleController> logger)
+    {
+        _context = context; // Relates to IDisposable
+        _logger = logger;
+    }
+
+    [HttpGet]
+    [LoggingActionFilter] // Action Filter for logging
+    public IActionResult Get() // Relates to IActionResult
+    {
+        var people = _context.People.Where(p => p.Age > 22).ToList(); // Relates to IQueryable/ToList
+        HttpContext.Session.SetString("LastQuery", "v1: Age > 22"); // Relates to state management
+        return Ok(people);
+    }
+
+    [HttpPost]
+    [LoggingActionFilter]
+    public IActionResult Create([FromBody] Person model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState); // Relates to Web API security (input validation)
+        }
+        _context.People.Add(model);
+        _context.SaveChanges();
+        return CreatedAtAction(nameof(Get), new { id = model.Id }, model);
+    }
+}
+```
 
 ##### **Scenario: A User Trying to Access a Restricted API Resource**
 
@@ -306,18 +698,6 @@ Dapper is a lightweight, high-performance Object-Relational Mapping (ORM) librar
 
 1. **ValidationMessageFor :**      Displays error message
 2. ValidationSummary:             Displays validation summary
-
-#### Custom Validation
-
-* Used to implement user-defined validations.
-* Create a class that extends ValidationAttribute class.
-* IsValid method executes after submitting the form (after Model Binding).
-* IsValid method receives the input value as argument.
-* ValidationContext provides details about current model property’s details.
-* IsValid method returns either “Success” or “ValidationResult with error message”.
-* Best for database related validations.
-
-<pre class="prettyprint linenums prettyprinted" role="presentation"><ol class="linenums"><li class="L0"><p><span class="kwd">public</span><span class="pln"></span><span class="kwd">class</span><span class="pln"></span><span class="typ">SampleAttribute</span><span class="pln"></span><span class="pun">:</span><span class="pln"></span><span class="typ">ValidationAttribute</span></p></li><li class="L1" data-node-id="20240813131529-uiehjz3"><p><span class="pun">{</span></p></li><li class="L2"><p><span class="pln"></span><span class="kwd">protected</span><span class="pln"></span><span class="kwd">override</span><span class="pln"></span><span class="typ">ValidationResult</span><span class="pln"></span><span class="typ">IsValid</span><span class="pun">(</span><span class="kwd">object</span><span class="pln"> value</span><span class="pun">,</span><span class="pln"></span><span class="typ">ValidationContext</span><span class="pln"> validationContext</span><span class="pun">)</span></p></li><li class="L3" data-node-id="20240813131529-mebt7zd"><p><span class="pln"></span><span class="pun">{</span></p></li><li class="L4"><p><span class="pln"></span><span class="com">//your code here</span></p></li><li class="L5" data-node-id="20240813131529-6f59upt"><p><span class="pln"></span><span class="kwd">return</span><span class="pln"></span><span class="typ">ValidationResult</span><span class="pun">.</span><span class="typ">Success</span><span class="pun">;</span></p></li><li class="L6"><p><span class="pln"> </span></p></li><li class="L7" data-node-id="20240813131529-yepqde9"><p><span class="pln"></span><span class="com">//or</span></p></li><li class="L8"><p><span class="pln"></span><span class="kwd">return</span><span class="pln"></span><span class="kwd">new</span><span class="pln"></span><span class="typ">ValidationResult</span><span class="pun">(</span><span class="kwd">this</span><span class="pun">.</span><span class="typ">ErrorMessage</span><span class="pun">);</span></p></li><li class="L9" data-node-id="20240813131529-42mvnyf"><p><span class="pln"></span><span class="pun">}</span></p></li><li class="L0"><p><span class="pun">}</span></p></li></ol></pre>
 
 # What is Asp.Net Core meta package?
 
