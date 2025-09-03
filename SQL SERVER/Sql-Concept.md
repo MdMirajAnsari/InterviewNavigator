@@ -14,6 +14,15 @@ CREATE TABLE #TempTable (
     Age INT
 );
 
+
+DECLARE @TempTableVar TABLE (
+    ID INT,
+    Name NVARCHAR(50)
+);
+
+
+`##TempTable` → global temporary table (visible to all sessions).
+
 ## **Cascading Referential Integrity Constraints**
 
 The Cascading Referential Integrity Constraints in SQL Server are the foreign key constraints that tell SQL Server to perform certain actions whenever a user attempts to delete or update a primary key to which an existing foreign keys point
@@ -53,6 +62,9 @@ The Sequence Object is one of the new features introduced in SQL Server 2012. A 
 ## Difference between Having and Where?
 
 ## MagicTable
+
+* **Magic Table in Triggers** – In SQL Server, **“Magic Tables”** usually refer to the **special internal tables** `inserted` and `deleted` that exist inside triggers.
+* A **specific table named “MagicTable”** in your database.
 
 ## VIEWS
 
