@@ -81,3 +81,23 @@ export class ParentComponent {
 }
 
 ```
+
+## @ViewChild
+
+```@ViewChild(ChildComponent)
+ @ViewChild(ChildComponent) child!: ChildComponent;
+```
+
+```typescript
+@ViewChildren(ChildComponent) children!: QueryList<ChildComponent>;
+```
+
+@ContentChild
+
+```typescript
+@ContentChild('projected') projectedContent!: ElementRef;
+```
+
+```typescript
+@ContentChildren('item') items!: QueryList<ElementRef>;
+```
