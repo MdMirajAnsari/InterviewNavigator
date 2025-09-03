@@ -95,6 +95,36 @@ class Program
 
 ## **Find 2nd highest (or nth highest) number in an array** .
 
+```
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int[] arr = { 10, 5, 20, 8, 20 };
+        int highest = int.MinValue;
+        int secondHighest = int.MinValue;
+
+        foreach(var num in arr)
+        {
+            if(num > highest)
+            {
+                secondHighest = highest;
+                highest = num;
+            }
+            else if(num > secondHighest && num != highest)
+            {
+                secondHighest = num;
+            }
+        }
+
+        Console.WriteLine("2nd Highest: " + secondHighest);
+    }
+}
+
+```
+
 ## String sort
 
 ```csharp
@@ -208,21 +238,6 @@ public class Program
 
 ## Count occurance
 
-```csharp
-using System;
-
-public class Program
-{
-	public static void Main()
-	{
-		string source ="miraaj";
-		int count = 0;
-		foreach (char c in source) 
-  		if (c == 'a') count++;
-		Console.WriteLine(count);
-	}
-}
-```
 
 ```csharp
 using System;
@@ -325,26 +340,6 @@ class Program
 
 ```
 
-## Reverse String
-
-```csharp
-using System;
-
-public class Program
-{
-	public static void Main()
-	{
-		string str = "miraaj";
-		char[] charArray = str.ToCharArray(); 
-  		for (int i = 0, j = str.Length - 1; i < j; i++, j--) 
-  		{ 
-      		charArray[i] = str[j]; 
-      		charArray[j] = str[i]; 
-  		} 
-  		Console.WriteLine(charArray); 
-	}
-}
-```
 
 # Reverse an Array
 
