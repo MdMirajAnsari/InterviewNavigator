@@ -1,4 +1,4 @@
-# Mthod Syntax and Query Syntax
+# Method Syntax and Query Syntax
 
 var evenNumbers = numbers
 
@@ -35,7 +35,6 @@ SingleOrDefault
 It returns first element (only one element) that matches with the collection.
 
 It returns null if no element matches with the condition; but it throws exception if multiple elements match with the condition.
-
 
 ToLookup
 
