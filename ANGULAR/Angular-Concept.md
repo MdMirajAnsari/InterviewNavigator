@@ -168,7 +168,15 @@ Summary of Steps1. Create a service with @Injectable and define its logic.
 
 ## BehaviourSubject
 
-A BehaviorSubject in Angular (part of the RxJS library) is a special type of Subject that holds a current value and emits it to new subscribers immediately upon subscription. Unlike a regular Subject, it always has a value, even if no events have been emitted yet, making it useful for representing state that components can rely on.Key Characteristics of BehaviorSubjectInitial Value: Requires an initial value when created.
+A BehaviorSubject in Angular (part of the RxJS library) is a special type of Subject that holds a current value and emits it to new subscribers immediately upon subscription. 
+
+```typescript
+import { BehaviorSubject } from 'rxjs';
+
+const subject = new BehaviorSubject<number>(0);
+```
+
+Unlike a regular Subject, it always has a value, even if no events have been emitted yet, making it useful for representing state that components can rely on.Key Characteristics of BehaviorSubjectInitial Value: Requires an initial value when created.
 Current Value Access: Subscribers get the most recent value (or initial value) immediately upon subscription.
 Multiple Subscribers: Like other Subjects, it supports multiple subscribers, and all receive the same value when next() is called.
 State Management: Often used to hold and share state (e.g., user data, form state) across components.
@@ -333,7 +341,44 @@ Directives: Structural directives like *ngIf and *ngFor often work with data bin
 
 # What is Angular Services?
 
-what is http interceptor
+## what is http interceptor
+
+* It allows you to  **intercept all HTTP requests and responses** .
+* Common use cases:
+
+  * Adding **Authorization headers** (e.g., JWT token)
+  * Logging requests/responses
+  * Global error handling
+  * Modifying request or response data
+
+    ```typescript
+    import { Injectable } from '@angular/core';
+    import {
+      HttpInterceptor,
+      HttpRequest,
+      HttpHandler,
+      HttpEvent
+    } from '@angular/common/http';
+    import { Observable } from 'rxjs';
+
+    @Injectable()
+    export class AuthInterceptor implements HttpInterceptor {
+
+      intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // Clone the request and add Authorization header
+        const token = localStorage.getItem('token'); // example token
+        const authReq = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        console.log('Request Intercepted:', authReq);
+        return next.handle(authReq);
+      }
+    }
+
+    ```
 
 what is observable
 
@@ -351,4 +396,38 @@ what is queryList
 
 Template diven and reactive form
 
-how angular handle change detection
+## how angular handle change detection
+
+Angular uses **dirty checking** to detect changes
+
+```typescript
+<div *ngIf="email.invalid && email.dirty">
+      Enter a valid email!
+    </div>
+```
+
+Reactive Form Example
+
+```typescript
+<form [formGroup]="userForm" (ngSubmit)="submit()">
+  
+  <div>
+    <label>Name:</label>
+    <input type="text" formControlName="name">
+    <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.dirty">
+      Name is required!
+    </div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" formControlName="email">
+    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.dirty">
+      Enter a valid email!
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="userForm.invalid">Submit</button>
+</form>
+
+```
