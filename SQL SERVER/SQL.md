@@ -144,7 +144,9 @@ WHERE department = 'Sales';
 
 # PROCEDURE
 
-CREATE PROCEDURE sales_employees AS
+CREATE PROCEDURE sales_employees
+
+AS
 
 BEGIN
 SELECT name, salary
@@ -228,88 +230,44 @@ DEALLOCATE cursor_product;
 Most asked SQL Interview Questions
 
 1. Explain order of execution of SQL.
-2. What is difference between where and having?
-3. What is the use of group by?
-4. Explain all types of joins in SQL?
-5. What are triggers in SQL?
-6. What is stored procedure in SQL
-7. Explain all types of window functions?
+2. Explain all types of joins in SQL?
+3. What are triggers in SQL?
+4. What is stored procedure in SQL
+5. Explain all types of window functions?
    (Mainly rank, row_num, dense_rank, lead & lag)
-8. What is the difference between TRUNCATE and DELETE?
-9. What is difference between DML, DDL and DCL?
-10. Which is faster between CTE and Subquery?
-11. What are constraints and types of Constraints?
-12. Different types of Operators ?
-13. Difference between Group By and Where Clause?
-14. Explain View concepts ?
-15. What are different types of constraints?
-16. Difference between char and Varchar?
-17. What is an index? Explain its different types.
-18. Differentiate between UNION and UNION ALL.
-19. How many types of clauses in SQL?
-20. Difference between UNION and UNION ALL in SQL?
-21. What are the various types of relationships in SQL?
-22. Difference between Primary Key and Secondary Key?
-23. What is the difference between where and having?
-24. Find the second highest salary of an employee?
-25. Difference between Function and Store procedure ?
-26. How would you optimize a slow SQL query?
-27. Difference between INNER JOIN and OUTER JOIN?
-28. How do you handle duplicate rows in a SQL query?
-29. Write a SQL query to find the top 3 departments with the highest average salary.
-30. Write a SQL query to find the employees who have the same name and work in the same department.
-31. Write a SQL query to find the departments with no employees.
-32. How do you use indexing to improve SQL query performance?
-33. Write a SQL query to find the employees who have worked for more than 5 years.
-34. What is the difference between SUBQUERY and JOIN?
-35. Write a SQL query to find the top 2 products with the highest sales.
-36. How do you use stored procedures to improve SQL query performance?
-37. Write a SQL query to find the customers who have placed an order but have not made a payment.
-38. Write a SQL query to find the employees who work in the same department as their manager.
-39. How do you use window functions to solve complex queries?
-40. Write a SQL query to find the top 3 products with the highest average price.
-41. Write a SQL query to find the employees who have not taken any leave in the last 6 months
-42. Explain order of execution of SQL.
-43. What is difference between where and having?
-44. What is the use of group by?
-45. Explain all types of joins in SQL?
-46. What are triggers in SQL?
-47. What is stored procedure in SQL
-48. Explain all types of window functions?
-    (Mainly rank, row_num, dense_rank, lead & lag)
-49. What is the difference between TRUNCATE and DELETE?
-50. What is difference between DML, DDL and DCL?
-51. Which is faster between CTE and Subquery?
-52. What are constraints and types of Constraints?
-53. Different types of Operators ?
-54. Difference between Group By and Where Clause?
-55. Explain View concepts ?
-56. What are different types of constraints?
-57. Difference between char and Varchar?
-58. What is an index? Explain its different types.
-59. 
-60. How many types of clauses in SQL?
-61. Difference between UNION and UNION ALL in SQL?
-62. What are the various types of relationships in SQL?
-63. Difference between Primary Key and Secondary Key?
-64. What is the difference between where and having?
-65. Find the second highest salary of an employee?
-66. Difference between Function and Store procedure ?
-67. How would you optimize a slow SQL query?
-68. Difference between INNER JOIN and OUTER JOIN?
-69. 
-70. Write a SQL query to find the employees who have the same name and work in the same department.
-71. Write a SQL query to find the departments with no employees.
-72. 
-73. 
-74. What is the difference between SUBQUERY and JOIN?
-75. Write a SQL query to find the top 2 products with the highest sales.
-76. How do you use stored procedures to improve SQL query performance?
-77. Write a SQL query to find the customers who have placed an order but have not made a payment.
-78. 
-79. How do you use window functions to solve complex queries?
-80. Write a SQL query to find the top 3 products with the highest average price.
-81. Write a SQL query to find the employees who have not taken any leave in the last 6 months
+6. What is the difference between TRUNCATE and DELETE?
+7. What is difference between DML, DDL and DCL?
+8. Which is faster between CTE and Subquery?
+9. What are constraints and types of Constraints?
+10. Different types of Operators ?
+11. Difference between Group By and Where Clause?
+12. Explain View concepts ?
+13. What are different types of constraints?
+14. What are the various types of relationships in SQL?
+15. Difference between Primary Key and Secondary Key?
+16. What is the difference between where and having?
+17. Find the second highest salary of an employee?
+18. Difference between Function and Store procedure ?
+19. How would you optimize a slow SQL query?
+20. Difference between INNER JOIN and OUTER JOIN?
+21. How do you handle duplicate rows in a SQL query?
+22. Write a SQL query to find the top 3 departments with the highest average salary.
+23. Write a SQL query to find the employees who have the same name and work in the same department.
+24. Write a SQL query to find the departments with no employees.
+25. How do you use indexing to improve SQL query performance?
+26. Write a SQL query to find the employees who have worked for more than 5 years.
+27. What is the difference between SUBQUERY and JOIN?
+28. Write a SQL query to find the top 2 products with the highest sales.
+29. How do you use stored procedures to improve SQL query performance?
+30. Write a SQL query to find the customers who have placed an order but have not made a payment.
+31. Write a SQL query to find the employees who work in the same department as their manager.
+32. How do you use window functions to solve complex queries?
+33. Write a SQL query to find the top 3 products with the highest average price.
+34. Write a SQL query to find the employees who have not taken any leave in the last 6 months
+35. Explain order of execution of SQL.
+36. Explain all types of joins in SQL?
+37. What are triggers in SQL?
+38. What is stored procedure in SQL
 
 SQL Must Know Differences:
 
@@ -328,19 +286,6 @@ UNION ALL: Combines results without removing duplicates.
 🔰 JOIN vs UNION:
 JOIN: Combines columns from multiple tables.
 UNION: Combines rows from multiple tables with similar structure.
-
-🔰 DELETE vs DROP vs TRUNCATE:
-DELETE: Removes rows, with the option to filter.
-DROP: Removes the entire table or database.
-TRUNCATE: Deletes all rows but keeps the table structure.
-
-🔰 CTE vs TEMP TABLE:
-CTE: Temporary result set used within a single query.
-TEMP TABLE: Physical temporary table that persists for the session.
-
-🔰 SUBQUERIES vs CTE:
-SUBQUERIES: Nested queries inside the main query.
-CTE: Can be more readable and used multiple times in a query.
 
 🔰 ISNULL vs COALESCE:
 ISNULL: Replaces NULL with a specified value, accepts two parameters.
@@ -454,36 +399,11 @@ NOT IN: Filters rows where a column's value is not in a given list.
     • ALTER USER
     • DROP USER
 
-16.Optimizations
-• Indexing Strategies
-• Query Optimization
-
-17.Normalization
-• 1NF(Normal Form)
-• 2NF
-• 3NF
-• BCNF
 
 18.Backup and Recovery
 • Database Backups
 • Point-in-Time Recovery
 
-19.NoSQL Databases
-• MongoDB
-• Cassandra etc...
-• Key differences
-
-20. Data Integrity
-    • Primary Key
-    • Foreign Key
-
-21.Advanced SQL Queries
-• Window Functions
-• Common Table Expressions (CTEs)
-
-22.Full-Text Search
-• Full-Text Indexes
-• Search Optimization
 
 23. Data Import and Export
     • Importing and Exporting Data (CSV, JSON)
@@ -497,13 +417,6 @@ NOT IN: Filters rows where a column's value is not in a given list.
 • Composite Indexes
 • Covering Indexes
 
-26.Database Transactions
-• Savepoints and Nested Transactions
-• Two-Phase Commit Protocol
-
-27.Performance Tuning
-• Query Profiling and Analysis
-• Query Cache Optimization
 
 Here are some SQL interview questions related to joins:
 
@@ -515,13 +428,3 @@ Here are some SQL interview questions related to joins:
 6. Can you write a query to find records in one table that don't have corresponding records in another table?
 7. How would you merge data from two tables to create a unified view?
 8. Can you explain how to use set operations (UNION, INTERSECT, EXCEPT) to combine data from multiple tables?
-
-These questions assess the candidate's understanding of joins and their ability to apply join concepts to real-world scenarios. They require critical thinking and problem-solving skills, rather than simply recalling join syntax.
-
-Some possible follow-up questions to drill deeper into their understanding:
-
-- Can you explain the difference between INNER JOIN and LEFT JOIN?
-- How does the JOIN order affect the query results?
-- Can you optimize this join query for better performance?
-- How would you handle NULL values in the joined columns?
--

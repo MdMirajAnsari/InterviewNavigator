@@ -120,3 +120,16 @@ UnionAll
 * **Purpose**: Combines the result sets of multiple **SELECT** queries and **includes all rows**, including duplicates.
 * **Behavior**: Does not perform duplicate removal or sorting, simply concatenates the results.
 * **Performance**: Faster than **UNION** because it skips the duplicate removal step, making it more efficient for large datasets.
+
+## How many types of clauses in SQL?
+
+* `SELECT`
+* `FROM`
+* `WHERE`
+* `GROUP BY`
+* `HAVING`
+* `ORDER BY`
+* `JOIN`
+* `LIMIT/TOP/FETCH`
+* `DISTINCT`
+* `UNION / UNION ALL`
