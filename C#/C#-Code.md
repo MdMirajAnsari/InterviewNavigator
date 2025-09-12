@@ -95,7 +95,7 @@ class Program
 
 ## **Find 2nd highest (or nth highest) number in an array** .
 
-```
+```csharp
 using System;
 
 class Program
@@ -238,7 +238,6 @@ public class Program
 
 ## Count occurance
 
-
 ```csharp
 using System;
 using System.Collections.Generic;
@@ -340,7 +339,6 @@ class Program
 
 ```
 
-
 # Reverse an Array
 
 ```csharp
@@ -390,7 +388,7 @@ public class Program
 
 # Check Big Letter
 
-```
+```csharp
 using System;
 using System.Linq;
 
@@ -407,7 +405,7 @@ public class Program
 
 # Bubble Sort
 
-```
+```csharp
 
 using System;
 
@@ -447,7 +445,7 @@ public class Program
 
 # Custom largest Number
 
-```
+```csharp
 using System;
 
 public class Program
@@ -477,7 +475,7 @@ public class Program
 
 # Largest Array Value
 
-```
+```csharp
 using System;
 
 class Program
@@ -503,7 +501,7 @@ class Program
 
 # Sum of Array
 
-```
+```csharp
 using System;
 
 class Program
@@ -525,7 +523,7 @@ class Program
 
 # Convert string into Array of Integers
 
-```
+```csharp
 using System;
 using System.Collections.Generic;
 
@@ -549,7 +547,7 @@ class Program
 
 ## Find the longest substring without repeating characters.
 
-```
+```csharp
 public class Solution {
     public int LongestSubstringWithoutRepeat(string s) {
         if (string.IsNullOrEmpty(s)) return 0;
