@@ -170,9 +170,13 @@ CUSTOM HOOKS
 
 ## What is Reonciliation in React?
 
+Reconciliation in React is the process by which React efficiently updates the actual DOM (Document Object Model) to reflect changes in a component's state or props. It's a key mechanism for optimizing UI updates and ensuring a smooth user experience.** **
+
 ## Explain Strict Mode in React.
 
 ## What are error boundaries?
+
+In React, an **Error Boundary** is a special component that **catches JavaScript errors** anywhere in its child component tree, logs them, and displays a fallback UI instead of breaking the entire React app.
 
 # How do you handle side effects in React components?
 
@@ -309,3 +313,26 @@ What is the difference between shallow and deep copying in JavaScript?
 Explain the purpose of React hooks. How does useEffect work?
 
 What is the significance of key props in React lists?
+
+## Difference between virtual dom and shallow dom?
+
+Shadow DOM provides encapsulation for reusable web components, isolating their styles and structure, while Virtual DOM is a performance optimization technique used by JavaScript frameworks like React to minimize direct manipulation of the browser's real DOM= . The key distinction is that Shadow DOM is a browser technology for component isolation, and Virtual DOM is a conceptual strategy for efficient UI updates. 
+
+```
+// React uses Virtual DOM
+function App() {
+  const [name, setName] = React.useState("John");
+  return <h1>Hello, {name}</h1>;
+}
+
+```
+
+```
+// Native Shadow DOM example
+let div = document.createElement("div");
+let shadow = div.attachShadow({ mode: "open" });
+
+shadow.innerHTML = `<style>p { color: red; }</style><p>Hello Shadow DOM</p>`;
+document.body.appendChild(div);
+
+```

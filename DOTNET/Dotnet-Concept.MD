@@ -970,3 +970,48 @@ Response Code
 IEnumerable, ICollection, IList, IQueryable
 
 Caching
+
+
+## What is the role of IHostedService in .NET Core?
+
+**background tasks or long-running services** that run alongside your web application or worker process.
+
+```csharp
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class MyBackgroundService : IHostedService, IDisposable
+{
+    private Timer _timer;
+
+    // Called when the application starts
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        Console.WriteLine("Background Service is starting...");
+
+        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+        return Task.CompletedTask;
+    }
+
+    private void DoWork(object state)
+    {
+        Console.WriteLine($"Working at: {DateTime.Now}");
+    }
+
+    // Called when the application is stopping
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        Console.WriteLine("Background Service is stopping...");
+        _timer?.Change(Timeout.Infinite, 0);
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}
+
+```
