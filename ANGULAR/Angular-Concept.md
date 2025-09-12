@@ -69,7 +69,7 @@ export class MyService {
 * **The **@Injectable** decorator marks the class as injectable.**
 * **providedIn: 'root'** ensures the service is available application-wide as a singleton.
 
-**Angular’s DI system needs to know how to provide the service. The **providedIn: 'root'** metadata in the service handles this automatically. However, you can also register providers manually in a module or component.**1.
+Angular’s DI system needs to know how to provide the service. The **providedIn: 'root'** metadata in the service handles this automatically. However, you can also register providers manually in a module or component.**1.
 
 **Using **providedIn: 'root'** (Recommended)**:
 
@@ -130,7 +130,9 @@ export class MyComponent implements OnInit {
 
 The private myService: MyService syntax tells Angular to inject an instance of MyService.
 
-**Explore Advanced DI (Optional)**1. Using InjectionToken for Non-Class Dependencies:
+Explore Advanced DI (Optional)
+
+1. Using InjectionToken for Non-Class Dependencies:
    If you need to inject a configuration value (e.g., API URL), create an InjectionToken:
 
 ```typescript
@@ -168,7 +170,7 @@ Summary of Steps1. Create a service with @Injectable and define its logic.
 
 ## BehaviourSubject
 
-A BehaviorSubject in Angular (part of the RxJS library) is a special type of Subject that holds a current value and emits it to new subscribers immediately upon subscription. 
+A BehaviorSubject in Angular (part of the RxJS library) is a special type of Subject that holds a current value and emits it to new subscribers immediately upon subscription.
 
 ```typescript
 import { BehaviorSubject } from 'rxjs';
@@ -215,7 +217,7 @@ outside of the Angular 2 ecosystem. For example, you could use this method to in
 
 ## Data Binding
 
-Data binding in Angular is a mechanism that synchronizes the data between the component (TypeScript) and the template (HTML). It enables dynamic updates to the UI when the underlying data changes and vice versa. Angular supports several types of data binding, which I’ll outline below with concise explanations and examples.Types of Data BindingInterpolation (One-Way Binding: Component to View)  Uses double curly braces {{ }} to display component data in the template.
+Data binding in Angular is a mechanism that synchronizes the data between the component (TypeScript) and the template (HTML). It enables dynamic updates to the UI when the underlying data changes and vice versa. Angular supports several types of data binding, which I’ll outline below with concise explanations and examples.Types of Data Binding Interpolation (One-Way Binding: Component to View)  Uses double curly braces {{ }} to display component data in the template.
 Data flows from the component to the view.
 
 ```typescript
