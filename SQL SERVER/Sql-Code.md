@@ -14,6 +14,19 @@ FROM (
     ORDER BY Salary DESC
 ) AS Temp
 ORDER BY Salary ASC;
+
+--====================================
+
+SELECT DeptName, EmpName, Salary
+FROM (
+    SELECT 
+        DeptName,
+        EmpName,
+        Salary,
+        DENSE_RANK() OVER (PARTITION BY DeptName ORDER BY Salary DESC) AS SalaryRank
+    FROM EmpDepSal
+) AS Ranked
+WHERE SalaryRank = 2
 ```
 
 --==================================DUPLICATE EMAILS
@@ -113,4 +126,17 @@ WHILE @@FETCH_STATUS = 0
 CLOSE cursor_product;
 
 DEALLOCATE cursor_product;
+```
+
+## Pivot Table
+
+```sql
+  SELECT Product, [North] AS NorthSales, [South] AS SouthSales, [East] AS EastSales, [West] AS WestSales
+FROM (
+    SELECT Product, Region, Amount
+    FROM Sales
+) AS SourceTable
+PIVOT (
+    SUM(Amount) FOR Region IN ([North], [South], [East], [West])
+) AS PivotTable;
 ```
