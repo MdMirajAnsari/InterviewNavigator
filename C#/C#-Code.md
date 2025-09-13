@@ -70,6 +70,17 @@ public List<int> FindDuplicates(int[] nums)
 
 ## **Reverse words in a sentence** .
 
+## Remove all white spaces from a string
+
+```csharp
+using System.Text.RegularExpressions;
+
+string input = "Hello \t World \n From  C#";
+string result = Regex.Replace(input, @"\s+", "");
+Console.WriteLine(result);  // Output: HelloWorldFromC#
+
+```
+
 ## Find Occurance in string and Array
 
 ```csharp

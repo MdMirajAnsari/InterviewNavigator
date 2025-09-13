@@ -139,4 +139,21 @@ FROM (
 PIVOT (
     SUM(Amount) FOR Region IN ([North], [South], [East], [West])
 ) AS PivotTable;
+
+```
+
+## Write a query to find employees earning more than their manager?
+
+```sql
+SELECT 
+    e.EmployeeID,
+    e.Name AS EmployeeName,
+    e.Salary AS EmployeeSalary,
+    m.Name AS ManagerName,
+    m.Salary AS ManagerSalary
+FROM Employees e
+JOIN Employees m
+    ON e.ManagerID = m.EmployeeID
+WHERE e.Salary > m.Salary;
+
 ```
