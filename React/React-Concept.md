@@ -174,6 +174,8 @@ Reconciliation in React is the process by which React efficiently updates the ac
 
 ## Explain Strict Mode in React.
 
+## What is Code Spitting in React?
+
 ## What are error boundaries?
 
 In React, an **Error Boundary** is a special component that **catches JavaScript errors** anywhere in its child component tree, logs them, and displays a fallback UI instead of breaking the entire React app.
@@ -316,7 +318,7 @@ What is the significance of key props in React lists?
 
 ## Difference between virtual dom and shallow dom?
 
-Shadow DOM provides encapsulation for reusable web components, isolating their styles and structure, while Virtual DOM is a performance optimization technique used by JavaScript frameworks like React to minimize direct manipulation of the browser's real DOM= . The key distinction is that Shadow DOM is a browser technology for component isolation, and Virtual DOM is a conceptual strategy for efficient UI updates. 
+Shadow DOM provides encapsulation for reusable web components, isolating their styles and structure, while Virtual DOM is a performance optimization technique used by JavaScript frameworks like React to minimize direct manipulation of the browser's real DOM= . The key distinction is that Shadow DOM is a browser technology for component isolation, and Virtual DOM is a conceptual strategy for efficient UI updates.
 
 ```
 // React uses Virtual DOM
