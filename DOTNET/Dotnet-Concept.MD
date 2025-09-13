@@ -971,7 +971,6 @@ IEnumerable, ICollection, IList, IQueryable
 
 Caching
 
-
 ## What is the role of IHostedService in .NET Core?
 
 **background tasks or long-running services** that run alongside your web application or worker process.
@@ -1015,3 +1014,11 @@ public class MyBackgroundService : IHostedService, IDisposable
 }
 
 ```
+
+## How to implement a centralize logging and monitoting in a .net core application?
+
+* Use **ILogger** (built-in) with a **provider** like  **Serilog/NLog** .
+* Send logs to a central system ( **ELK, Seq, Azure App Insights** ).
+* Add **Health Checks** for availability.
+* Collect **metrics** with  **Prometheus/Grafana** .
+* Implement **tracing** with  **OpenTelemetry** .
