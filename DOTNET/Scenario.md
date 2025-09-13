@@ -103,8 +103,6 @@ Database Transactions + Row Locks
 
 * Assume conflicts are **rare** and detect them using a **concurrency token** (like a `RowVersion` or `Timestamp` column).
 * If two updates collide, the  **second one fails** , and you can retry or return `409 Conflict`.
-
-
 * **Transactions / Row locks** → Safe, but risk of blocking.
 * **Optimistic concurrency (RowVersion)** → Best for REST APIs.
 * **Pessimistic concurrency (locks)** → Good when conflicts are frequent.
@@ -134,3 +132,11 @@ Reproduce → Compare environments → Check logs → Validate dependencies → 
 * Fix **high-impact, low-effort** problems first.
 * Target **user-visible slowdowns** over backend optimizations.
 * Communicate trade-offs clearly.
+
+## API is slow how to fix?
+
+## Optimize a slow Query?
+
+## What is HATEOAS in REST APIs
+
+HATEOAS, which stands for Hypermedia As The Engine Of Application State, is a fundamental constraint of the REST architectural style. It dictates that a client interacting with a RESTful API should be able to dynamically navigate and discover available actions and resources based on the hypermedia links embedded within the server's responses.
