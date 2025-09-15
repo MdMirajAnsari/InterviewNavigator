@@ -182,7 +182,7 @@ typeof undefined = undefined
 
 typeof arr = object
 
-# hasOwnProperty
+## hasOwnProperty
 
 * Checks only the object’s own properties.
 
@@ -190,3 +190,46 @@ let user = { name: "John", age: 30 };
 
 console.log(user.hasOwnProperty('name')); // true
 console.log(user.hasOwnProperty('address')); // false
+
+## What is the difference between shallow and deep copying in JavaScript?
+
+A **shallow copy** creates a  **new object** , but **only copies references** for nested objects/arrays instead of cloning them.
+
+So changes to nested objects  **affect both copies** .
+
+```javascript
+const original = {
+  name: "raj",
+  address: { city: "Mumbai" }
+};
+
+// Shallow copy using spread
+const shallowCopy = { ...original };
+
+shallowCopy.name = "Ansari"; 
+shallowCopy.address.city = "Delhi";
+
+console.log(original.name);        // "raj" ✅ (independent)
+console.log(original.address.city); // "Delhi" ❌ (changed!)
+
+```
+
+
+A **deep copy** creates a  **new object with completely new nested objects/arrays** .
+
+So changes in one object  **do not affect the other** .
+
+```javascript
+const original = {
+  name: "raj",
+  address: { city: "Mumbai" }
+};
+
+// Deep copy using structuredClone (modern JS)
+const deepCopy = structuredClone(original);
+
+deepCopy.address.city = "Delhi";
+
+console.log(original.address.city); // "Mumbai" ✅ (unchanged)
+
+```
