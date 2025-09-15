@@ -23,7 +23,6 @@ DECLARE @TempTableVar TABLE (
 );
 ```
 
-
 `##TempTable` → global temporary table (visible to all sessions).
 
 ## **Cascading Referential Integrity Constraints**
@@ -56,11 +55,101 @@ The Sequence Object is one of the new features introduced in SQL Server 2012. A 
 
 ## Trigger
 
+A **trigger** is a special type of **stored procedure** in SQL Server that automatically **executes in response to certain events** on a table or view.
+
+```sql
+CREATE TRIGGER trgAfterInsert
+ON Employees
+AFTER INSERT
+AS
+BEGIN
+    PRINT 'A new employee has been added';
+END
+```
+
+```sql
+CREATE TRIGGER trgInsteadOfDelete
+ON Employees
+INSTEAD OF DELETE
+AS
+BEGIN
+    PRINT 'Delete prevented. Use HR approval first.';
+END
+
+```
+
 ## Indexs
+
+```sql
+-- EmployeeID is already PRIMARY KEY → automatically creates a clustered index
+CREATE CLUSTERED INDEX IX_Employees_Department
+ON Employees(Department);
+
+```
+
+```sql
+-- Create an index to quickly search by Salary
+CREATE NONCLUSTERED INDEX IX_Employees_Salary
+ON Employees(Salary);
+
+```
 
 ## Transaction
 
+A **transaction** is a **unit of work** in a database that  **must be completed fully or not at all** .
+
+```sql
+BEGIN TRANSACTION;  -- Start a transaction
+
+-- Some SQL operations
+INSERT INTO Employees(Name, Department, Salary) 
+VALUES('Miraj', 'IT', 50000);
+
+UPDATE Employees
+SET Salary = Salary + 5000
+WHERE Name = 'Miraj';
+
+-- Check if everything is OK
+IF @@ERROR = 0
+    COMMIT TRANSACTION;  -- Save changes
+ELSE
+    ROLLBACK TRANSACTION;  -- Undo changes
+
+```
+
 ## Local Temporary Table and Global Temproary Table
+
+A **local temporary table** is  **visible only to the session (connection) that created it** . It is **automatically dropped** when the session ends.
+
+```sql
+CREATE TABLE #LocalTemp
+(
+    ID INT,
+    Name NVARCHAR(50)
+);
+
+INSERT INTO #LocalTemp VALUES(1, 'Miraj'), (2, 'Ansari');
+
+SELECT * FROM #LocalTemp;
+
+```
+
+A **global temporary table** is **visible to all sessions** and remains in the database until the  **last session using it closes** .
+
+```sql
+CREATE TABLE ##GlobalTemp
+(
+    ID INT,
+    Name NVARCHAR(50)
+);
+
+INSERT INTO ##GlobalTemp VALUES(1, 'Miraj'), (2, 'Ansari');
+
+SELECT * FROM ##GlobalTemp;
+
+```
+
+
 
 ## Difference between Having and Where?
 
@@ -96,6 +185,14 @@ Sometimes, you need to write a complex formula or logic in every query.
 To make it consistent, you can hide the complex queries logic and calculations in views.
 
 Once views are defined, you can reference the logic from the views rather than rewriting it in separate queries.
+
+```sql
+CREATE VIEW IT_Employees AS
+SELECT EmployeeID, Name, Salary
+FROM Employees
+WHERE Department = 'IT';
+
+```
 
 ## Check And Default
 
