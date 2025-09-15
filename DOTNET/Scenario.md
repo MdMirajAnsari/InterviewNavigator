@@ -347,3 +347,45 @@ finally
 }
 
 ```
+
+## Status Code
+
+
+**1xx – Informational**
+
+* **100 Continue** → Initial request accepted, client should continue.
+* **101 Switching Protocols** → Server switching protocols (e.g., HTTP → WebSocket).
+
+**2xx – Success**
+
+* **200 OK** → Standard success response.
+* **201 Created** → Resource created successfully (often after `POST`).
+* **202 Accepted** → Request accepted but still processing.
+* **204 No Content** → Success but no response body (e.g., DELETE).
+
+**3xx – Redirection**
+
+* **301 Moved Permanently** → Resource has a new permanent URL.
+* **302 Found** → Temporary redirect.
+* **304 Not Modified** → Cached resource is still valid.
+* **307 Temporary Redirect** → Like 302 but method must not change.
+* **308 Permanent Redirect** → Like 301 but method must not change.
+
+**4xx – Client Errors**
+
+* **400 Bad Request** → Invalid request syntax.
+* **401 Unauthorized** → Authentication required (or invalid).
+* **403 Forbidden** → Authenticated but not allowed.
+* **404 Not Found** → Resource doesn’t exist.
+* **405 Method Not Allowed** → Request method not supported.
+* **408 Request Timeout** → Server timed out waiting for client.
+* **409 Conflict** → Conflict with current state (e.g., duplicate data).
+* **429 Too Many Requests** → Rate limiting (client sent too many requests).
+
+**5xx – Server Errors**
+
+* **500 Internal Server Error** → Generic server-side failure.
+* **501 Not Implemented** → Server doesn’t support functionality.
+* **502 Bad Gateway** → Invalid response from upstream server.
+* **503 Service Unavailable** → Server down or overloaded.
+* **504 Gateway Timeout** → Upstream server took too long.
