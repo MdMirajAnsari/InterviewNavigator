@@ -389,3 +389,5 @@ finally
 * **502 Bad Gateway** → Invalid response from upstream server.
 * **503 Service Unavailable** → Server down or overloaded.
 * **504 Gateway Timeout** → Upstream server took too long.
+
+## One microservice is very slow due to external api calls how do you optimize
