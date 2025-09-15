@@ -327,19 +327,72 @@ Enabled by default.
 
 Supports parameters & constraints.
 
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    // Default conventional route
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+
+app.Run();
+
+```
+
+```csharp
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        return Content("Home -> Index");
+    }
+
+    public IActionResult About()
+    {
+        return Content("Home -> About");
+    }
+}
+
+```
+
 Attribute Routing
 
 1. New and preferred way of routing:
 
-["url"]
-public ActionResult Methodname( )
+```csharp
+[Route("api/[controller]")]
+public class ProductsController : Controller
 {
-}
-2. Applicable for specific action method. Each action method must have "Route" defined.
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        return Content("All products");
+    }
 
-3. Routes are very clearly understandable for the developers.
-4. Should be enabled using:  routes.MapMvcAttributesRoutes( );
-5. Also supports parameters & constraints.
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        return Content($"Product {id}");
+    }
+
+    [HttpPost]
+    public IActionResult Create()
+    {
+        return Content("Product created");
+    }
+}
+
+```
+
+
 
 # What is the use of @Html.AntiForgeryToken()?
 

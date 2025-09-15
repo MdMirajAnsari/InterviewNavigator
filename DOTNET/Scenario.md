@@ -140,3 +140,94 @@ Reproduce → Compare environments → Check logs → Validate dependencies → 
 ## What is HATEOAS in REST APIs
 
 HATEOAS, which stands for Hypermedia As The Engine Of Application State, is a fundamental constraint of the REST architectural style. It dictates that a client interacting with a RESTful API should be able to dynamically navigate and discover available actions and resources based on the hypermedia links embedded within the server's responses.
+
+## Where have you used the Liskov Substitution Principle (LSP) in your project?
+
+Let’s say you were working on a **microservices project** with an **OrderService** that processes different types of payments.
+
+```csharp
+public abstract class Payment
+{
+    public abstract void Process(decimal amount);
+}
+
+```
+
+```csharp
+public class CreditCardPayment : Payment
+{
+    public override void Process(decimal amount)
+    {
+        // Credit card specific logic
+    }
+}
+
+public class PayPalPayment : Payment
+{
+    public override void Process(decimal amount)
+    {
+        // PayPal specific logic
+    }
+}
+
+```
+
+```csharp
+public class OrderService
+{
+    private readonly Payment _payment;
+
+    public OrderService(Payment payment)
+    {
+        _payment = payment;
+    }
+
+    public void Checkout(decimal amount)
+    {
+        _payment.Process(amount); // Works for any Payment type
+    }
+}
+
+```
+
+## suppose you need to download large file from cloud storage and it fails due to large file or network issue.  how do you optimize
+
+If I had to download a large file from cloud storage, I would optimize it by streaming the content directly to disk instead of loading it into memory. To handle failures, I’d use HTTP range requests to resume downloads from where they left off. On top of that, I’d add retry policies with exponential backoff (e.g., Polly) to handle transient network issues. For extremely large files, I’d consider parallel chunk downloads and merge them later. This way, the solution is memory-efficient, resilient, and fault-tolerant
+
+```csharp
+using var response = await httpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead);
+response.EnsureSuccessStatusCode();
+
+using var stream = await response.Content.ReadAsStreamAsync();
+using var fileStream = new FileStream("file.zip", FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
+
+await stream.CopyToAsync(fileStream);
+
+```
+
+```csharp
+long existingLength = new FileInfo("file.zip").Length;
+
+var request = new HttpRequestMessage(HttpMethod.Get, fileUrl);
+request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(existingLength, null);
+
+using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+using var stream = await response.Content.ReadAsStreamAsync();
+using var fileStream = new FileStream("file.zip", FileMode.Append, FileAccess.Write, FileShare.None, 8192, useAsync: true);
+
+await stream.CopyToAsync(fileStream);
+
+```
+
+```csharp
+var policy = Policy
+    .Handle<HttpRequestException>()
+    .Or<TaskCanceledException>()
+    .WaitAndRetryAsync(
+        retryCount: 5,
+        sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)) // exponential backoff
+    );
+
+await policy.ExecuteAsync(() => DownloadFileAsync(fileUrl));
+
+```
