@@ -233,3 +233,9 @@ deepCopy.address.city = "Delhi";
 console.log(original.address.city); // "Mumbai" ✅ (unchanged)
 
 ```
+
+## Difference between Promise.all(), Promise.allSettled(), Promise.any()
+
+* Use **`Promise.all`** when you need *all results* but fail fast if any error.
+* Use **`Promise.allSettled`** when you want *all outcomes* regardless of success/failure.
+* Use **`Promise.any`** when you only care about the  *first successful result* .

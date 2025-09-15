@@ -440,6 +440,8 @@ function withLogger(WrappedComponent) {
 
 ## **What is React Fiber?**
 
+## Redux, Redux Thunk, Redux Saga
+
 ## Difference between virtual dom and shallow dom?
 
 Shadow DOM provides encapsulation for reusable web components, isolating their styles and structure, while Virtual DOM is a performance optimization technique used by JavaScript frameworks like React to minimize direct manipulation of the browser's real DOM= . The key distinction is that Shadow DOM is a browser technology for component isolation, and Virtual DOM is a conceptual strategy for efficient UI updates.
