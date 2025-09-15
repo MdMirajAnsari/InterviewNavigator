@@ -231,3 +231,119 @@ var policy = Policy
 await policy.ExecuteAsync(() => DownloadFileAsync(fileUrl));
 
 ```
+
+## How to implement API Versioning in asp.net core?
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container
+builder.Services.AddControllers();
+
+// Add API Versioning
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0); // default v1.0
+    options.AssumeDefaultVersionWhenUnspecified = true; // if client doesn’t specify version
+    options.ReportApiVersions = true; // add API version headers in response
+});
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV"; // v1, v1.1, etc.
+    options.SubstituteApiVersionInUrl = true;
+});
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+
+```
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+namespace MyApi.Controllers.v1
+{
+    [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    public class ProductsController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult GetV1() => Ok("Response from v1 Products API");
+    }
+}
+
+namespace MyApi.Controllers.v2
+{
+    [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
+    public class ProductsController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult GetV2() => Ok("Response from v2 Products API");
+    }
+}
+
+```
+
+## How to implement centralize logging in asp.net core
+
+```csharp
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console() // log to console
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // log to file
+    .WriteTo.Seq("http://localhost:5341") // optional: centralized Seq server
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // replace default logging with Serilog
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "ActionResult", Version = "v1" });
+});
+
+var app = builder.Build();
+
+// Configure middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ActionResult v1");
+        c.RoutePrefix = "swagger";
+    });
+}
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
+try
+{
+    Log.Information("Starting application...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application failed to start");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+
+```
