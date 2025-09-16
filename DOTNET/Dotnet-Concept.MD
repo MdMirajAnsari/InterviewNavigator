@@ -1068,9 +1068,8 @@ public class Startup
 
 WebHost
 
-Specifically designed for **web applications** (ASP.NET Core MVC, Razor Pages, Web APIs).
-
-Provides features mainly required for web workloads — request handling, Kestrel integration, middleware pipeline.
+* Use Web Host – Only if you are maintaining an older ASP.NET Core project.
+* Use Generic Host – For all new projects, whether it’s a web app, worker service, console app, or API.
 
 ```csharp
 public class Program
@@ -1089,17 +1088,6 @@ public class Program
 
 Host
 
-More **general-purpose hosting model** — not limited to web apps.
-
-
-* Unified way to host different kinds of apps:
-
-  * Web apps (ASP.NET Core)
-  * Background services / Worker Services
-  * Console apps
-  * Any long-running service
-* Supports **DI, logging, configuration, IHostedService** out of the box.
-
 ```csharp
 public class Program
 {
@@ -1117,3 +1105,5 @@ public class Program
 }
 
 ```
+
+Both Web Host and Generic Host are important concepts in .NET Core Hosting.
