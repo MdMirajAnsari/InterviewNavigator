@@ -75,11 +75,108 @@ Components1. Unit of Work Interface: Defines methods like commit, rollback, and 
 
 ## FAULT Tolerance
 
+**Fault Tolerance** is the ability of a system to **continue operating correctly even if some of its components fail** (hardware, software, or network).
+
 ## Polly
+
+**Polly** is a  **.NET resilience and transient-fault-handling library** .
+
+It helps you build **fault-tolerant applications** by providing easy-to-use **policies** for handling failures (like retries, circuit breakers, timeouts, bulkhead isolation, and fallbacks).
+
+Instead of writing custom `try/catch` everywhere, you define **resilience policies** once and wrap your code/HTTP calls with them.
+
+
+```csharp
+var retryPolicy = Policy
+    .Handle<HttpRequestException>()
+    .Retry(3);
+
+```
+
+```csharp
+var waitAndRetryPolicy = Policy
+    .Handle<HttpRequestException>()
+    .WaitAndRetry(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
+
+```
+
+```csharp
+var waitAndRetryPolicy = Policy
+    .Handle<HttpRequestException>()
+    .WaitAndRetry(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)));
+
+```
+
+```csharp
+var circuitBreakerPolicy = Policy
+    .Handle<HttpRequestException>()
+    .CircuitBreaker(2, TimeSpan.FromSeconds(30));
+
+```
+
+```csharp
+var timeoutPolicy = Policy
+    .Timeout(2); // seconds
+
+```
+
+```csharp
+var fallbackPolicy = Policy<string>
+    .Handle<Exception>()
+    .Fallback("Service temporarily unavailable");
+
+```
+
+```csharp
+var bulkheadPolicy = Policy
+    .Bulkhead(5, 10);
+
+```
+
+```csharp
+var policyWrap = Policy.Wrap(
+    fallbackPolicy,
+    waitAndRetryPolicy,
+    circuitBreakerPolicy
+);
+
+```
 
 ## Circuit Breaker
 
+Stop calling a failing service for a while.
+
 ## Caching
+
+**Caching** is the process of storing frequently accessed **data in a temporary storage layer (cache)** so that future requests can be served faster without recomputing or refetching.
+
+```csharp
+public class ProductsController : ControllerBase
+{
+    private readonly IMemoryCache _cache;
+    private readonly ProductService _service;
+
+    public ProductsController(IMemoryCache cache, ProductService service)
+    {
+        _cache = cache;
+        _service = service;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProduct(int id)
+    {
+        var cacheKey = $"product_{id}";
+        if (!_cache.TryGetValue(cacheKey, out Product product))
+        {
+            product = await _service.GetProductById(id);
+
+            _cache.Set(cacheKey, product, TimeSpan.FromMinutes(10)); // cache 10 mins
+        }
+        return Ok(product);
+    }
+}
+
+```
 
 ## Rate Limiting
 
@@ -213,6 +310,12 @@ Types of Saga Patterns
 
 ### Database per service pattern
 
+The **Database per Service pattern** is a **microservices design principle** where **each microservice has its own database** (schema or instance), rather than sharing a single centralized database.
+
+## GOF
+
+It refers to the **four authors** of the famous book *"Design Patterns: Elements of Reusable Object-Oriented Software"* (1994):
+
 ## Aggregator Pattern
 
 The **Aggregator Pattern** is a design pattern used in software engineering, particularly in distributed systems, microservices, or event-driven architectures, to collect and combine data from multiple sources into a single, cohesive response. It’s commonly used to simplify complex interactions between a client and multiple services by providing a unified interface.**Key Concepts***Purpose**: Aggregates data from various services or components to present a consolidated result to the client.
@@ -242,6 +345,10 @@ Types of Aggregator Patterns1. **API Gateway as Aggregator**:
 
 ## Sidecar Pattern
 
+The **Sidecar Pattern** is a **design pattern in microservices and cloud-native architectures** where you deploy an additional component (the  *sidecar* ) alongside your main service to provide **supplementary functionality** — without changing the main service’s code.
+
+The term comes from the **motorcycle sidecar** 🏍️ → the main service is the motorcycle, and the sidecar is an attached unit that adds extra capabilities.
+
 ## Adaptor Pattern
 
 ## Strangler Pattern
@@ -262,9 +369,19 @@ Example in Context**For a ride-sharing app:*** **HLD**: Outlines components like
 
 ## Distributed locking system
 
+A **Distributed Locking System** is a mechanism used in **distributed systems or microservices** to ensure that only **one process/service/node** can access a **shared resource** at a time — preventing  **race conditions, duplicate work, or data corruption** .
+
 ## Apache Kafka
 
+**Apache Kafka** is a  **distributed event streaming platform** .
+
+* Originally developed at  **LinkedIn** , now part of the  **Apache Software Foundation** .
+* Designed for **real-time data pipelines** and  **stream processing** .
+* Handles **high-throughput, fault-tolerant, scalable** event streaming.
+
 ## Zookeeper
+
+Used to manage brokers and metadata (now being replaced by  **KRaft** ).
 
 ## Pub/Sub System
 
@@ -282,62 +399,42 @@ Event sourcing is a design pattern in software engineering where an application'
 
 ## ElasticSearch
 
+**Elasticsearch** is a **distributed, RESTful search and analytics engine** built on top of  **Apache Lucene** .
+
+* It stores data in a way optimized for  **full-text search, filtering, and analytics** .
+* Often used for  **search engines, log analysis, and real-time analytics** .
+* Part of the **Elastic Stack (ELK/EFK)** → Elasticsearch, Logstash/Fluentd, Kibana.
+
 ## AutoScaling
+
+**AutoScaling** is the ability of a system (usually in cloud computing) to **automatically adjust computing resources** — scaling **up** (add more capacity) or **down** (reduce capacity) — based on workload demand.
 
 ## WebSocket
 
+**WebSocket** is a **full-duplex, persistent communication protocol** that allows **real-time, two-way communication** between a **client (browser/app)** and a **server** over a  **single TCP connection** .
+
+* Unlike  **HTTP** , which is request-response based, WebSocket allows the **server to push data** to the client **without waiting** for a request.
+* Standardized as  **RFC 6455** .
+
 ## Vertical Scaling and Horizontal Scaling
 
-Vertical Scaling and Horizontal Scaling are two approaches to improving the performance and capacity of a system, particularly in the context of computing, databases, or application infrastructure. Here's a concise explanation of each:Vertical Scaling (Scaling Up)* Definition: Increasing the capacity of a single server or machine by adding more resources, such as CPU, RAM, storage, or processing power.
-
-* How it works: You upgrade the existing hardware or replace it with a more powerful machine to handle increased load.
-* Examples:
-  * Adding more RAM to a database server.
-  * Upgrading to a faster CPU or increasing disk space on a single machine.
-* Advantages:
-  * Simpler to implement, as it typically requires no changes to the application architecture.
-  * Lower latency since all resources are on a single machine.
-  * Often easier to manage for smaller systems.
-* Disadvantages:
-  * Limited by the maximum capacity of a single machine (hardware constraints).
-  * Can be expensive, as high-end hardware costs grow exponentially.
-  * Single point of failure; if the machine goes down, the entire system is affected.
-  * Scaling has a ceiling (e.g., you can’t infinitely add RAM or CPU).
-
-Horizontal Scaling (Scaling Out)* Definition: Increasing system capacity by adding more machines or nodes to distribute the workload across multiple servers.
-
-* How it works: You add more servers to a cluster, and the workload is balanced across them, often using load balancers or distributed systems.
-* Examples:
-
-  * Adding more web servers to handle increased traffic.
-  * Distributing database queries across multiple nodes in a cluster (e.g., sharding or replication).
-* Advantages:
-
-  * Virtually limitless scaling, as you can keep adding more machines.
-  * Improved fault tolerance; if one node fails, others can take over.
-  * Often more cost-effective, as it uses commodity hardware.
-  * Better suited for distributed systems and cloud environments.
-* Disadvantages:
-
-  * More complex to implement, as it requires changes to application architecture (e.g., load balancing, data consistency).
-  * Potential for increased latency due to network communication between nodes.
-  * Managing distributed systems can be challenging (e.g., ensuring data consistency, handling node failures).
-
-  When to Use*
-
-  Vertical Scaling: Best for applications with moderate growth, simpler architectures, or when quick scaling is needed without redesigning the system. Example: Legacy systems or small-scale databases.
-
-  * Horizontal Scaling: Ideal for modern, cloud-native applications, high-traffic systems, or when fault tolerance and massive scalability are critical. Example: Web applications, microservices, or big data systems.
-
-  Real-World Context*
-
-  Vertical Scaling: Upgrading a single AWS EC2 instance from a t2.micro to a t2.large.
-
-  Horizontal Scaling: Adding more nodes to a Kubernetes cluster or using a NoSQL database like MongoDB with sharding.
+* **Vertical Scaling** : You upgrade your database server from 16 GB RAM → 64 GB RAM to handle more queries.
+* **Horizontal Scaling** : You add 10 app servers behind a load balancer to handle millions of web requests per second.
 
 ## Blue Green Deployment
 
+**Blue-Green Deployment** is a **release strategy** where you run **two identical environments** (Blue and Green) to minimize downtime and risk when deploying new versions of an application.
+
+* **Blue** → The currently running version (production).
+* **Green** → The new version (candidate release).
+
+When the **Green** environment is ready and tested, traffic is switched from  **Blue → Green** .
+
+If something goes wrong, you can instantly roll back by redirecting traffic back to  **Blue** .
+
 ## Service Discovery
+
+**Service Discovery** is the mechanism that allows services to **automatically find and communicate** with each other without hardcoding network locations.
 
 ## Database Sharding
 
