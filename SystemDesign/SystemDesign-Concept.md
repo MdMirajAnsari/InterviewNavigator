@@ -245,6 +245,14 @@ An **API Gateway** is a server or service that acts as an intermediary between c
 
 ## Load Balancer
 
+A **Load Balancer (LB)** is a component (hardware or software) that **distributes incoming network traffic across multiple servers (backend instances)** to ensure:
+
+* No single server is overloaded.
+* Higher availability & fault tolerance.
+* Better scalability & performance.
+
+Think of it like a **traffic cop** directing cars (requests) evenly across multiple lanes (servers).
+
 ## WebHook
 
 A **webhook** is a mechanism that allows one application to send real-time data to another application when a specific event occurs, typically via an HTTP POST request. Often described as "user-defined HTTP callbacks," webhooks enable automated communication between systems without the need for constant polling. Here's a concise breakdown:**What Is a Webhook?* **A webhook is an event-driven integration where an application (the **sender**) pushes data to a predefined URL (the **receiver**) when a specific trigger or event happens.**
@@ -262,6 +270,8 @@ How Webhooks Work1. **Setup**: The receiving application provides a URL (the web
 * **API Gateway**: Manages and routes API requests, handling authentication, rate limiting, and aggregation for multiple services. An API Gateway can expose webhook endpoints but serves broader purposes like load balancing and protocol translation.
 
 ## Idempotent API
+
+An **idempotent API** is one where  **making the same request multiple times has the same effect as making it once** .
 
 # What are DRY, YAGNI, KISS principles ?
 
