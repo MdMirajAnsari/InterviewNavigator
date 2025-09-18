@@ -434,7 +434,6 @@ Reactive Form Example
 
 ```
 
-
 # **Life Cycle**
 
 # Async Pipe
@@ -533,3 +532,39 @@ handling asynchronous or even synchronous events.
 To start receiving values from an observable, you need to subscribe to it.
 
 Subscriptions can be cancelled using the `unsubscribe` method, which helps in avoiding memory leaks.
+
+## Explain Change Detection in Angular?
+
+Change Detection in Angular is the mechanism by which Angular **checks the component state (data)** and **updates the view (DOM)** whenever something changes.
+
+Change Detection Strategies
+
+Angular provides  **two strategies** :
+
+1. **Default Strategy (CheckAlways)**
+
+```javascript
+@Component({
+  selector: 'app-default',
+  template: `{{ counter }}`,
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class DefaultComponent {
+  @Input() counter!: number;
+}
+
+```
+
+OnPush Strategy
+
+```javascript
+@Component({
+  selector: 'app-onpush',
+  template: `{{ counter }}`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OnPushComponent {
+  @Input() counter!: number;
+}
+
+```
