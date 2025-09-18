@@ -193,27 +193,23 @@ As the name suggests, Facade means the Face of the Building. Suppose you created
 
 ## SAGA Pattern
 
-The Saga pattern is a distributed systems design pattern used to manage long-running, complex transactions across multiple microservices without relying on a centralized transaction manager. It breaks down a transaction into a series of local, independent steps, each executed by a microservice, with compensating actions defined to handle failures. This ensures eventual consistency in a system where traditional ACID transactions are impractical.**Key Concepts1. **Saga**: A sequence of local transactions, each managed by a single microservice. Each step updates its own data and triggers the next step, often via asynchronous messaging or events.
-
-1. **Compensating Transaction**: If a step fails, the saga executes compensating transactions (undo operations) for all previously completed steps to roll back changes.
-2. **Eventual Consistency**: Sagas prioritize availability and partition tolerance (per the CAP theorem) over immediate consistency, ensuring the system eventually reaches a consistent state.
+The **Saga Pattern** is a **microservices design pattern** used to manage **distributed transactions** and ensure **data consistency** across multiple services  **without using two-phase commit (2PC)** .
 
 Types of Saga Patterns
 
-**1. Choreography**:
+**1. Choreography**:(Event-Based)
 
 * **Microservices communicate via events (e.g., through a message broker like Kafka or RabbitMQ).**
-* **Each service listens for events, performs its local transaction, and emits new events to trigger the next service.**
-* **Pros: Decentralized, loosely coupled, scalable.**
-* **Cons: Harder to track the flow, debugging can be complex.**
-* **Example: An e-commerce order process where the Order Service creates an order, emits an "OrderCreated" event, the Payment Service processes payment, emits a "PaymentProcessed" event, and so on.**
+* No central coordinator.
+* Services communicate via  **events** .
+* Example: Order Service → emits "OrderCreated" → Payment Service → emits "PaymentProcessed" → Inventory Service.
+* If failure occurs, services listen for failure events and trigger compensation.
 
-1. **Orchestration**:
+1. **Orchestration**:(Centralized)
 
-* **A central orchestrator (a dedicated service or component) coordinates the saga by explicitly instructing each microservice to perform its local transaction.**
-* **Pros: Easier to understand, monitor, and debug; clearer control flow.**
-* **Cons: Introduces a single point of coordination, which can become a bottleneck.**
-* **Example: A saga orchestrator directing the Order Service to create an order, then the Payment Service to process payment, and finally the Inventory Service to reserve items.**
+* A **Saga Orchestrator (controller service)** coordinates the flow.
+* Orchestrator tells each service what to do next.
+* Easier to manage complex workflows, but adds a single point of control.
 
 ### Database per service pattern
 
