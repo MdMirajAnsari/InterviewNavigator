@@ -350,7 +350,6 @@ finally
 
 ## Status Code
 
-
 **1xx – Informational**
 
 * **100 Continue** → Initial request accepted, client should continue.
@@ -391,3 +390,170 @@ finally
 * **504 Gateway Timeout** → Upstream server took too long.
 
 ## One microservice is very slow due to external api calls how do you optimize
+
+
+## Implement a simple crud API in asp.net core?
+
+Step 1: Create Project
+
+```
+dotnet new webapi -n CrudApiDemo
+cd CrudApiDemo
+
+```
+
+Step 2: Create Product Model
+
+```csharp
+namespace CrudApiDemo.Models
+{
+    public class Product
+    {
+        public int Id { get; set; }        // Primary Key
+        public string Name { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+    }
+}
+
+```
+
+Step 3: Setup DbContext with In-Memory Database
+
+```csharp
+using CrudApiDemo.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace CrudApiDemo.Data
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+
+        public DbSet<Product> Products { get; set; }
+    }
+}
+
+```
+
+Step 4: Configure Services
+
+```csharp
+using CrudApiDemo.Data;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseInMemoryDatabase("ProductsDb"));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+```
+
+Step 5: Create Products Controller
+
+```csharp
+using CrudApiDemo.Data;
+using CrudApiDemo.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CrudApiDemo.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public ProductsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/products
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            return await _context.Products.ToListAsync();
+        }
+
+        // GET: api/products/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null) return NotFound();
+
+            return product;
+        }
+
+        // POST: api/products
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+        }
+
+        // PUT: api/products/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, Product product)
+        {
+            if (id != product.Id) return BadRequest();
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Products.Any(e => e.Id == id))
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/products/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+    }
+}
+
+```
