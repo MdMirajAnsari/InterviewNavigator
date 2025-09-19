@@ -908,29 +908,6 @@ In .NET, dependency injection (DI) is a core feature, especially in ASP.NET Core
 * ActionResult `<T>`: We need to use ActionResult `<T>` to return a specific type of data along with the flexibility to return different HTTP status codes. This provides clear API documentation.
 * Task `<IActionResult>` or Task<ActionResult `<T>`>: These two return types are used for asynchronous action methods that perform I/O-bound operations like database calls, file I/O, or external service calls.
 
-## **HTTP Response Status Codes:**
-
-1. 1xx Informational: The request was received and is continuing.
-2. 2xx Successful: The request was successfully received, understood, and accepted.
-3. 3xx Redirection: Further action is needed to complete the request.
-4. 4xx Client Error: There was an error in the request sent by the client.
-5. 5xx Server Error: The server failed to fulfill a valid request.
-
-* 100 Continue: This informs the client that the initial part of the request has been received and that the client should continue sending the rest of the request.
-* 101 Switching Protocols: Indicates that the server is switching to a different protocol as requested by the client.
-* 200 OK: The HTTP 200 OK success status response code indicates that the request has succeeded. It is often used for GET and POST requests that are processed successfully.
-* 201 Created: The request has succeeded, and a new resource has been created as a result. This is typically used in response to a POST request.
-* 202 Accepted: The server has received the request and will process it, but the processing may not be completed immediately.
-* 204 No Content: The server successfully processed the request but is not returning any content. This is often used for DELETE requests.
-* 301 Moved Permanently: This response status code tells the client that the resource has been moved permanently to a new URL and should use the new URL in future requests.
-* 302 Found: This response status code indicates that the resource is temporarily located at a different URL. The client should use this temporary URL for this request. As the redirection might be altered occasionally, the client should continue using the original URI for future requests.
-* 304 Not Modified: This response status code informs the client that the resource has not changed since the last request so that the client can use its cached version.
-* 400 Bad Request: The server cannot process the request due to a client error (e.g., malformed request syntax).
-* 401 Unauthorized: Authentication is required and has failed or has not been provided.
-* 403 Forbidden: The server understands the request but refuses to authorize it due to lack of permission.
-* 404 Not Found: The server can not find the requested resource. In the browser, this means the URL is not recognized. In an API, this can also mean that the endpoint is valid, but the resource itself does not exist.
-* 405 Method Not Allowed: This indicates that the server knows the request method but is not supported by the target resource. For example, we have one method, which is a POST method, in the server, and we are trying to access that method from the client using GET Verb; then, in that case, we will get a 405-status code.
-
 ## **Configuring the Startup Class in ASP.NET Core**
 
 The Startup class is a very important class for any type of ASP.NET Core Web Application. This class provides two important methods are as follows:
@@ -1107,7 +1084,6 @@ public class Program
 ```
 
 Both Web Host and Generic Host are important concepts in .NET Core Hosting.
-
 
 ## Difference between controllerBase and Controller in Web API?
 
