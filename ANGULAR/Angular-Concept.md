@@ -458,35 +458,6 @@ Pattern matching of message passing from publisher to subscriber
 
 where observable is a data source, subscribe is like a method/function , Observer is generally on your side
 
-# @Input Binding
-
-This decorator allows a parent component to pass data to a child component.
-
-```
-class ChildComponent
-{
-	@Input("someInputName"): propertyName: dataType
-}
-
-<app-child [someInputName]="valueOfParent">
-</app-child>
-
-```
-
-# @Output Binding
-
-This decorator, combined with `EventEmitter`, allows a child component to send data back to the parent component.
-
-```
-classComponent
-{
-	@Output("someOutputName") : eventName: EventEmitter = new EventEmitter();
-}
-
-<app-child (someOutputName)="methodName()">
-</app-child>
-```
-
 # Rxjs Subject
 
 Plain Observable unicast the values to observable
@@ -568,7 +539,6 @@ export class OnPushComponent {
 }
 
 ```
-
 
 ## Difference between ngif and hidden in angular templates?
 
