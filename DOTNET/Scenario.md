@@ -573,3 +573,7 @@ namespace CrudApiDemo.Controllers
 * **CSP & sanitize inputs** , and avoid storing tokens in sources accessible to JS if you can (prefer HttpOnly cookies).
 * **Rotate signing keys periodically** with a published JWKS and key ids (`kid`).
 * **Limit token scope & audience** (least privilege).
+
+## How do you maintain Code Quality?
+
+I maintain code quality by following clean coding principles and best practices like SOLID. I ensure all code changes go through peer review and automated static analysis tools such as SonarQube or Resharper. I also write unit and integration tests so that functionality is always verifiable. Additionally, I integrate these checks into our CI/CD pipeline, so every commit is automatically validated before merging. Over time, I also refactor to reduce technical debt and keep the codebase maintainable. This way, we ensure code is not only working but also scalable and easy to maintain.
