@@ -391,7 +391,6 @@ finally
 
 ## One microservice is very slow due to external api calls how do you optimize
 
-
 ## Implement a simple crud API in asp.net core?
 
 Step 1: Create Project
@@ -557,3 +556,20 @@ namespace CrudApiDemo.Controllers
 }
 
 ```
+
+## How to handle JWT Token Theft situation?
+
+* **Short-lived access tokens** (e.g., 5–15 minutes).
+* **Use refresh tokens** for long-lived sessions, but protect them strongly:
+
+  * Store refresh tokens in **secure, HttpOnly, Secure, SameSite=strict** cookies for browser clients (avoid localStorage).
+  * For mobile/native, use platform secure storage (keystore/Keychain).
+* **Refresh token rotation** : issue a new refresh token on each refresh and mark the previous one as invalid. If an old/used refresh token is presented again -> treat as token theft and revoke the session.
+* **Store refresh tokens server-side (or store their fingerprints)** so you can revoke them (DB or Redis).
+* **Token revocation list / blacklist** for access tokens (short-lived) or for refresh tokens (authoritative). Use Redis for fast checks.
+* **Sender-constrained tokens** : bind tokens to client (DPoP, MTLS, or include device fingerprint).
+* **Multi-factor Authentication (MFA)** and device registration for sensitive access.
+* **Use HTTPS everywhere** and Content Security Policy (CSP) to reduce XSS risk.
+* **CSP & sanitize inputs** , and avoid storing tokens in sources accessible to JS if you can (prefer HttpOnly cookies).
+* **Rotate signing keys periodically** with a published JWKS and key ids (`kid`).
+* **Limit token scope & audience** (least privilege).

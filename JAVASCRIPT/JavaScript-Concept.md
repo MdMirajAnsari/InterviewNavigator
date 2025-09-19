@@ -214,7 +214,6 @@ console.log(original.address.city); // "Delhi" ❌ (changed!)
 
 ```
 
-
 A **deep copy** creates a  **new object with completely new nested objects/arrays** .
 
 So changes in one object  **do not affect the other** .
@@ -239,3 +238,111 @@ console.log(original.address.city); // "Mumbai" ✅ (unchanged)
 * Use **`Promise.all`** when you need *all results* but fail fast if any error.
 * Use **`Promise.allSettled`** when you want *all outcomes* regardless of success/failure.
 * Use **`Promise.any`** when you only care about the  *first successful result* .
+
+## What is truthy and falsy value in javascript?
+
+| `false` | falsy |
+| --------- | ----- |
+
+| `0`,`-0` | falsy |
+| ------------ | ----- |
+
+| `0n` | falsy |
+| ------ | ----- |
+
+| `""`(empty) | falsy |
+| ------------- | ----- |
+
+| `null` | falsy |
+| -------- | ----- |
+
+| `undefined` | falsy |
+| ------------- | ----- |
+
+| `NaN` | falsy |
+| ------- | ----- |
+
+| Everything else | truthy |
+| --------------- | ------ |
+
+## What is coercion in javascipt?
+
+In JavaScript, **type coercion** is the process of converting a value from one data type to another.
+
+* It can be **explicit** (you do it yourself).
+* Or **implicit** (JavaScript does it automatically in expressions).
+
+```javascript
+// To String
+String(123)      // "123"
+(123).toString() // "123"
+
+// To Number
+Number("123")    // 123
+parseInt("123")  // 123
+
+// To Boolean
+Boolean(1)       // true
+Boolean(0)       // false
+
+```
+
+## What is the difference between a function declaration and function expression?
+
+Function Declaration
+
+```javascript
+// Call before definition
+greet();  // ✅ Works
+
+function greet() {
+  console.log("Hello from function declaration");
+}
+
+```
+
+Function Expression
+
+```javascript
+// greet(); // ❌ Error: Cannot access 'greet' before initialization
+
+const greet = function() {
+  console.log("Hello from function expression");
+};
+
+greet();  // ✅ Works (after definition)
+
+```
+
+
+* **Function declaration** = named, hoisted, available everywhere in scope.
+* **Function expression** = assigned to variable, not hoisted (must be defined before use).
+
+## What is symbol in Javascript?
+
+
+* A **Symbol** is a **primitive data type** (introduced in ES6).
+* It represents a  **unique and immutable value** .
+* Often used as object property keys to avoid  **name collisions** .
+
+```javascript
+const sym1 = Symbol();
+const sym2 = Symbol("description");
+const sym3 = Symbol("description");
+
+console.log(sym2 === sym3); // false (each symbol is unique)
+
+```
+
+## Difference between Array.some() and Array.every()?
+
+* `some()` → **at least one** must match 
+* `every()` → **all must match** 
+
+```javascript
+const nums = [10, 20, 30, 40];
+
+console.log(nums.some(n => n > 25));  // true  (30, 40 are > 25)
+console.log(nums.every(n => n > 25)); // false (10 and 20 are not > 25)
+
+```
