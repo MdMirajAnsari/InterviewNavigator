@@ -149,10 +149,6 @@ The "IDisposable" interface of "System" namespace, has a method called "Dispose"
 
 You can prefix "using" keyword before the local variable declaration, in order to call "Dispose" method when that variable goes out of scope.
 
-**Creating object**
-
-<pre class="prettyprint linenums prettyprinted" role="presentation"><ol class="linenums"><li class="L0"><p><span class="kwd">public</span><span class="pln"></span><span class="kwd">void</span><span class="pln"></span><span class="typ">Method</span><span class="pun">(</span><span class="pln"></span><span class="pun">)</span></p></li><li class="L1" data-node-id="20240811143924-8sk6xs9"><p><span class="pun">{</span></p></li><li class="L2"><p><span class="pln"></span><span class="kwd">using</span><span class="pln"></span><span class="typ">ClassName</span><span class="pln"> referenceVariable </span><span class="pun">=</span><span class="pln"></span><span class="kwd">new</span><span class="pln"></span><span class="typ">ClassName</span><span class="pun">(</span><span class="pln"></span><span class="pun">);</span></p></li><li class="L3" data-node-id="20240811143924-9hjeuzn"><p><span class="pln"> </span></p></li><li class="L4"><p><span class="pln"></span><span class="com">//do work here</span></p></li><li class="L5" data-node-id="20240811143924-yfl589q"><p><span class="pln"> </span></p></li><li class="L6"><p><span class="pun">}</span><span class="pln"></span><span class="com">//Dispose will be called automatically here</span></p></li></ol></pre>
-
 # Destructor
 
 Destructor is a special method of the class, which is used to close un-managed resources (such as database connections and file connections), that are opened during the class execution.
@@ -257,10 +253,6 @@ Eg: int -> long
 2. Explicit Casting
 
 (from higher-numerical-type to lower-numerical-type)
-
-# Delegate
-
-# EVENT
 
 # For And Foreach
 
@@ -446,10 +438,16 @@ Constructor Injection
 Property Injection
 Method Injection
 
-## Explain the difference between const and readonly.
-
 ## What is thread pooling in C#?
+
+**reuse of threads** from a pool managed by CLR instead of creating new ones. It improves performance, reduces overhead, and is widely used in background task execution.
 
 ## What is a race condition in multithreading?
 
+A **race condition** happens in **multithreading** when two or more threads  **access shared data at the same time** , and the **final result depends on the order** in which the threads execute.
+
 ## Thread and Task
+
+* **Thread** = low-level execution unit (manual control, expensive).
+* **Task** = higher-level abstraction (async/await, parallelism, lightweight).
+* In modern .NET, **prefer `Task`** unless you have a strong reason to use raw threads

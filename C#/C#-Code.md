@@ -214,6 +214,33 @@ public class Program
 }
 ```
 
+## Another Approach
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        int[] numbers = { 1, 2, 3, 2, 4, 1, 5, 3 };
+        List<int> result = new List<int>();
+
+        foreach (var num in numbers)
+        {
+            if (!result.Contains(num)) // same idea as your IndexOf check
+            {
+                result.Add(num);
+            }
+        }
+
+        Console.WriteLine(string.Join(", ", result));
+    }
+}
+
+```
+
 ## Count Occurance using Dictionary
 
 ```csharp
