@@ -51,8 +51,6 @@ A sequence is an object in SQL Server that is used to generate a number sequence
 
 The Sequence Object is one of the new features introduced in SQL Server 2012. A sequence is a user-defined object and as its name suggests it generates a sequence of numeric values according to the properties with which it is created. It is similar to the Identity column, but there are many differences between them that we will discuss in our next article. But the most important point to keep in mind is that the Sequence Object in SQL Server is not limited to a column or table but is scoped to an entire database.
 
-## Delete, Truncate And Drop
-
 ## Trigger
 
 A **trigger** is a special type of **stored procedure** in SQL Server that automatically **executes in response to certain events** on a table or view.
@@ -148,8 +146,6 @@ INSERT INTO ##GlobalTemp VALUES(1, 'Miraj'), (2, 'Ansari');
 SELECT * FROM ##GlobalTemp;
 
 ```
-
-
 
 ## Difference between Having and Where?
 
