@@ -568,3 +568,19 @@ export class OnPushComponent {
 }
 
 ```
+
+
+## Difference between ngif and hidden in angular templates?
+
+* Use `*ngIf` when you want to  **conditionally render/destroy elements** .
+* Use `[hidden]` when you just want to **toggle visibility** but keep the element in the DOM.
+
+## What is Difference between JIT and AOT compilation?
+
+* **JIT mode** → Compiles templates in the browser when the app loads.
+* **AOT mode** → Compiles templates at build time, ships optimized JS to browser.
+
+```
+ng build --aot    # Angular Ahead-of-Time build
+
+```

@@ -1107,3 +1107,14 @@ public class Program
 ```
 
 Both Web Host and Generic Host are important concepts in .NET Core Hosting.
+
+
+## Difference between controllerBase and Controller in Web API?
+
+* Use **`ControllerBase`** when building  **Web APIs** .
+* Use **`Controller`** when building **MVC apps** that also return  **Views** .
+
+## Difference between web.config and app.config?
+
+* Use **`app.config`** → Desktop apps (console/WPF/WinForms).
+* Use **`web.config`** → ASP.NET web apps (with IIS + HTTP pipeline configs).
