@@ -456,3 +456,20 @@ A **race condition** happens in **multithreading** when two or more threads  **a
 
 * Use **`Dictionary`** for **single-threaded** scenarios.
 * Use **`ConcurrentDictionary`** when multiple threads might **read/write simultaneously** and you want **built-in thread safety** without using explicit locks.
+
+
+
+How do you handle **cancellation tokens** in async tasks?
+
+Difference between **parallel loops** (Parallel.For vs PLINQ).
+
+* Explain  **Producer-Consumer pattern** .
+* What is **volatile keyword** in C#?
+* What is a **race condition** and how do you prevent it?
+* Explain **thread pooling** in C#.
+* Difference between  **lock** ,  **Mutex** , and  **Semaphore** .
+* What are **async/await pitfalls** and how do you avoid deadlocks?
+* How do **record types** differ from regular classes?
+* What are  **nullable reference types** ? How do they improve code quality?
+* Explain the difference between **IEnumerable, IQueryable, and List** in C#.
+* What is the difference between **async/await** and  **Task.Run** ?

@@ -102,7 +102,6 @@ export class ParentComponent {
 @ContentChildren('item') items!: QueryList<ElementRef>;
 ```
 
-
 NGRX
 
 ```typescript
@@ -265,3 +264,5 @@ export class LoginComponent {
 }
 
 ```
+
+How do you implement **pagination** and **search** in Angular with Web API?

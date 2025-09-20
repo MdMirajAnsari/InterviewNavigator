@@ -554,3 +554,5 @@ export class OnPushComponent {
 ng build --aot    # Angular Ahead-of-Time build
 
 ```
+
+Explain **Change Detection Strategy** (Default vs OnPush).

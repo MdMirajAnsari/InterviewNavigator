@@ -85,7 +85,6 @@ It helps you build **fault-tolerant applications** by providing easy-to-use **po
 
 Instead of writing custom `try/catch` everywhere, you define **resilience policies** once and wrap your code/HTTP calls with them.
 
-
 ```csharp
 var retryPolicy = Policy
     .Handle<HttpRequestException>()
@@ -458,3 +457,18 @@ Sharding is typically used to address challenges in large-scale systems, such as
 How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, location, or timestamp) is chosen to determine how data is distributed across shards. This is also called the **partition key**.
 
 * **Example: For a social media app, you might shard by **user_id**, so all data for a specific user resides in one shard.**
+
+
+
+* Difference between **Load Balancer** and  **Reverse Proxy** .
+* What is **Idempotent API** and why is it important?
+* Explain **gRPC** and how it differs from REST API.
+* Explain **ElasticSearch** basics.
+* Difference between **WebSocket** and  **HTTP polling** .
+* What is **Distributed Locking System** and why is it used?
+* 
+
+* Difference between **Vertical Scaling** and  **Horizontal Scaling** .
+* Explain **Service Discovery** in microservices.
+* What is a  **Sidecar Pattern** ?
+* How would you implement **resilience** in microservices?
