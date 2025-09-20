@@ -226,3 +226,7 @@ UnionAll
 * `LIMIT/TOP/FETCH`
 * `DISTINCT`
 * `UNION / UNION ALL`
+
+
+* Difference between **Temporary Table** and  **Table Variable** .
+* What happens if you **don’t commit a transaction** in SQL Server?
