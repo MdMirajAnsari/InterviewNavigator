@@ -1,22 +1,26 @@
-TakeUntil
+
+
+map → Transform API responses into usable data.
+
+filter → React only when input or events meet conditions.
+
+debounceTime → Delay user input (perfect for search boxes).
+
+switchMap → Cancel old requests & handle the latest (type-ahead search).
+
+mergeMap → Run multiple API calls in parallel.
+
+concatMap → Queue tasks one by one (form submissions, workflows).
+
+takeUntil → Auto-cleanup subscriptions on ngOnDestroy.
+
+combineLatest → React when multiple observables change together.
 
 take
 
 unsubscribe
 
 tap
-
-map
-
-filter
-
-mergeMap
-
-switchMap
-
-mergeMap
-
-concatMap
 
 exhaustMap
 
@@ -35,7 +39,6 @@ merge
 combineLatest
 
 retry
-
 
 ## Differences between mergeMap, concatMap, and switchMap.
 

@@ -88,6 +88,20 @@ FROM Employees e
 WHERE DATEDIFF(YEAR, e.HireDate, GETDATE()) > 5;
 ```
 
+## How do you find duplicate records in a table and delete only the duplicates while keeping one copy?
+
+```sql
+WITH CTE AS (
+    SELECT 
+        Id,
+        Email,
+        ROW_NUMBER() OVER (PARTITION BY Email ORDER BY Id) AS RowNum
+    FROM Employees
+)
+DELETE FROM CTE WHERE RowNum > 1;
+
+```
+
 ## A database cursor is an object that enables traversal over the rows of a result set. It allows you to process individual row returned by a query.
 
 ```sql

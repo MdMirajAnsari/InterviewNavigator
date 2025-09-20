@@ -1,3 +1,9 @@
+## .NET Version
+
+9 features
+
+Language Enhancements (C# 13 / F# 9 etc.)
+
 # What is the CLR, and why is it important?
 
 The Common Language Runtime (CLR) is the execution environment for .NET applications. It provides  **automatic memory management, security, and performance optimizations** , making applications more reliable and efficient.
@@ -1084,6 +1090,61 @@ public class Program
 ```
 
 Both Web Host and Generic Host are important concepts in .NET Core Hosting.
+
+## Difference between IConfiguration and IOptions?
+
+`IConfiguration` is the **root abstraction** in .NET for accessing key–value pairs from configuration sources (e.g., `appsettings.json`, environment variables, user secrets, command-line args, etc.).
+
+```csharp
+public class MyService
+{
+    private readonly IConfiguration _config;
+
+    public MyService(IConfiguration config)
+    {
+        _config = config;
+    }
+
+    public void PrintConfig()
+    {
+        string value = _config["MySection:MyKey"]; 
+        Console.WriteLine(value);
+    }
+}
+
+```
+
+`IOptions<T>` is a  **wrapper for strongly typed configuration classes** . It binds a configuration section to a class so you can access settings via properties instead of string keys.
+
+```csharp
+public class MySettings
+{
+    public string MyKey { get; set; }
+}
+
+// Program.cs / Startup.cs
+builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySection"));
+
+public class MyService
+{
+    private readonly MySettings _settings;
+
+    public MyService(IOptions<MySettings> options)
+    {
+        _settings = options.Value;
+    }
+
+    public void PrintConfig()
+    {
+        Console.WriteLine(_settings.MyKey);
+    }
+}
+
+```
+
+## `IOptionsSnapshot` vs `IOptionsMonitor`
+
+## IApplicationBuilder and IServiceCollection
 
 ## Difference between controllerBase and Controller in Web API?
 

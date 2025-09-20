@@ -451,3 +451,8 @@ A **race condition** happens in **multithreading** when two or more threads  **a
 * **Thread** = low-level execution unit (manual control, expensive).
 * **Task** = higher-level abstraction (async/await, parallelism, lightweight).
 * In modern .NET, **prefer `Task`** unless you have a strong reason to use raw threads
+
+## Difference between **ConcurrentDictionary** and regular Dictionary.
+
+* Use **`Dictionary`** for **single-threaded** scenarios.
+* Use **`ConcurrentDictionary`** when multiple threads might **read/write simultaneously** and you want **built-in thread safety** without using explicit locks.
