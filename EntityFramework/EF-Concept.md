@@ -10,6 +10,10 @@ how to implement transaction in ef core?
 
 ef core 9
 
+## Difference between EFCore and EF6?
+
+EF Core is a complete rewrite focused on performance and extensibility, while EF6 is for legacy systems, lacking the cross-platform capabilities and ongoing development of EF Core
+
 ## Explain Eager Loading vs Lazy Loading vs Explicit Loading.
 
 **Eager Loading**

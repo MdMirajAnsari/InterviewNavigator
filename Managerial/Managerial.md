@@ -39,7 +39,7 @@ If IP not cached:
   2. SYN-ACK → Server → Client
   3. ACK → Client → Server
 
-     ✅ Now, a TCP connection is established.
+     Now, a TCP connection is established.
 
 5. **TLS Handshake (if HTTPS)**
 

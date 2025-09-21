@@ -1155,3 +1155,13 @@ public class MyService
 
 * Use **`app.config`** → Desktop apps (console/WPF/WinForms).
 * Use **`web.config`** → ASP.NET web apps (with IIS + HTTP pipeline configs).
+
+## Expalin the difference between ViewResult and PartialViewResult?
+
+ViewResult
+
+Renders a complete view, including the layout page (_Layout.cshtml). It is used for displaying a full html page.
+
+PartialViewResult
+
+Renders only a partial view. It does not include a layout page and is used for rendering reusable, smaller, smaller sections of page (eg. a widget or a form).
