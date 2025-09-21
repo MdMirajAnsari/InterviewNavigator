@@ -23,21 +23,13 @@ CQRS (Command Query Responsibility Segregation) is a design pattern that separat
 Command: Handles write operations (e.g., creating, updating, or deleting data). Commands modify the system’s state and typically don’t return data.
 Query: Handles read operations (e.g., fetching data). Queries retrieve data without modifying the system’s state.
 
-## GRPC
+## GRPC (**g**oogle **R**emote **P**rocedure **C**all)
 
-gRPC is a high-performance, open-source framework for remote procedure calls (RPC) developed by Google. It uses HTTP/2 for transport, Protocol Buffers (Protobuf) for efficient data serialization, and supports multiple programming languages. gRPC is designed for low-latency, scalable, and distributed systems, making it ideal for microservices, mobile apps, and real-time communication.**Key features:* Bidirectional streaming: Supports client-streaming, server-streaming, and bidirectional streaming.
+It uses **HTTP/2** as the transport protocol and **Protocol Buffers (Protobuf)** as the data serialization format.
 
-* Strong typing: Uses Protobuf for defining service contracts, ensuring type safety.
-* Efficient: Binary serialization reduces payload size compared to JSON/XML.
-* Language support: Includes C++, Java, Python, Go, Node.js, and more.
-* Authentication: Supports TLS and token-based authentication.
+**gRPC is great for microservices, high-performance internal communication, and real-time streaming** , whereas **REST is still more suitable for public APIs and browser-based apps**
 
-Use cases:* Microservices communication
-
-* Real-time data streaming
-* Cross-platform APIs
-
-To get started, define a .proto file with your service and message definitions, compile it using a Protobuf compiler, and implement the client and server logic in your preferred language.
+gRPC is used because it **solves common problems in inter-service communication** in modern applications, especially **microservices** and  **high-performance systems** .
 
 # NGINX
 
@@ -457,9 +449,6 @@ Sharding is typically used to address challenges in large-scale systems, such as
 How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, location, or timestamp) is chosen to determine how data is distributed across shards. This is also called the **partition key**.
 
 * **Example: For a social media app, you might shard by **user_id**, so all data for a specific user resides in one shard.**
-
-
-
 * Difference between **Load Balancer** and  **Reverse Proxy** .
 * What is **Idempotent API** and why is it important?
 * Explain **gRPC** and how it differs from REST API.
@@ -467,7 +456,6 @@ How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, loca
 * Difference between **WebSocket** and  **HTTP polling** .
 * What is **Distributed Locking System** and why is it used?
 * 
-
 * Difference between **Vertical Scaling** and  **Horizontal Scaling** .
 * Explain **Service Discovery** in microservices.
 * What is a  **Sidecar Pattern** ?

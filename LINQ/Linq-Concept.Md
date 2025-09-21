@@ -85,3 +85,9 @@ TakeWhile
 Skip
 
 SkipWhile
+
+## Difference between IEnumerable, IQueryable, IList?
+
+* **IEnumerable** → Best for in-memory enumeration.
+* **IQueryable** → Best for querying databases efficiently.
+* **IList** → Best for modifiable collections with index access.
