@@ -198,3 +198,142 @@ Step 3: Component Template
 </div>
 
 ```
+
+## What do you feel is the best about Angular 16 ? What new things did you check in 16?
+
+Signals (New Reactivity Model)
+
+Introduces fine-grained reactivity (signal(), computed(), effect()).
+
+Reduces reliance on Zone.js and RxJS.
+
+More predictable and efficient change detection.
+
+Non-Destructive Hydration (SSR)
+
+Preserves server-rendered DOM during client bootstrap.
+
+Smoothens server-side rendering experience.
+
+esbuild-Based Build System (Preview)
+
+Faster builds and improved performance.
+
+Experimental Jest Support
+
+Allows Jest as a testing framework in Angular projects.
+
+Standalone Components & CLI Enhancements
+
+Easier component/module/service generation.
+
+Better CLI configuration and productivity.
+
+Improved Developer Tools
+
+Enhanced Angular Language Service: autocomplete & error detection.
+
+Type-Safe Reactive Forms
+
+Strict typing with TypeScript 5.1.
+
+Prevents runtime form errors.
+
+Angular CDK Enhancements
+
+New components and utilities for accessibility, virtual scrolling, and styling.
+
+## Suppose there are three APIs and you want to render data as soon as any one API gets the data but you also don't want to miss data from any. write code for that?
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { of, merge, Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-api-demo',
+  template: `
+    <h3>Data from APIs (render as soon as available):</h3>
+    <ul>
+      <li *ngFor="let item of renderedData">{{ item }}</li>
+    </ul>
+
+    <h3>All API Data (after all complete):</h3>
+    <pre>{{ allData | json }}</pre>
+  `
+})
+export class ApiDemoComponent implements OnInit {
+  renderedData: any[] = [];
+  allData: any[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    // Suppose these are your three API calls
+    const api1$: Observable<any> = this.http.get('https://api.example.com/data1');
+    const api2$: Observable<any> = this.http.get('https://api.example.com/data2');
+    const api3$: Observable<any> = this.http.get('https://api.example.com/data3');
+
+    // Merge: emits data as soon as any API responds
+    merge(api1$, api2$, api3$).subscribe({
+      next: (data) => {
+        this.renderedData.push(data); // render immediately
+        this.allData.push(data);      // store for complete collection
+      },
+      error: (err) => console.error(err),
+      complete: () => console.log('All APIs completed')
+    });
+  }
+}
+
+```
+
+
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { of, from } from 'rxjs';
+import { mergeMap, delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-api-demo',
+  template: `
+    <h3>Data as it arrives:</h3>
+    <ul>
+      <li *ngFor="let item of renderedData">{{ item | json }}</li>
+    </ul>
+  `
+})
+export class ApiDemoComponent implements OnInit {
+  renderedData: any[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    // Array of API URLs
+    const apis = [
+      'https://api.example.com/data1',
+      'https://api.example.com/data2',
+      'https://api.example.com/data3'
+    ];
+
+    // Convert array of APIs to observable stream
+    from(apis)
+      .pipe(
+        // Use mergeMap to call each API concurrently
+        mergeMap((url) => this.http.get(url))
+      )
+      .subscribe({
+        next: (data) => {
+          // Render as soon as any API responds
+          this.renderedData.push(data);
+        },
+        error: (err) => console.error(err),
+        complete: () => console.log('All API calls completed')
+      });
+  }
+}
+
+```

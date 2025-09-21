@@ -555,4 +555,42 @@ ng build --aot    # Angular Ahead-of-Time build
 
 ```
 
-Explain **Change Detection Strategy** (Default vs OnPush).
+## Explain **Change Detection Strategy** (Default vs OnPush).
+
+## what are pure and impure pipes?
+
+* **Definition:** Pure pipes execute **only when Angular detects a pure change** in the input value.
+* **Pure Change:** A change is considered *pure* when the input **primitive value changes** (like number, string, boolean) or a **new object/array reference** is passed.
+* **Default:** All pipes are  **pure by default** .
+* **Performance:** More efficient because Angular doesn't run them on every change detection cycle.
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'square' }) // pure by default
+export class SquarePipe implements PipeTransform {
+  transform(value: number): number {
+    console.log('Pure pipe executed');
+    return value * value;
+  }
+}
+
+```
+
+
+* **Definition:** Impure pipes execute  **every time change detection runs** , regardless of whether the input changed.
+* **Use Case:** Useful for **mutable objects or arrays** that change internally but maintain the same reference.
+* **Declaration:** Set `pure: false` in the `@Pipe` decorator.
+
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'filter', pure: false })
+export class FilterPipe implements PipeTransform {
+  transform(items: string[], searchText: string): string[] {
+    console.log('Impure pipe executed');
+    return items.filter(item => item.includes(searchText));
+  }
+}
+
+```
