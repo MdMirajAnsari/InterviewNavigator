@@ -135,3 +135,51 @@ I balance technical debt vs deadlines by first categorizing the debt: if it’s 
 ## How would you explain a complex **.NET technical design** to a  **non-technical manager** ?
 
 When I explain a complex .NET technical design to a non-technical manager, I avoid jargon and focus on the business outcomes — speed, cost, reliability, and customer impact. I use analogies and simple visuals to show how the system works, for example comparing an API Gateway to a receptionist. I always structure the explanation around the problem, the high-level solution, the benefits, and the trade-offs. This way, the manager understands the value without needing the technical details.
+
+## How do you handle conflicts within your team?
+
+I start by understanding perspectives in 1:1s, align everyone on goals, and facilitate a solution-focused discussion. If needed, I set clear roles/decision makers (RACI) and agree on norms. Follow up to ensure the resolution sticks.
+
+## How do you prioritize a long backlog with limited capacity?
+
+Use a framework (RICE/WSJF) to quantify impact vs effort. Balance strategic initiatives with near-term wins, ensure tech debt has a fixed allocation, and frequently re-evaluate with stakeholders as data changes.
+
+## How do you manage stakeholders with conflicting priorities?
+
+Make trade-offs explicit with data (impact, risk, cost). Offer options with timelines, document decisions, and set expectations via regular updates. Use a single intake/roadmap to avoid side-channel commitments.
+
+## How do you hire and onboard engineers effectively?
+
+Structured hiring (job scorecards, calibrated interviews, practical exercises). For onboarding: 30/60/90 plan, a mentor buddy, small first PRs, clear environment setup, and documented team norms.
+
+## How do you handle a low-performing team member?
+
+Clarify expectations with concrete examples, provide support (mentoring, training), set measurable goals with timelines (PIP only if needed), and give frequent feedback. Recognize improvements quickly.
+
+## How do you lead a remote or distributed team?
+
+Default to written comms, clear decision logs, overlapping core hours, outcome-based goals, and strong rituals (weekly planning, demos, retros). Invest in trust via regular 1:1s and occasional in-person meetups.
+
+## How do you estimate and deliver reliably?
+
+Break work into small slices, use historical velocity, capture risks/assumptions, and add buffers where uncertainty is high. Inspect and adapt weekly; renegotiate scope early when signals show risk.
+
+## How do you manage risk in projects?
+
+Maintain a risk register (probability, impact, owner, mitigations). Run pre-mortems, prototype unknowns early, and create feature flags/rollbacks. Monitor with alerts and SLOs.
+
+## How do you run incident response and postmortems?
+
+Declare severity, assign roles (Incident Commander, Comms, Ops), stabilize first, communicate frequently. Post-incident: blameless postmortem, 5-whys, action items with owners and due dates; track completion.
+
+## How do you plan a product/tech roadmap?
+
+Tie initiatives to business outcomes and metrics. Sequence by dependencies, capacity, and risk. Keep 12-month themes, with detailed next 1-2 quarters, and review monthly.
+
+## How do you keep teams motivated during crunch time?
+
+Protect focus (no meetings, WIP limits), celebrate progress, ensure sustainable pace (no repeated overtime), and provide context for the “why”. After delivery, grant recovery time.
+
+## How do you control scope creep?
+
+Define acceptance criteria up front, require change requests with impact on timeline/cost, and maintain a visible scope log. Use MVP and iterate rather than expanding mid-sprint.
