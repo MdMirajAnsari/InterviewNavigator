@@ -1,22 +1,51 @@
 ## **Difference between Class and Objects in C#**
 
-a Class is a template or blueprint for creating Objects, and every Object in C# must belong to a Class
+- **Class**: A blueprint describing properties/behaviors.
+- **Object**: An instance created from a class at runtime.
+
+```csharp
+public class Car
+{
+    public string Model { get; set; }
+    public void Start() => Console.WriteLine($"{Model} started");
+}
+
+// Usage
+var car = new Car { Model = "Civic" }; // object (instance)
+car.Start();
+```
 
 # Constructor
 
-It is a special method present inside a class responsible for initializing the variables of that class.
+- Special method used to initialize a new object’s state.
+- Has no return type and shares the class name.
+- The compiler provides a default parameterless constructor if none is defined.
+- Fields have default values (numbers: 0, bool: false, reference: null).
 
-The constructor method does not return any value.
+```csharp
+public class Person
+{
+    public string Name { get; }
+    public int Age { get; private set; }
 
-The Constructors are responsible for two things. One is the object initialization and the other one is memory allocation. The role of the new keyword is to create the object and the role of the constructor is to initialize the variables.
+    // Explicit parameterless constructor
+    public Person()
+    {
+        Name = "Unknown";
+        Age = 0;
+    }
 
-The compiler defined this constructor for us. And we call this an Implicit Constructor. And if we defined the same thing, then it is called an explicit constructor.
+    // Overloaded constructor
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+}
 
-If we don’t have a constructor, then we cannot create an instance of the class.
-
-Every variable we declared inside a class and every field we declared inside a class has a default value. All numeric types are initialized with 0, Boolean types initialized with false, and string and object types initialized with null. For a better understanding, please have a look at the below image.
-
-the initialization is performed for each and all variables present in the class and this is the responsibility of the constructor. That is why a constructor is very important for us inside a class.
+var a = new Person();            // uses parameterless constructor
+var b = new Person("Alice", 30); // uses overloaded constructor
+```
 
 ## **Static Constructor**
 
@@ -32,6 +61,24 @@ Static Constructors execute immediately once the execution of a class start and 
 
 Static Constructors cannot be parameterized, so overloading of the static constructors is not possible in C#.
 
+```csharp
+public class Logger
+{
+    public static string AppName { get; }
+
+    // Static constructor: runs once before first use
+    static Logger()
+    {
+        AppName = "MyApp";
+        Console.WriteLine("Static ctor ran");
+    }
+}
+
+// First access triggers static constructor once
+Console.WriteLine(Logger.AppName);
+Console.WriteLine(Logger.AppName); // no second run
+```
+
 ## **private constructor**
 
 When a class contains a private constructor then we cannot create an object for the class outside of the class. So, private constructors are used to create an object for the class within the same class. Generally, private constructors are used in the Remoting concept.
@@ -41,6 +88,44 @@ We need to use the private constructor in C# when the class contains only static
 ##### **When to use Private Constructors in C#?**
 
 private constructor is used to implement Singleton Design Pattern.
+
+##### Example: Singleton and utility class using private constructor
+
+```csharp
+// Singleton using a private constructor
+public sealed class AppConfig
+{
+    private static readonly Lazy<AppConfig> _instance =
+        new Lazy<AppConfig>(() => new AppConfig());
+
+    public static AppConfig Instance => _instance.Value;
+
+    // Private constructor prevents external instantiation
+    private AppConfig()
+    {
+        // load settings once
+        Version = "1.0.0";
+    }
+
+    public string Version { get; }
+}
+
+// Usage:
+// var cfg = AppConfig.Instance; Console.WriteLine(cfg.Version);
+
+
+// Utility class to prevent instantiation
+public static class MathUtils
+{
+    // Alternatively, for a non-static utility holder:
+    // private MathUtils() { }
+
+    public static int Add(int a, int b) => a + b;
+}
+
+// Usage:
+// var sum = MathUtils.Add(2, 3);
+```
 
 ## Destructor
 
@@ -461,17 +546,179 @@ A **race condition** happens in **multithreading** when two or more threads  **a
 * Use **`Dictionary`** for **single-threaded** scenarios.
 * Use **`ConcurrentDictionary`** when multiple threads might **read/write simultaneously** and you want **built-in thread safety** without using explicit locks.
 
-How do you handle **cancellation tokens** in async tasks?
+## Cancellation tokens in async tasks
 
-Difference between **parallel loops** (Parallel.For vs PLINQ).
+Use `CancellationTokenSource` to create a `CancellationToken` and pass it down to cancellable APIs; check `token.IsCancellationRequested` or call `ThrowIfCancellationRequested()`.
 
-* Explain  **Producer-Consumer pattern** .
-* What is **volatile keyword** in C#?
-* What is a **race condition** and how do you prevent it?
-* Explain **thread pooling** in C#.
-* Difference between  **lock** ,  **Mutex** , and  **Semaphore** .
-* What are **async/await pitfalls** and how do you avoid deadlocks?
-* How do **record types** differ from regular classes?
-* What are  **nullable reference types** ? How do they improve code quality?
-* Explain the difference between **IEnumerable, IQueryable, and List** in C#.
-* What is the difference between **async/await** and  **Task.Run** ?
+```csharp
+using System;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class Demo {
+    public async Task<string> FetchAsync(string url, CancellationToken token) {
+        using var http = new HttpClient();
+        using var resp = await http.GetAsync(url, token); // propagates cancellation
+        token.ThrowIfCancellationRequested();
+        return await resp.Content.ReadAsStringAsync(token);
+    }
+
+    public async Task Run() {
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        try { Console.WriteLine(await FetchAsync("https://example.com", cts.Token)); }
+        catch (OperationCanceledException) { Console.WriteLine("Cancelled"); }
+    }
+}
+```
+
+## Parallel.For vs PLINQ (Parallel LINQ)
+
+- **Parallel.For/ForEach**: imperative loops; best when you already have loop bodies and want parallel execution.
+- **PLINQ (`AsParallel`)**: declarative query; easy composition of filters, projections, grouping with automatic parallelism.
+
+```csharp
+// Parallel.For
+Parallel.For(0, 10_000, i => DoWork(i));
+
+// PLINQ
+var results = Enumerable.Range(0, 10_000)
+    .AsParallel()
+    .WithDegreeOfParallelism(Environment.ProcessorCount)
+    .Select(DoWork)
+    .ToList();
+```
+
+## Producer–Consumer pattern
+
+Use a thread-safe queue to decouple producers from consumers.
+
+```csharp
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+
+var queue = new BlockingCollection<int>(boundedCapacity: 100);
+
+// producer
+_ = Task.Run(() => { for (int i = 0; i < 1000; i++) queue.Add(i); queue.CompleteAdding(); });
+
+// consumers
+var consumers = Enumerable.Range(0, 4)
+    .Select(_ => Task.Run(() => { foreach (var item in queue.GetConsumingEnumerable()) Process(item); }))
+    .ToArray();
+
+Task.WaitAll(consumers);
+```
+
+## volatile keyword in C#
+
+`volatile` ensures reads/writes to a field are not cached/reordered by the CPU/compiler across threads. It does not make compound operations atomic.
+
+```csharp
+volatile bool _running = true;
+
+void Worker() { while (_running) { /* work */ } }
+void Stop() { _running = false; } // other thread will observe change promptly
+```
+
+## Race condition and prevention
+
+Race condition: multiple threads access/modify shared state without proper synchronization.
+
+Prevent with locks, interlocked operations, immutability, or thread confinement.
+
+```csharp
+int _counter = 0;
+object _gate = new object();
+
+void SafeInc() { lock (_gate) { _counter++; } }
+// or
+void SafeInc2() { System.Threading.Interlocked.Increment(ref _counter); }
+```
+
+## Thread pooling in C# (detail)
+
+`ThreadPool` reuses a pool of worker threads for short-lived tasks to avoid thread creation overhead. `Task.Run` queues work to the thread pool.
+
+```csharp
+await Task.Run(() => DoCpuBound()); // uses ThreadPool
+```
+
+## lock vs Mutex vs Semaphore
+
+- **lock (`Monitor`)**: in-process, lightweight, exclusive access within same AppDomain/process.
+- **Mutex**: can be cross-process; heavier; exclusive access system-wide if named.
+- **Semaphore/SemaphoreSlim**: allow up to N concurrent entrants; `SemaphoreSlim` is in-process optimized.
+
+```csharp
+// lock
+lock (_gate) { /* critical section */ }
+
+// SemaphoreSlim (limit concurrency to 3)
+static readonly SemaphoreSlim _sem = new SemaphoreSlim(3);
+await _sem.WaitAsync();
+try { await DoWorkAsync(); }
+finally { _sem.Release(); }
+```
+
+## async/await pitfalls and avoiding deadlocks
+
+- Avoid blocking on async (`.Result`, `.Wait()`), which can deadlock in single-threaded contexts (e.g., UI/ASP.NET old SynchronizationContext).
+- Use `await` all the way; for library code, consider `ConfigureAwait(false)` to avoid capturing context.
+- Handle exceptions with `try/catch` around `await`.
+
+```csharp
+// Bad: var s = GetAsync().Result; // can deadlock
+// Good:
+string s = await GetAsync().ConfigureAwait(false);
+```
+
+## Record types vs classes
+
+`record` provides built-in value-based equality, immutability by default, and with-expressions.
+
+```csharp
+public record Person(string Name, int Age);
+
+var p1 = new Person("Ann", 30);
+var p2 = new Person("Ann", 30);
+Console.WriteLine(p1 == p2); // true (value equality)
+var p3 = p1 with { Age = 31 }; // copy with change
+```
+
+## Nullable reference types (NRT)
+
+Annotate reference types as nullable (`string?`) or non-nullable (`string`). Compiler warns about possible null misuse, improving safety.
+
+```csharp
+#nullable enable
+string name = "Bob";    // non-nullable
+string? nick = null;     // nullable
+int len = name.Length;   // ok
+// int n = nick.Length;  // warning: possible null reference
+```
+
+## IEnumerable vs IQueryable vs List
+
+- **IEnumerable<T>**: forward-only iteration over in-memory collections; LINQ to Objects; executes immediately when enumerated.
+- **IQueryable<T>**: represents a query to be translated/executed by a provider (e.g., EF Core); deferred execution on server.
+- **List<T>**: concrete, resizable in-memory collection supporting indexing and mutation.
+
+```csharp
+IEnumerable<int> seq = Enumerable.Range(1, 10).Where(x => x % 2 == 0);
+List<int> list = seq.ToList();
+IQueryable<User> q = dbContext.Users.Where(u => u.IsActive); // translated to SQL
+```
+
+## async/await vs Task.Run
+
+- **async/await**: language features for composing asynchronous operations. They do not create threads; they await non-blocking operations.
+- **Task.Run**: schedules CPU-bound work on the thread pool. Use sparingly to offload CPU work from the UI thread; not for I/O that already has async APIs.
+
+```csharp
+// I/O-bound
+var data = await httpClient.GetStringAsync(url); // no Task.Run needed
+
+// CPU-bound
+var result = await Task.Run(() => ComputeLargePrime());
+```
