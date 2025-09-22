@@ -16,7 +16,25 @@ When we use the attribute “visibility: hidden” for an HTML element then that
 
 ## Change color of bullet
 
-What is bom in css?
+```html
+<ul class="custom-bullets">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  </ul>
+```
+
+```css
+.custom-bullets li { list-style: none; position: relative; padding-left: 1.25rem; }
+.custom-bullets li::before {
+  content: '';
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #e91e63; position: absolute; left: 0; top: 0.6em;
+}
+```
+
+## What is bom in css?
+
+CSSOM (often confused with BOM) is the CSS Object Model: a tree representation of CSS used by the browser to compute styles. BOM (Browser Object Model) refers to browser APIs like `window`, `history`, `location`.
 
 ## what is difference between PX, unit, em, rem in css?
 
@@ -24,6 +42,23 @@ What is bom in css?
 * Use **`em` for spacing relative to font** (like padding inside buttons).
 * Use  **`%` for fluid layouts** .
 * Use **`px` sparingly** (icons, borders, tiny fixed details).
+
+Example:
+```css
+html { font-size: 16px; }
+
+/* rem: relative to root (html) */
+h1 { font-size: 2rem; }          /* 32px */
+
+/* em: relative to current element's font-size */
+button { font-size: 1rem; padding: 0.5em 1em; } /* padding scales with font */
+
+/* %: relative to parent size */
+.sidebar { width: 25%; }
+
+/* px: fixed pixels */
+.icon { width: 24px; height: 24px; }
+```
 
 ## what is different position in css?
 
@@ -39,6 +74,40 @@ Rule of thumb:
 * Use **absolute** for placing inside a container.
 * Use **fixed** for headers, footers, floating buttons.
 * Use **sticky** for “stick-on-scroll” elements.
+
+Examples:
+```html
+<div class="container">
+  <div class="relative">Relative box
+    <div class="absolute">Absolute inside relative</div>
+  </div>
+  <div class="fixed">Fixed header</div>
+  <div class="sticky">Sticky section title</div>
+</div>
+```
+
+```css
+.container { height: 2000px; padding-top: 60px; }
+
+/* static is default */
+.relative { position: relative; border: 1px solid #ccc; height: 200px; }
+
+.absolute {
+  position: absolute;           /* positioned relative to .relative */
+  right: 8px; bottom: 8px; background: #ffe08a; padding: 4px 8px;
+}
+
+.fixed {
+  position: fixed;              /* stays at top while scrolling */
+  top: 0; left: 0; right: 0; height: 48px;
+  background: #6200ee; color: #fff; display: flex; align-items: center; padding: 0 12px;
+}
+
+.sticky {
+  position: sticky;             /* sticks after reaching 10px from top */
+  top: 10px; background: #e0f7fa; padding: 8px; margin-top: 600px;
+}
+```
 
 ## what is pseudo selector?
 
@@ -57,6 +126,107 @@ a:active { color: green; }
 /* Form field focus */
 input:focus { border: 2px solid orange; }
 
+```
+
+## What is the difference between margin and padding?
+
+- Margin: space outside the border; separates elements.
+- Padding: space inside the border; increases element’s clickable area/background.
+
+```css
+.card { margin: 16px; padding: 12px; }
+```
+
+## What is the box-sizing property?
+
+`box-sizing: border-box;` makes width/height include padding and border (easier layouts).
+
+```css
+*, *::before, *::after { box-sizing: border-box; }
+```
+
+## Flexbox vs Grid: when to use each?
+
+- Flexbox: one-dimensional layout (row OR column), content-driven.
+- Grid: two-dimensional layout (rows AND columns), layout-driven.
+
+```css
+.flex { display: flex; gap: 8px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+```
+
+## How to center a div horizontally and vertically?
+
+```css
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+```
+
+## Responsive units: vw, vh, %, em, rem
+
+- vw/vh: viewport width/height.
+- %: relative to parent.
+- em: relative to current font-size.
+- rem: relative to root font-size.
+
+Examples:
+```html
+<div class="hero">Hero (vw/vh)</div>
+<div class="parent">
+  <div class="child">Child width 50%</div>
+</div>
+<button class="btn">EM padded button</button>
+<h1 class="title">REM sized title</h1>
+```
+
+```css
+html { font-size: 16px; }
+
+/* vw/vh: full-width banner 50% viewport height */
+.hero {
+  height: 50vh;
+  width: 100vw;
+  background: linear-gradient(90deg, #2196f3, #21cbf3);
+  color: white; display: flex; align-items: center; justify-content: center;
+}
+
+/* %: child width relative to parent */
+.parent { width: 400px; background: #eee; padding: 8px; }
+.child  { width: 50%; background: #c8e6c9; padding: 8px; }
+
+/* em: padding scales with element's own font-size */
+.btn { font-size: 1rem; padding: 0.5em 1em; }
+.btn.large { font-size: 1.25rem; } /* padding grows because em */
+
+/* rem: font-size relative to root (html) */
+.title { font-size: 2rem; } /* 32px when root is 16px */
+```
+
+## Media queries example
+
+```css
+@media (max-width: 600px) {
+  .sidebar { display: none; }
+}
+```
+
+## CSS variables (custom properties)
+
+```css
+:root { --brand: #6200ee; }
+button { background: var(--brand); }
+```
+
+## Prevent layout shift: image dimensions
+
+Always set `width` and `height` (or aspect-ratio) to reserve space.
+
+```css
+img { width: 100%; height: auto; aspect-ratio: 16 / 9; }
 ```
 
 Pseudo-elements
