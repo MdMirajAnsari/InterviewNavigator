@@ -6,8 +6,6 @@ Eg: header,article,nav,footer,section etc.
 Non-semantic elements: They acts as placeholders but does not describe what type of content they hold.
 Eg: div,span etc.
 
----
-
 ## What is viewport ?
 
 It is the area of the webpage in which the content is visible to the user.
@@ -72,24 +70,105 @@ In  **HTML** , **meta tags** are elements placed inside the `<head>` section of 
 
 ## What is the difference between *b* and *strong* tags?
 
+- `b`: stylistic bold without implying importance.
+- `strong`: semantic importance; conveys emphasis to assistive tech and can affect SEO.
+
+```html
+<p><b>Visual bold</b> vs <strong>Important content</strong></p>
+```
+
 ## When would you use *em* over  *i* , and vice versa?
+
+- `em`: semantic emphasis that can be nested to increase stress (affects screen readers).
+- `i`: visual italics for alternate voice, technical term, or title without emphasis.
+
+```html
+<p>Please <em>do not</em> refresh.</p>
+<p><i>De facto</i> standard.</p>
+```
 
 ### **What is the use of an iframe tag?**
 
+Embeds another HTML page inside the current page (maps, videos, widgets). Use with care for security; sandbox when possible.
+
+```html
+<iframe src="https://example.com" width="600" height="400" sandbox="allow-scripts allow-same-origin"></iframe>
+```
+
 ## What is the purpose of  *small* ,  *s* , and *mark* tags?
+
+- `small`: side comments, fine print.
+- `s`: content no longer accurate/relevant (not for deletions in edits).
+- `mark`: highlight text relevant to current context.
+
+```html
+<p>Total $10 <small>(tax included)</small></p>
+<p><s>Was $20</s> Now $10</p>
+<p>Search result: <mark>javascript</mark> tutorial</p>
+```
 
 ### **What is the purpose of the data-* attribute in HTML? Provide an example use case.*
 
+Custom data attributes for storing extra information on elements, accessible via JS (`dataset`).
+
+```html
+<button id="buy" data-product-id="42" data-price="9.99">Buy</button>
+<script>
+  const btn = document.getElementById('buy');
+  console.log(btn.dataset.productId, btn.dataset.price);
+  // dataset maps data-product-id -> productId
+  </script>
+```
+
 ### What is the difference between the defer and async attributes in the `<script>` tag?
+
+- `async`: download in parallel; execute as soon as ready (order not guaranteed). Good for independent scripts (analytics).
+- `defer`: download in parallel; execute after HTML parsing, in order. Good for dependent scripts.
+
+```html
+<script src="a.js" async></script>
+<script src="b.js" defer></script>
+```
 
 ### **What are void tags in HTML5?**
 
 `<br>, <hr>, `
 
+Void (self-closing) elements have no closing tag/content. Common HTML5 void tags:
+
+`area, base, br, col, embed, hr, img, input, link, meta, param, source, track, wbr`
+
 ### MathML
+
+MathML is an XML-based markup to display mathematical notation in the browser.
+
+```html
+<math>
+  <msup><mi>a</mi><mn>2</mn></msup>
+  <mo>+</mo>
+  <msup><mi>b</mi><mn>2</mn></msup>
+  <mo>=</mo>
+  <msup><mi>c</mi><mn>2</mn></msup>
+  </math>
+```
 
 ## WebWorker
 
+Runs JS in a background thread for CPU-heavy tasks to keep the UI responsive.
+
+```html
+<!-- main.js -->
+const worker = new Worker('worker.js');
+worker.postMessage({ n: 40 });
+worker.onmessage = e => console.log('Result', e.data);
+
+/* worker.js */
+self.onmessage = e => {
+  const fib = n => (n < 2 ? n : fib(n-1)+fib(n-2));
+  self.postMessage(fib(e.data.n));
+};
+```
+
 ## Not Valid tag in html5
 
----
+Deprecated/non-standard in HTML5 (avoid): `font`, `center`, `big`, `tt`, `strike`, `u` (use CSS), `marquee`, `blink`.
