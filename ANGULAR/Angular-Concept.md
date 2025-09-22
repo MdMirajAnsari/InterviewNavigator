@@ -343,6 +343,55 @@ Directives: Structural directives like *ngIf and *ngFor often work with data bin
 
 # What is Angular Services?
 
+Angular Services are injectable classes that encapsulate reusable logic such as data access (HTTP), business rules, state management, or utilities. Services are provided via Angular's Dependency Injection (DI) and are typically singletons when registered at the root level.
+
+Key points:
+- Share logic/data across components.
+- Promote separation of concerns (keep components lean).
+- Scope via providers: root (singleton), module, or component-level.
+
+Example: service and usage
+```typescript
+// my.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' }) // singleton at root
+export class MyService {
+  constructor(private http: HttpClient) {}
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>('/api/users');
+  }
+}
+
+// users.component.ts
+import { Component, OnInit } from '@angular/core';
+import { MyService } from './my.service';
+
+@Component({ selector: 'app-users', template: `<li *ngFor="let u of users">{{ u.name }}</li>` })
+export class UsersComponent implements OnInit {
+  users: any[] = [];
+  constructor(private myService: MyService) {}
+  ngOnInit() { this.myService.getUsers().subscribe(u => this.users = u); }
+}
+```
+
+Scoping a service to a component (new instance per component subtree):
+```typescript
+@Component({
+  selector: 'scoped-example',
+  template: `...`,
+  providers: [MyService]
+})
+export class ScopedExampleComponent {}
+```
+
+Best practices:
+- Keep services stateless where possible; if stateful, document lifetime.
+- Prefer `providedIn: 'root'` for app-wide singletons and tree-shaking.
+- Use interfaces/tokens for configuration and testing flexibility.
+
 ## what is http interceptor
 
 * It allows you to  **intercept all HTTP requests and responses** .
@@ -382,21 +431,132 @@ Directives: Structural directives like *ngIf and *ngFor often work with data bin
 
     ```
 
-what is observable
+## what is observable
 
-Difference between Constructor and ngOnint?
+An Observable is a stream of asynchronous values that you can subscribe to. It pushes values over time and supports operators for transformation.
 
-What is AuthGuard or RouteGuard
+```typescript
+import { Observable } from 'rxjs';
 
-Difference between ViewChild and ViewChildren
+const obs = new Observable<number>(sub => {
+  sub.next(1);
+  sub.next(2);
+  setTimeout(() => { sub.next(3); sub.complete(); }, 1000);
+});
 
-Difference between ContentChild and ContentChildren
+obs.subscribe({ next: v => console.log(v) });
+```
 
-what is ng-content
+## Difference between Constructor and ngOnint?
 
-what is queryList
+- Constructor: Runs when the class is instantiated. Do DI only; avoid heavy logic and DOM access.
+- ngOnInit: Lifecycle hook called after Angular sets input bindings; safe place for initialization and API calls.
 
-Template diven and reactive form
+```typescript
+export class UserComponent implements OnInit {
+  constructor(private http: HttpClient) { /* DI only */ }
+  ngOnInit() { /* fetch data here */ }
+}
+```
+
+## What is AuthGuard or RouteGuard
+
+Guards decide if navigation is allowed. `CanActivate` controls entering a route; `CanDeactivate` controls leaving; others include `CanLoad`, `Resolve`.
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate {
+  constructor(private auth: AuthService, private router: Router) {}
+  canActivate(): boolean {
+    if (this.auth.isLoggedIn()) return true;
+    this.router.navigate(['/login']);
+    return false;
+  }
+}
+
+// Route
+{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
+```
+
+## Difference between ViewChild and ViewChildren
+
+- ViewChild: Gets a single element/component from the view (template) after view init.
+- ViewChildren: Gets a QueryList of multiple matches.
+
+```typescript
+@ViewChild('inputRef') input!: ElementRef<HTMLInputElement>;
+@ViewChildren(ItemComponent) items!: QueryList<ItemComponent>;
+
+ngAfterViewInit() {
+  this.input.nativeElement.focus();
+  this.items.forEach(c => c.highlight());
+}
+```
+
+## Difference between ContentChild and ContentChildren
+
+- ContentChild/ContentChildren: Query projected content (inside <ng-content>) from a parent using content projection.
+
+```typescript
+// child component
+@Component({ selector: 'panel', template: `<ng-content></ng-content>` })
+export class PanelComponent {
+  @ContentChildren('link') links!: QueryList<ElementRef>;
+}
+```
+
+## what is ng-content
+
+Content projection placeholder that lets parent components project markup into a child component.
+
+```html
+<!-- child -->
+<div class="card">
+  <h3><ng-content select="[card-title]"></ng-content></h3>
+  <div><ng-content></ng-content></div>
+</div>
+
+<!-- parent usage -->
+<app-card>
+  <span card-title>Title</span>
+  <p>Body content</p>
+  <button>Action</button>
+  </app-card>
+```
+
+## what is queryList
+
+`QueryList<T>` is a live iterable result of a query (`ViewChildren`/`ContentChildren`). It updates when the view/content changes.
+
+```typescript
+@ViewChildren(ItemComponent) items!: QueryList<ItemComponent>;
+ngAfterViewInit() {
+  this.items.changes.subscribe(() => console.log('list changed'));
+}
+```
+
+## Template diven and reactive form
+
+- Template-driven forms: Simpler, defined in template using `ngModel`. Good for small forms.
+- Reactive forms: Defined in code with `FormGroup`/`FormControl`, better for complex validation and testability.
+
+Template-driven example:
+```html
+<form #f="ngForm" (ngSubmit)="submit(f.value)">
+  <input name="email" ngModel required email />
+  <button [disabled]="f.invalid">Submit</button>
+  </form>
+```
+
+Reactive example:
+```typescript
+import { FormBuilder, Validators } from '@angular/forms';
+
+form = this.fb.group({ email: ['', [Validators.required, Validators.email]] });
+
+constructor(private fb: FormBuilder) {}
+submit() { console.log(this.form.value); }
+```
 
 ## how angular handle change detection
 
@@ -436,7 +596,70 @@ Reactive Form Example
 
 # **Life Cycle**
 
+Angular components have lifecycle hooks you can tap into to run code at key moments.
+
+Common hooks (in call order):
+- ngOnChanges(changes): when @Input values change
+- ngOnInit(): once after first @Input set
+- ngDoCheck(): custom change detection
+- ngAfterContentInit()/ngAfterContentChecked(): projected content
+- ngAfterViewInit()/ngAfterViewChecked(): component views/child views
+- ngOnDestroy(): before component is destroyed (cleanup)
+
+Example logging hooks:
+```typescript
+import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+
+@Component({ selector: 'app-life', template: `<div>Life</div>` })
+export class LifeComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+  ngOnChanges(changes: SimpleChanges) { console.log('OnChanges', changes); }
+  ngOnInit() { console.log('OnInit'); }
+  ngAfterViewInit() { console.log('AfterViewInit'); }
+  ngOnDestroy() { console.log('OnDestroy'); }
+}
+```
+
+Cleanup pattern:
+```typescript
+private destroy$ = new Subject<void>();
+
+ngOnInit() {
+  this.service.stream$.pipe(takeUntil(this.destroy$)).subscribe();
+}
+ngOnDestroy() {
+  this.destroy$.next();
+  this.destroy$.complete();
+}
+```
+
 # Async Pipe
+
+The `async` pipe subscribes to an Observable/Promise in the template and renders the latest value. It also handles unsubscribe automatically.
+
+Benefits:
+- Auto-subscribe/unsubscribe
+- Triggers change detection on emissions (works well with OnPush)
+
+Example with Observable:
+```typescript
+// component.ts
+import { Component } from '@angular/core';
+import { interval, map, startWith } from 'rxjs';
+
+@Component({ selector: 'app-counter', template: `Count: {{ count$ | async }}` })
+export class CounterComponent {
+  count$ = interval(1000).pipe(startWith(0), map(n => n));
+}
+```
+
+Example with HTTP:
+```typescript
+// component.ts
+users$ = this.http.get<User[]>('/api/users');
+
+// template.html
+<li *ngFor="let u of users$ | async">{{ u.name }}</li>
+```
 
 # **BehaviorSubject**
 
@@ -556,6 +779,96 @@ ng build --aot    # Angular Ahead-of-Time build
 ```
 
 ## Explain **Change Detection Strategy** (Default vs OnPush).
+
+Angular runs change detection (CD) to keep the view in sync with data. The strategy controls when a component checks for changes.
+
+- Default (CheckAlways):
+  - CD runs for the whole component tree on many triggers (events, XHRs, setTimeout, zone-aware tasks).
+  - Any parent update propagates to all children.
+  - Easiest, but more work per change.
+
+- OnPush:
+  - CD runs for the component only when one of these happens:
+    - An @Input reference changes (new object/array/primitive value).
+    - An event originates inside the component (e.g., (click)).
+    - An async source emits via `async` pipe.
+    - You manually request it (`markForCheck`, `detectChanges`).
+  - Skips checks if inputs are the same reference → better performance.
+
+Example (Default vs OnPush):
+```typescript
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+
+@Component({
+  selector: 'child-default',
+  template: `{{ data.name }}`,
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class ChildDefaultComponent {
+  @Input() data!: { name: string };
+}
+
+@Component({
+  selector: 'child-onpush',
+  template: `{{ data.name }}`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChildOnPushComponent {
+  @Input() data!: { name: string };
+}
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <button (click)="mutate()">Mutate object</button>
+    <button (click)="replace()">Replace object</button>
+    <div>
+      <child-default [data]="model"></child-default>
+      <child-onpush [data]="model"></child-onpush>
+    </div>
+  `
+})
+export class ParentComponent {
+  model = { name: 'Alice' };
+
+  mutate() {
+    // Same reference; OnPush child WILL NOT update
+    this.model.name = 'Bob';
+  }
+
+  replace() {
+    // New reference; OnPush child updates
+    this.model = { ...this.model, name: 'Carol' };
+  }
+}
+```
+
+OnPush with async pipe (auto-updates on emission):
+```typescript
+@Component({
+  selector: 'onpush-stream',
+  template: `Count: {{ counter$ | async }}`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OnPushStreamComponent {
+  counter$ = interval(1000).pipe(startWith(0));
+}
+```
+
+Manual triggers (advanced):
+```typescript
+constructor(private cdr: ChangeDetectorRef) {}
+
+ngAfterViewInit() {
+  this.cdr.markForCheck(); // schedule check for this component and ancestors
+  // or this.cdr.detectChanges(); // run a synchronous check now
+}
+```
+
+Guidance:
+- Prefer OnPush for performance-critical trees and immutable patterns.
+- Replace objects/arrays instead of mutating to trigger OnPush.
+- Use `async` pipe for streams; avoids manual subscription and triggers CD on emission.
 
 ## what are pure and impure pipes?
 
