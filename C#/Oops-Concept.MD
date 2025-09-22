@@ -1,4 +1,4 @@
-# **METHOD OVERLOADING AND METHOD OVERRIDING**
+## **METHOD OVERLOADING AND METHOD OVERRIDING**
 
 CT- Method Overloading
 
@@ -72,7 +72,7 @@ public class BaseClass
 }
 ```
 
-# **Dynamic Polymorphism or Runtime Polymorphism**
+## **Dynamic Polymorphism or Runtime Polymorphism**
 
 The function call is bounded to the class at the time of compilation, if the function is going to be executed by CLR from a different class at run-time rather than the class bounded at compilation-time, then it is called Run-Time Polymorphism
 
@@ -90,7 +90,7 @@ Class1 obj1 = new Class1();
 obj1.show();
 ```
 
-# Struct and Class
+## Struct and Class
 
 A structure is a value type so it is stored on the stack, but a class is a reference type and is stored on the heap.
 
@@ -100,12 +100,12 @@ By default, all the struct members are public but class members are by default p
 
 As a structure is a value type, we can't assign null to a struct object, but it is not the case for a class.
 
-# Difference between the Equality Operator (==) and Equals() Method in C#
+## Difference between the Equality Operator (==) and Equals() Method in C#
 
 * **==** Operator**: This is a comparison operator used to check if two things are "equal." For reference types (like objects), it usually checks if both variables point to the **same memory location** (reference equality). For value types (like **int**, **double**), it checks if the values are the same.**
 * **Equals()** Method**: This is a method defined in the **Object** class that every .NET type inherits. By default, it checks reference equality for reference types (like **==**), but you can override it to compare the **actual content** of objects (like the values of their properties).**
 
-# IMPLICITLY AND EXPLICITLY VARIABLE
+## IMPLICITLY AND EXPLICITLY VARIABLE
 
 **implicitly**
 
@@ -128,7 +128,7 @@ int num =5;
   * **You tell the compiler exactly what type the variable is, leaving no room for inference.**
   * **Example: **string word = "ABC";** → You explicitly say **word** is a **string**.**
 
-# DATA HIDING
+## DATA HIDING
 
 making the members of a class non-public
 
@@ -178,7 +178,7 @@ public class Program
 }
 ```
 
-# ACCESS MODIFIER
+## ACCESS MODIFIER
 
 Protected:- members can be used in the derived classess, but they can't be used outside.
 
@@ -312,7 +312,7 @@ public class Program
 
 ## Generic Delegates (Built-in)
 
-### (a) **Func<T, TResult>**
+## (a) **Func<T, TResult>**
 
 * Returns a value.
 * Can have 0 to 16 input parameters.
@@ -324,7 +324,7 @@ Console.WriteLine(add(5, 10));  // 15
 ```
 
 
-### (b) **Action`<T>`**
+## (b) **Action`<T>`**
 
 * Does **not return** a value.
 * Can have 0 to 16 input parameters.
@@ -335,7 +335,7 @@ Console.WriteLine(add(5, 10));  // 15
   ```
 
 
-### (c) **Predicate`<T>`**
+## (c) **Predicate`<T>`**
 
 * Returns a **bool** only.
 * Used for conditions/filters.

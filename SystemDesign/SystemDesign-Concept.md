@@ -31,19 +31,19 @@ It uses **HTTP/2** as the transport protocol and **Protocol Buffers (Protobuf)**
 
 gRPC is used because it **solves common problems in inter-service communication** in modern applications, especially **microservices** and  **high-performance systems** .
 
-# NGINX
+## NGINX
 
 NGINX is a high-performance web server, reverse proxy, and load balancer known for its speed, stability, and low resource usage. It’s widely used for serving static content, proxying requests to application servers, and handling tasks like caching, load balancing, and SSL termination.
 
-# N8N
+## N8N
 
 n8n (pronounced "n-eight-n") is an open-source, low-code workflow automation platform that allows users to connect and automate tasks across various applications and services. It uses a node-based interface where "nodes" represent actions (e.g., sending an email, updating a spreadsheet, or fetching data from an API) that are linked to form workflows triggered by specific events. It supports over 400 integrations with tools like Google Sheets, Slack, and OpenAI, and offers flexibility for both no-code visual building and custom JavaScript/Python coding for advanced tasks.
 
-# Forward Proxy
+## Forward Proxy
 
 A forward proxy is a server that sits between a client (e.g., a user's device) and the internet, acting as an intermediary to forward client requests to external servers and return the responses. It’s typically used to enhance privacy, security, or control access.
 
-# Reverse Proxy
+## Reverse Proxy
 
 A reverse proxy is a server that sits between external clients (e.g., users on the internet) and internal servers, forwarding client requests to the appropriate backend server and returning the server’s response to the client. It’s used to enhance security, performance, and scalability of web services.
 
@@ -173,7 +173,7 @@ public class ProductsController : ControllerBase
 
 Rate limiting restricts the number of requests a client can make to a server within a defined period (e.g., per second, minute, or hour). If the limit is exceeded, the server may reject additional requests, return an error (e.g., HTTP 429 Too Many Requests), or delay processing until the rate limit resets.
 
-### Token Bucket
+## Token Bucket
 
 The **token bucket** algorithm is a widely used method for rate limiting, controlling the rate at which requests or actions are processed in a system. It’s simple, efficient, and allows for bursty traffic while enforcing an average rate limit over time. Below, I’ll explain the token bucket algorithm, how it works, its advantages, use cases, and a basic implementation example.**How the Token Bucket Algorithm Works***Concept**: Imagine a bucket that holds tokens, where each token represents permission to process a request (e.g., an API call, network packet, etc.).
 
@@ -189,7 +189,7 @@ The **token bucket** algorithm is a widely used method for rate limiting, contro
   3. **If the bucket is full, additional tokens are discarded (no overflow).**
 * **Burst Handling**: The bucket allows bursts up to its capacity, enabling short-term high request rates as long as tokens are available, but enforces the average rate over time.
 
-### Leacky Bucket
+## Leacky Bucket
 
 The **leaky bucket** algorithm is a rate-limiting technique used to control the rate at which requests, data packets, or events are processed in a system. It ensures a steady output rate, smoothing out bursts of traffic, and is commonly used in networking, task scheduling, and API management. Below, I’ll explain how it works, its mechanics, advantages, use cases, and how it differs from the token bucket algorithm, along with a simple implementation.**How the Leaky Bucket Algorithm Works***Concept**: Imagine a bucket with a hole at the bottom, leaking water (requests) at a constant rate. Incoming requests fill the bucket, but they are processed (leaked) at a fixed rate, regardless of how fast they arrive.
 
@@ -264,7 +264,7 @@ How Webhooks Work1. **Setup**: The receiving application provides a URL (the web
 
 An **idempotent API** is one where  **making the same request multiple times has the same effect as making it once** .
 
-# What are DRY, YAGNI, KISS principles ?
+## What are DRY, YAGNI, KISS principles ?
 
 DRY- Do not repeat yourself.
 Avoid duplication. Makes the software more maintainable and less error-prone.
@@ -309,7 +309,7 @@ Types of Saga Patterns
 * Orchestrator tells each service what to do next.
 * Easier to manage complex workflows, but adds a single point of control.
 
-### Database per service pattern
+## Database per service pattern
 
 The **Database per Service pattern** is a **microservices design principle** where **each microservice has its own database** (schema or instance), rather than sharing a single centralized database.
 

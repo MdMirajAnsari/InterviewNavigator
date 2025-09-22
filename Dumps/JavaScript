@@ -1,4 +1,4 @@
-# Whats the difference between Object.freeze vs Object.seal ?
+## Whats the difference between Object.freeze vs Object.seal ?
 
 Object.freeze: makes the object immutable ( wil prevent addition of new properties and modification of existing properties ).
 

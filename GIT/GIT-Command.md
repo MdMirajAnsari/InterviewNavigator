@@ -128,7 +128,7 @@ git subtree add --prefix=eCommerceSolution.OrdersService eCommerceSolution.Order
 gitk
 ```
 
-# correct way to add a remote Bitbucket repository to your local Git repository:
+## correct way to add a remote Bitbucket repository to your local Git repository:
 
 
 ```bash

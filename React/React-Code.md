@@ -29,7 +29,7 @@ function ParentComponent() {
 
   return (
     <div>
-      <h1>Parent Component</h1>
+      <h2>Parent Component</h2>
       <p>Data from child: {childData}</p>
       <ChildComponent onData={handleChildData} />
     </div>

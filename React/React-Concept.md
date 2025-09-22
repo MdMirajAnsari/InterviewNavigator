@@ -262,7 +262,7 @@ function App() {
   );
 }
 ```
-### ****What is prop drilling and its disadvantages?****
+## ****What is prop drilling and its disadvantages?****
 Prop drilling is passing props through multiple layers to reach a deeply nested child that needs them.
 
 **Disadvantages:**
@@ -286,10 +286,10 @@ class ErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
   static getDerivedStateFromError() { return { hasError: true }; }
   componentDidCatch(error, info) { console.error(error, info); }
-  render() { return this.state.hasError ? <h1>Something went wrong.</h1> : this.props.children; }
+  render() { return this.state.hasError ? <h2>Something went wrong.</h2> : this.props.children; }
 }
 ```
-# How do you handle side effects in React components?
+## How do you handle side effects in React components?
 Use `useEffect` for async tasks, subscriptions, timers, and DOM mutations; return a cleanup function to unsubscribe.
 
 **Example:**
@@ -339,15 +339,15 @@ What is the difference between state and props in React?
 **State:** Internal, mutable by the component (via `setState`/hooks), controls behavior/UI.
 
 **Props:** External, read-only inputs passed from parent to child.
-### What is the difference between `useEffect` and `useLayoutEffect` in React?
+## What is the difference between `useEffect` and `useLayoutEffect` in React?
 `useEffect` runs after paint, non-blocking; good for async and non-visual side effects.
 
 `useLayoutEffect` runs synchronously after DOM mutations but before paint; use for measurement/sync DOM updates to avoid flicker. Avoid on server.
-### What is `forwardRef()` in React used for?
+## What is `forwardRef()` in React used for?
 Allows a parent to pass a `ref` to a child’s DOM node or imperative API. Combine with `useImperativeHandle` to expose controlled methods.
-### Explain what React hydration is
+## Explain what React hydration is
 Hydration attaches event listeners to server-rendered HTML on the client, making it interactive without re-rendering from scratch. Used in SSR/SSG frameworks (Next.js, Remix).
-### What are React Portals used for?
+## What are React Portals used for?
 Render children into a DOM node outside the parent hierarchy (e.g., modals, tooltips) while preserving React event bubbling.
 
 **Example:**
@@ -359,7 +359,7 @@ function Modal({ children }) {
   return createPortal(children, root);
 }
 ```
-### How do you localize React applications?
+## How do you localize React applications?
 Use i18n libraries (e.g., `react-i18next`). Store translations per locale and wrap the app with a provider.
 
 **Example (react-i18next gist):**
@@ -368,20 +368,20 @@ import { useTranslation, I18nextProvider } from 'react-i18next';
 
 function Hello() {
   const { t } = useTranslation();
-  return <h1>{t('hello')}</h1>;
+  return <h2>{t('hello')}</h2>;
 }
 ```
-### What is code splitting in a React application?
+## What is code splitting in a React application?
 Split bundles so users download only what they need. Use dynamic `import()` with `React.lazy` and `Suspense`.
 
 **Example:** See lazy loading section above.
-### What is the Flux pattern and what are its benefits?
+## What is the Flux pattern and what are its benefits?
 Unidirectional data flow pattern: Actions → Dispatcher → Stores → View. Ensures predictable updates and simplifies reasoning about state changes.
 
 Redux was inspired by Flux and formalizes many of its ideas.
-### What is React Fiber and how is it an improvement over the previous approach?
+## What is React Fiber and how is it an improvement over the previous approach?
 Fiber reimplemented React’s reconciliation to break rendering into units of work with priorities, enabling interruption, resumption, and better scheduling (concurrent features, Suspense). Improves responsiveness over the older stack reconciler.
-### What are forms in React?
+## What are forms in React?
 You can build forms as controlled (state-driven) or uncontrolled (DOM-driven via refs). Controlled forms ease validation and conditional UI; uncontrolled forms are simpler for basic cases or non-React integrations.
 ## How would you lift the state up in a React application, and why is it necessary?
 Lift the state to the nearest common ancestor so sibling components can share and coordinate data.
@@ -435,7 +435,7 @@ Stateless components in React are components that do not manage or hold their ow
 
 ```javascript
 function Greeting(props) {
-  return <h1>Hello, {props.name}!</h1>;
+  return <h2>Hello, {props.name}!</h2>;
 }
 ```
 
@@ -510,7 +510,7 @@ Static Site Generation (SSG) pre-renders pages to static HTML at build time. Thi
 ```javascript
 // pages/posts/[id].js
 export default function Post({ post }) {
-  return <article><h1>{post.title}</h1><p>{post.body}</p></article>;
+  return <article><h2>{post.title}</h2><p>{post.body}</p></article>;
 }
 
 export async function getStaticPaths() {
@@ -543,7 +543,7 @@ export default function Dashboard() {
 }
 ```
 
-# How would you handle form validation in React?
+## How would you handle form validation in React?
 
 Options: controlled inputs with custom rules, or libraries like `react-hook-form` + schema (`Yup`/`Zod`).
 
@@ -574,7 +574,7 @@ export default function Signup() {
 }
 ```
 
-# What is Redux, and how does it help manage state in large applications?
+## What is Redux, and how does it help manage state in large applications?
 
 Redux is a predictable state container. It centralizes app state, updates it via dispatched actions and pure reducers, supports middleware for async logic, and offers great DevTools.
 
@@ -626,14 +626,14 @@ export default function App() {
 }
 ```
 
-# What is the difference between Redux and Context API?
+## What is the difference between Redux and Context API?
 
 - Purpose: Context avoids prop drilling; Redux provides a full state management pattern with reducers, actions, middleware, DevTools.
 - Scale: Context suits simple, low-frequency shared state; Redux suits complex, app-wide, frequently changing state.
 - Performance: Context re-renders all consumers on value change unless split/memoized; Redux selectors give granular subscriptions.
 - Async: Context requires custom handling; Redux has thunks, createAsyncThunk, sagas, etc.
 
-# How would you handle asynchronous actions in Redux?
+## How would you handle asynchronous actions in Redux?
 
 Use middleware. Easiest is Redux Toolkit’s `createAsyncThunk`; alternatives include thunks, sagas, observables.
 
@@ -689,7 +689,7 @@ export function Users() {
 }
 ```
 
-# How does React handle security vulnerabilities like XSS attacks?
+## How does React handle security vulnerabilities like XSS attacks?
 
 JSX escapes values by default, preventing injection. Avoid raw HTML unless necessary; if using `dangerouslySetInnerHTML`, sanitize first (e.g., with DOMPurify).
 
@@ -708,7 +708,7 @@ const userInput = '<img src=x onerror=alert(1) />';
 <div>{userInput}</div>; // renders text, not executable HTML
 ```
 
-### **What is the purpose of render() in React?**
+## **What is the purpose of render() in React?**
 
 In class components, `render()` returns the React elements to display. It must be pure (no side effects) and derive UI from `props`/`state`.
 
@@ -718,12 +718,12 @@ In class components, `render()` returns the React elements to display. It must b
 import React from 'react';
 class Greeting extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <h2>Hello, {this.props.name}</h2>;
   }
 }
 ```
 
-### **What are synthetic events in React?**
+## **What are synthetic events in React?**
 
 Synthetic events are React’s cross-browser wrapper for native events, giving a consistent API.
 
@@ -739,7 +739,7 @@ function Button() {
 }
 ```
 
-### **What is React Fiber?**
+## **What is React Fiber?**
 
 React Fiber is the reconciliation engine enabling incremental, interruptible rendering with prioritization. It powers features like Suspense and transitions.
 

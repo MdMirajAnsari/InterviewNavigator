@@ -1,6 +1,6 @@
 
 
-### map → Transform API responses into usable data.
+## map → Transform API responses into usable data.
 
 Transforms each emitted value.
 
@@ -13,7 +13,7 @@ from([1, 2, 3]).pipe(
 ).subscribe(console.log); // 10, 20, 30
 ```
 
-### filter → React only when input or events meet conditions.
+## filter → React only when input or events meet conditions.
 
 Emits only values that pass the predicate.
 
@@ -26,7 +26,7 @@ from([1, 2, 3, 4]).pipe(
 ).subscribe(console.log); // 2, 4
 ```
 
-### debounceTime → Delay user input (perfect for search boxes).
+## debounceTime → Delay user input (perfect for search boxes).
 
 Delays emissions until silence for the given time.
 
@@ -41,7 +41,7 @@ fromEvent(input, 'input').pipe(
 ).subscribe(query => console.log('Search:', query));
 ```
 
-### switchMap → Cancel old requests & handle the latest (type-ahead search).
+## switchMap → Cancel old requests & handle the latest (type-ahead search).
 
 Switch to new inner Observable, cancel previous.
 
@@ -57,7 +57,7 @@ fromEvent(input, 'input').pipe(
 ).subscribe(console.log);
 ```
 
-### mergeMap → Run multiple API calls in parallel.
+## mergeMap → Run multiple API calls in parallel.
 
 Flatten and subscribe to many inner Observables concurrently.
 
@@ -70,7 +70,7 @@ from([1, 2, 3]).pipe(
 ).subscribe(console.log);
 ```
 
-### concatMap → Queue tasks one by one (form submissions, workflows).
+## concatMap → Queue tasks one by one (form submissions, workflows).
 
 Run inner Observables sequentially, preserving order.
 
@@ -83,7 +83,7 @@ from([1, 2, 3]).pipe(
 ).subscribe(console.log);
 ```
 
-### takeUntil → Auto-cleanup subscriptions on component destroy.
+## takeUntil → Auto-cleanup subscriptions on component destroy.
 
 Complete when notifier emits.
 
@@ -101,7 +101,7 @@ destroy$.next();
 destroy$.complete();
 ```
 
-### combineLatest → React when multiple observables change together.
+## combineLatest → React when multiple observables change together.
 
 Emit latest values from all sources whenever any changes.
 
@@ -117,7 +117,7 @@ combineLatest([a$, b$]).pipe(
 ).subscribe(console.log);
 ```
 
-### take → Take only the first N values.
+## take → Take only the first N values.
 
 ```typescript
 import { interval } from 'rxjs';
@@ -128,7 +128,7 @@ interval(500).pipe(
 ).subscribe(console.log); // 0,1,2 then complete
 ```
 
-### unsubscribe → Cancel an active subscription.
+## unsubscribe → Cancel an active subscription.
 
 ```typescript
 import { interval } from 'rxjs';
@@ -137,7 +137,7 @@ const sub = interval(1000).subscribe(console.log);
 setTimeout(() => sub.unsubscribe(), 2500); // stop after ~2.5s
 ```
 
-### tap → Side effects for debugging/logging.
+## tap → Side effects for debugging/logging.
 
 ```typescript
 import { of } from 'rxjs';
@@ -150,7 +150,7 @@ of(2).pipe(
 ).subscribe();
 ```
 
-### exhaustMap → Ignore new triggers while a request is in flight.
+## exhaustMap → Ignore new triggers while a request is in flight.
 
 Useful for login button or form submit to prevent duplicates.
 
@@ -164,7 +164,7 @@ fromEvent(btn, 'click').pipe(
 ).subscribe();
 ```
 
-### webSocket → Create a WebSocket subject.
+## webSocket → Create a WebSocket subject.
 
 ```typescript
 import { webSocket } from 'rxjs/webSocket';
@@ -174,7 +174,7 @@ socket$.subscribe(msg => console.log('server:', msg));
 socket$.next({ hello: 'world' });
 ```
 
-### of → Create observable from static values.
+## of → Create observable from static values.
 
 ```typescript
 import { of } from 'rxjs';
@@ -182,7 +182,7 @@ import { of } from 'rxjs';
 of(1, 2, 3).subscribe(console.log);
 ```
 
-### from → Create observable from Promise/array/iterable.
+## from → Create observable from Promise/array/iterable.
 
 ```typescript
 import { from } from 'rxjs';
@@ -190,7 +190,7 @@ import { from } from 'rxjs';
 from(fetch('/api').then(r => r.json())).subscribe(console.log);
 ```
 
-### interval → Emit increasing numbers at intervals.
+## interval → Emit increasing numbers at intervals.
 
 ```typescript
 import { interval } from 'rxjs';
@@ -198,7 +198,7 @@ import { interval } from 'rxjs';
 interval(1000).subscribe(console.log); // 0,1,2...
 ```
 
-### fromEvent → Create observable from DOM or Node event.
+## fromEvent → Create observable from DOM or Node event.
 
 ```typescript
 import { fromEvent } from 'rxjs';
@@ -206,7 +206,7 @@ import { fromEvent } from 'rxjs';
 fromEvent(document, 'click').subscribe(() => console.log('clicked'));
 ```
 
-### merge → Combine Observables by interleaving values.
+## merge → Combine Observables by interleaving values.
 
 ```typescript
 import { merge, interval } from 'rxjs';
@@ -214,9 +214,9 @@ import { merge, interval } from 'rxjs';
 merge(interval(500), interval(800)).subscribe(console.log);
 ```
 
-### combineLatest (duplicate) → See above example.
+## combineLatest (duplicate) → See above example.
 
-### retry → Retry a failing source a number of times.
+## retry → Retry a failing source a number of times.
 
 ```typescript
 import { defer } from 'rxjs';

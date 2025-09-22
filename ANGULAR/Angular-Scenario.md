@@ -7,7 +7,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'app-child',
   template: `
     <div style="border: 1px solid blue; padding: 10px; margin: 10px;">
-      <h3>Child Component</h3>
+      <h2>Child Component</h2>
       <p>Received from Parent: {{ parentMessage }}</p>
 
       <button (click)="sendMessageToParent()">Send Message to Parent</button>
@@ -254,12 +254,12 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-api-demo',
   template: `
-    <h3>Data from APIs (render as soon as available):</h3>
+    <h2>Data from APIs (render as soon as available):</h2>
     <ul>
       <li *ngFor="let item of renderedData">{{ item }}</li>
     </ul>
 
-    <h3>All API Data (after all complete):</h3>
+    <h2>All API Data (after all complete):</h2>
     <pre>{{ allData | json }}</pre>
   `
 })
@@ -300,7 +300,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-api-demo',
   template: `
-    <h3>Data as it arrives:</h3>
+    <h2>Data as it arrives:</h2>
     <ul>
       <li *ngFor="let item of renderedData">{{ item | json }}</li>
     </ul>

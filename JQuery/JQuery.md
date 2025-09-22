@@ -57,7 +57,7 @@ const $li = $('<li>', { class: 'item', text: 'New' });
 $('#list').append($li);        // inside end
 $('#list').prepend($li);       // inside start
 $('#list').after('<hr/>');     // after element
-$('#list').before('<h3>List</h3>'); // before element
+$('#list').before('<h2>List</h2>'); // before element
 ```
 
 ## Event delegation (why and how)?

@@ -180,7 +180,7 @@ Examples:
   <div class="child">Child width 50%</div>
 </div>
 <button class="btn">EM padded button</button>
-<h1 class="title">REM sized title</h1>
+<h2 class="title">REM sized title</h2>
 ```
 
 ```css

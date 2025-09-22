@@ -11,7 +11,7 @@ Eg: div,span etc.
 It is the area of the webpage in which the content is visible to the user.
 viewport size varies based on the screen size.
 
-# target="_blank" vs. target="_new"
+## target="_blank" vs. target="_new"
 
 * **_blank** is standardized, always opens a new tab/window, and is the recommended choice.
 * **_new** is non-standard, may reuse an existing tab/window named "_new," and should be avoided.
@@ -20,25 +20,25 @@ viewport size varies based on the screen size.
 
 The anchor tag `<a>` is used to create a hyperlink to another webpage or to a certain part of the webpage and these links are clickable, whereas, link tag `<link>` defines a link between a document and an external resource and these are not clickable.
 
-## What is new about the relationship between the `<header>` and `<h1>` tags in HTML5?
+## What is new about the relationship between the `<header>` and `<h2>` tags in HTML5?
 
-As HTML5 was all about better semantics and arrangements of the tags and elements, the `<header>` tag specifies the header section of the webpage. Unlike in previous version there was one `<h1>` element for the entire webpage, now this is the header for one section such as `<article>` or `<section>`. According to the HTML5 specification, each `<header>` element must at least have one `<h1>` tag
+As HTML5 was all about better semantics and arrangements of the tags and elements, the `<header>` tag specifies the header section of the webpage. Unlike in previous version there was one `<h2>` element for the entire webpage, now this is the header for one section such as `<article>` or `<section>`. According to the HTML5 specification, each `<header>` element must at least have one `<h2>` tag
 
-### What is the difference between `<figure>` tag and `<img>` tag?
+## What is the difference between `<figure>` tag and `<img>` tag?
 
 The `<img>` tag is used to embed a single image into a web page, while the `<figure>` tag is a semantic container used to group self-contained content, such as an `<img>` and its associated `<figcaption>` (caption), that can be removed without affecting the main document's flow. Use `<img>` for decorative images or when an image is part of the main text flow and doesn't need a caption. Use `<figure>` when the content (image, code snippet, etc.) provides context or is a key part of the main message, especially when it needs a caption.
 
-### Is the `<datalist>` tag and `<select>` tag same?
+## Is the `<datalist>` tag and `<select>` tag same?
 
-### What are Semantic Elements?
+## What are Semantic Elements?
 
 Semantic elements are those which describe the particular meaning to the browser and the developer. Elements like `<form>`, `<table>`, `<article>`, `<figure>`, etc., are semantic elements
 
-### Is drag and drop possible using HTML5 and how?
+## Is drag and drop possible using HTML5 and how?
 
 Yes, in HTML5 we can drag and drop an element. This can be achieved using the drag and drop-related events to be used with the element which we want to drag and drop.
 
-### What type of audio files can be played using HTML5?
+## What type of audio files can be played using HTML5?
 
 HTML5 supports the following three types of audio file formats:
 
@@ -46,15 +46,15 @@ HTML5 supports the following three types of audio file formats:
 2. WAV
 3. Ogg
 
-### What is the usage of a novalidate attribute for the form tag that is introduced in HTML5?
+## What is the usage of a novalidate attribute for the form tag that is introduced in HTML5?
 
 The `novalidate` attribute, introduced in HTML5 for the `<form>` tag, is a boolean attribute that, when present, specifies that the form-data should not be validated by the browser when submitted.
 
-### What is a manifest file in HTML5?
+## What is a manifest file in HTML5?
 
 In HTML5, a manifest file (specifically an Application Cache Manifest file, often referred to as `appcache` or `cache manifest`) is a text file that instructs the browser on which resources (HTML pages, CSS files, JavaScript files, images, etc.) to cache for offline access. This allows web applications to function even when there is no network connection.
 
-### What is the Geolocation API in HTML5?
+## What is the Geolocation API in HTML5?
 
 ## What do *DOCTYPE* and *html lang* attributes do?
 
@@ -87,7 +87,7 @@ In  **HTML** , **meta tags** are elements placed inside the `<head>` section of 
 <p><i>De facto</i> standard.</p>
 ```
 
-### **What is the use of an iframe tag?**
+## **What is the use of an iframe tag?**
 
 Embeds another HTML page inside the current page (maps, videos, widgets). Use with care for security; sandbox when possible.
 
@@ -107,7 +107,7 @@ Embeds another HTML page inside the current page (maps, videos, widgets). Use wi
 <p>Search result: <mark>javascript</mark> tutorial</p>
 ```
 
-### **What is the purpose of the data-* attribute in HTML? Provide an example use case.*
+## **What is the purpose of the data-* attribute in HTML? Provide an example use case.*
 
 Custom data attributes for storing extra information on elements, accessible via JS (`dataset`).
 
@@ -120,7 +120,7 @@ Custom data attributes for storing extra information on elements, accessible via
   </script>
 ```
 
-### What is the difference between the defer and async attributes in the `<script>` tag?
+## What is the difference between the defer and async attributes in the `<script>` tag?
 
 - `async`: download in parallel; execute as soon as ready (order not guaranteed). Good for independent scripts (analytics).
 - `defer`: download in parallel; execute after HTML parsing, in order. Good for dependent scripts.
@@ -130,7 +130,7 @@ Custom data attributes for storing extra information on elements, accessible via
 <script src="b.js" defer></script>
 ```
 
-### **What are void tags in HTML5?**
+## **What are void tags in HTML5?**
 
 `<br>, <hr>, `
 
@@ -138,7 +138,7 @@ Void (self-closing) elements have no closing tag/content. Common HTML5 void tags
 
 `area, base, br, col, embed, hr, img, input, link, meta, param, source, track, wbr`
 
-### MathML
+## MathML
 
 MathML is an XML-based markup to display mathematical notation in the browser.
 

@@ -1,4 +1,4 @@
-# 1. Transaction Failures & Retry Mechanisms
+## 1. Transaction Failures & Retry Mechanisms
 
 Q1: During a transaction process, if a transaction fails,
 how do you figure it out and make sure it gets reprocessed?
@@ -38,7 +38,7 @@ retryPolicy.Execute(() = ProcessTransaction(transactionId));
 * If a failure occurs, update the status and retry later.
 * Ensures idempotency by checking if the transaction has already been processed before re-executing.
 
-# 2. Deadlocks in SQL Transactions
+## 2. Deadlocks in SQL Transactions
 
 Q2: In a high-volume transaction system, deadlocks occur frequently.
 How do you resolve and prevent them?
@@ -76,7 +76,7 @@ retryPolicy. Execute(() =ExecuteTransaction());
 
 
 
-# 3. Handling High-Volume Concurrent Transactions
+## 3. Handling High-Volume Concurrent Transactions
 
 Q3: Your bank's payment service is experiencing bottlenecks during peak hours. How do you optimize it?
 
@@ -93,7 +93,7 @@ Q3: Your bank's payment service is experiencing bottlenecks during peak hours. H
 
 * Use sharded databases so that different users' transactions are processed on different servers.
 
-# 4. Preventing Double-Spending in Distributed Transactions
+## 4. Preventing Double-Spending in Distributed Transactions
 
 
 Q4: How do you ensure that a transaction is not processed twice in a distributed system?
@@ -114,7 +114,7 @@ Q4: How do you ensure that a transaction is not processed twice in a distributed
 * A background job picks and processes them exactly once.
 
 
-# 5. Optimizing Database Queries for Real-Time Processing
+## 5. Optimizing Database Queries for Real-Time Processing
 
 
 Q5: The system is slowing down because some queries take too long.
@@ -134,7 +134,7 @@ SELECT * FROM Transactions ORDER BY TransactionDate DESC OFFSET 0 ROWS FETCH NEX
 3) Avoid SELECT *** and retrieve only needed columns.
 4) Use read replicas to distribute query loads.
 
-# 6. Securing API Requests & Authentication
+## 6. Securing API Requests & Authentication
 
 Q6: How do you secure API requests in a financial system?
 
@@ -143,7 +143,7 @@ Q6: How do you secure API requests in a financial system?
 3) Encrypt sensitive data in transit (TLS 1.2/1.3) and at rest (AES-256).
 4) HMAC Signature Verification for ensuring requests aren't tampered with.
 
-# 7. Handling Long-Running Processes in .NET
+## 7. Handling Long-Running Processes in .NET
 
 Q7: A loan approval process takes 3-5 minutes. How do you handle
 this without blocking the system?
@@ -153,7 +153,7 @@ this without blocking the system?
 * Use SignalR for real-time updates instead of polling.
 
 
-# 8. Handling Race Conditions in Multi-Threaded Environments
+## 8. Handling Race Conditions in Multi-Threaded Environments
 
 Q8: Two customers withdraw from the same account at the same time.
 How do you prevent over-withdrawal?
@@ -172,7 +172,7 @@ COMMIT
 * Store a Version column and update only if the version matches.
 
 
-# 9. Logging & Monitoring in Production
+## 9. Logging & Monitoring in Production
 
 
 Q9: How do you debug a production issue in a high-traffic financial app?
@@ -182,7 +182,7 @@ Q9: How do you debug a production issue in a high-traffic financial app?
 3) Monitor metrics using Prometheus + Grafana.
 
 
-# 10. Handling API Failures in a Microservices Architecture
+## 10. Handling API Failures in a Microservices Architecture
 
 
 Q10: A microservice API fails intermittently. How do you prevent
@@ -198,7 +198,7 @@ var circuitBreaker = Policy
 2) Use a fallback mechanism (e.g., return cached data if the API is down).
 
 
-# 11. Handling Concurrency in a Banking System
+## 11. Handling Concurrency in a Banking System
 
 Q11: Two users try to transfer money at the same time. How do you prevent
 race conditions and ensure accuracy?
@@ -220,7 +220,7 @@ WHERE AccountId = @id AND Version = @currentVersion
 
 * Use Redis RedLock for distributed locking in microservices.
 
-# 12. Preventing API Rate Abuse
+## 12. Preventing API Rate Abuse
 
 Q12: How do you prevent malicious users from making excessive API calls?
 
@@ -229,7 +229,7 @@ Q12: How do you prevent malicious users from making excessive API calls?
 3) Use IP Whitelisting & Authentication-Based Limits.
 
 
-# 13. Ensuring Data Consistency Across Microservices
+## 13. Ensuring Data Consistency Across Microservices
 
 Q13: How do you ensure consistency when multiple microservices update a shared record?
 
@@ -238,7 +238,7 @@ Q13: How do you ensure consistency when multiple microservices update a shared r
 3) Use Eventual Consistency with Kafka for event-driven updates.
 
 
-# 14. Secure Storage of Sensitive User Data
+## 14. Secure Storage of Sensitive User Data
 
 Q14: How do you store sensitive customer data like card numbers securely?
 
@@ -247,7 +247,7 @@ Q14: How do you store sensitive customer data like card numbers securely?
 3) Mask card details (e.g., **** **** **** 1234).
 
 
-# 15. Designing a Real-Time Fraud Detection System
+## 15. Designing a Real-Time Fraud Detection System
 
 Q15: How would you design a fraud detection system for transactions?
 
@@ -260,7 +260,7 @@ Q15: How would you design a fraud detection system for transactions?
 3) Use Stream Processing with Kafka Streams.
 
 
-# 16. Avoiding Memory Leaks in Long-Running Services
+## 16. Avoiding Memory Leaks in Long-Running Services
 
 Q16: Your C# service runs for days and starts consuming too much memory. How do you fix this?
 
@@ -269,7 +269,7 @@ Q16: Your C# service runs for days and starts consuming too much memory. How do 
 3) Use memory profiling tools (dotMemory, PerfView).
 
 
-# 17. Designing a Scalable Logging System
+## 17. Designing a Scalable Logging System
 
 Q17: How do you design a logging system that scales for millions
 of transactions per second?
@@ -278,7 +278,7 @@ of transactions per second?
 2) Batch logs before writing to storage to reduce IOPS.
 3) logs in AWS S3 or Azure Blob for long-term retention.
 
-# 18. Handling Time Zones in a Global Financial System
+## 18. Handling Time Zones in a Global Financial System
 
 Q18: A customer in New York and another in London make transactions simultaneously.
 How do you store timestamps?
@@ -287,7 +287,7 @@ How do you store timestamps?
 2) Convert to the user's local time at the frontend.
 3) Use DateTimeOffset in C# for time zone awareness.
 
-# 19. Scaling a .NET API to Handle Millions of Requests
+## 19. Scaling a .NET API to Handle Millions of Requests
 
 Q19: Your API is slowing down due to high traffic. How do you scale it?
 
@@ -295,7 +295,7 @@ Q19: Your API is slowing down due to high traffic. How do you scale it?
 2) Cache frequently accessed data using Redis or MemoryCache.
 3) Use Kubernetes for auto-scaling microservices.
 
-# 20. Optimizing SQL Queries for Large Data Processing
+## 20. Optimizing SQL Queries for Large Data Processing
 
 Q20: How do you optimize an SQL query that processes millions of records?
 
@@ -303,14 +303,14 @@ Q20: How do you optimize an SQL query that processes millions of records?
 2) Use partitioning to break large tables into smaller chunks.
 3) Use bulk inserts instead of row-by-row inserts.
 
-# 21. Handling Large Reports in a Financial System
+## 21. Handling Large Reports in a Financial System
 
 Q21: A customer requests a report for the last 2 years. How do you optimize it?
 
 1) Use pre-aggregated tables for reports.
 2) Stream reports using pagination instead of generating them all at once.
 
-# 22.  Eventual Consistency in Distributed Systems
+## 22.  Eventual Consistency in Distributed Systems
 
 Q22: What do you do when a payment status update is delayed due to network issues?
 
@@ -318,35 +318,35 @@ Q22: What do you do when a payment status update is delayed due to network issue
 2) Implement retry mechanisms for failed event processing.
 
 
-# 23.  Implementing Circuit Breakers in Microservices
+## 23.  Implementing Circuit Breakers in Microservices
 
 Q23: A downstream service fails frequently. How do you handle it gracefully?
 
 1) Use the Circuit Breaker pattern (Polly in C#).
 2) Fail fast and return a cached response if the service is down.
 
-# 24.  Preventing Unauthorized Transactions
+## 24.  Preventing Unauthorized Transactions
 
 Q24: How do you prevent an unauthorized transaction from being processed?
 
 * Implement Two-Factor Authentication (2FA).
 * Use fraud detection algorithms based on user behavior.
 
-# 25. Caching Strategies for Real-Time Banking Data
+## 25. Caching Strategies for Real-Time Banking Data
 
 Q25: How do you cache financial data while ensuring accuracy?
 
 1) Cache non-sensitive data with Redis, but keep balances fresh.
 2) Use cache expiration and invalidation strategies.
 
-# 26. Secure Storage of API Keys
+## 26. Secure Storage of API Keys
 
 Q26: Where should API keys and secrets be stored in a .NET application?
 
 1) Use Azure Key Vault or AWS Secrets Manager.
 2) Never store secrets in appsettings.json.
 
-# 27. WebSockets vs SignalR for Real-Time Updates
+## 27. WebSockets vs SignalR for Real-Time Updates
 
 Q27: Your application requires real-time updates for stock prices and transactions.
 Should you use WebSockets or SignalR?
@@ -360,7 +360,7 @@ broadcasting, and fallback mechanisms.
 Best Choice: SignalR if you need automatic reconnections, broadcasting to multiple clients,
 and support for fallback transports (e.g., polling when WebSockets isn't available).
 
-# 28. Handling Mass Fund Transfers Efficiently
+## 28. Handling Mass Fund Transfers Efficiently
 
 Q28: A financial organization needs to process bulk salary disbursements for 10,000 employees.
 How would you design this?
@@ -375,7 +375,7 @@ How would you design this?
 
 *Implement table partitioning for faster lookups.
 
-# 29. Role-Based Access Control (RBAC) in a Banking App
+## 29. Role-Based Access Control (RBAC) in a Banking App
 
 Q29: How do you restrict access to sensitive banking operations
 (e.g., admin features, account closures)?
@@ -392,7 +392,7 @@ public IActionResult CloseAccount() { }
 
 * Assign fine-grained permissions instead of broad roles.
 
-# 30.  Building an Event-Driven Architecture for Bank Notifications
+## 30.  Building an Event-Driven Architecture for Bank Notifications
 
 Q30: How would you design an event-driven architecture for transaction alerts
 in a banking system?
@@ -420,7 +420,7 @@ await producer. ProduceAsync("transaction-alerts", new Message<Null, string>
 * Loose Coupling: Services are independent.
 * Retry Mechanism: Failed messages can be retried without blocking transactions.
 
-# 31. Using CQRS with Separate Read and Write Models in a Financial App
+## 31. Using CQRS with Separate Read and Write Models in a Financial App
 
 Q31: Why would you use CQRS (Command Query Responsibility Segregation)
 in a banking app?

@@ -191,7 +191,7 @@ export class AppComponent {
 ```
 
 ```typescript
-<h1>NgRx Counter Example</h1>
+<h2>NgRx Counter Example</h2>
 <h2>Current Count: {{ counter$ | async }}</h2>
 
 <button (click)="onIncrement()">Increment</button>

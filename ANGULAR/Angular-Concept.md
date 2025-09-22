@@ -229,7 +229,7 @@ export class AppComponent {
 
 ```html
 <!-- Template -->
-<h1>{{ title }}</h1>
+<h2>{{ title }}</h2>
 ```
 
 Output: Displays "Hello, Angular!" in the UI.
@@ -341,7 +341,7 @@ Two-Way Binding: Requires FormsModule for ngModel and is useful for form inputs.
 Performance: Angular’s change detection automatically updates the UI when bound data changes, but overuse of two-way binding can impact performance in large applications.
 Directives: Structural directives like *ngIf and *ngFor often work with data binding to conditionally render or iterate over elements.
 
-# What is Angular Services?
+## What is Angular Services?
 
 Angular Services are injectable classes that encapsulate reusable logic such as data access (HTTP), business rules, state management, or utilities. Services are provided via Angular's Dependency Injection (DI) and are typically singletons when registered at the root level.
 
@@ -512,7 +512,7 @@ Content projection placeholder that lets parent components project markup into a
 ```html
 <!-- child -->
 <div class="card">
-  <h3><ng-content select="[card-title]"></ng-content></h3>
+  <h2><ng-content select="[card-title]"></ng-content></h2>
   <div><ng-content></ng-content></div>
 </div>
 
@@ -594,7 +594,7 @@ Reactive Form Example
 
 ```
 
-# **Life Cycle**
+## **Life Cycle**
 
 Angular components have lifecycle hooks you can tap into to run code at key moments.
 
@@ -632,7 +632,7 @@ ngOnDestroy() {
 }
 ```
 
-# Async Pipe
+## Async Pipe
 
 The `async` pipe subscribes to an Observable/Promise in the template and renders the latest value. It also handles unsubscribe automatically.
 
@@ -661,7 +661,7 @@ users$ = this.http.get<User[]>('/api/users');
 <li *ngFor="let u of users$ | async">{{ u.name }}</li>
 ```
 
-# **BehaviorSubject**
+## **BehaviorSubject**
 
 A Subject or Observable doesn't have a current value. When a value is emitted, it is passed to subscribers and the Observable is done with it.
 
@@ -669,7 +669,7 @@ If you want to have a current value, use BehaviorSubject which is designed for e
 
 It also has a method getValue() to get the current value.
 
-# Observable and Observer
+## Observable and Observer
 
 Pattern matching of message passing from publisher to subscriber
 
@@ -681,7 +681,7 @@ Pattern matching of message passing from publisher to subscriber
 
 where observable is a data source, subscribe is like a method/function , Observer is generally on your side
 
-# Rxjs Subject
+## Rxjs Subject
 
 Plain Observable unicast the values to observable
 
@@ -698,15 +698,15 @@ mySubject.subscribe((data)=>{
 })
 ```
 
-# Rxjs BehaviourSubject
+## Rxjs BehaviourSubject
 
 BehaviourSubject stores the current value which is lastly broadcast to the observer.
 
-# ContentChild && ContentChildren
+## ContentChild && ContentChildren
 
 child to grandChild
 
-# ElementRef
+## ElementRef
 
 Represent plain html tags of the template
 
@@ -719,7 +719,7 @@ class Component
 }
 ```
 
-# Observable
+## Observable
 
 handling asynchronous or even synchronous events.
 

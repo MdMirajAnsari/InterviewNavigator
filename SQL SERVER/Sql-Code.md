@@ -166,20 +166,20 @@ WHERE e.Salary > m.Salary;
 
 ```
 
-# Delete Columns of a Table
+## Delete Columns of a Table
 
 ```sql
 ALTER TABLE dbo.Employee
 DROP COLUMN Address, Phone, Email;
 ```
 
-# Rename Table
+## Rename Table
 
 ```sql
 EXEC sp_rename 'Employee', 'Consultant';
 ```
 
-# Find Year
+## Find Year
 
 ```
 SELECT DATEDIFF(yy, '1995-12-31', '2024-08-20') AS DaysBetween;
@@ -193,7 +193,7 @@ SET Email = 'jb007@test.com', Phone = '111.111.0007', HireDate='05-23-2001'
 WHERE EmployeeID = 3;
 ```
 
-# GROUP BY
+## GROUP BY
 
 ```sql
 SELECT DeptId, COUNT(EmpId) as 'Number of Employees' 
@@ -213,14 +213,14 @@ ALTER TABLE Employee
 ADD CONSTRAINT PK_Employee_EmployeeID PRIMARY KEY (EmployeeID)
 ```
 
-# Delete a Primary Key
+## Delete a Primary Key
 
 ```sql
 ALTER TABLE Employee 
 DROP CONSTRAINT PK_Employee_EmployeeID;   
 ```
 
-# Create a Foreign Key
+## Create a Foreign Key
 
 ```sql
 CREATE TABLE Employee(
@@ -235,18 +235,18 @@ ON DELETE CASCADE
 ON UPDATE CASCADE)
 ```
 
-# Delete a Foreign Key
+## Delete a Foreign Key
 
 ```sql
 ALTER TABLE Employee   
 DROP CONSTRAINT FK_Employee_Department
 ```
 
-# Explain indexing in a database.
+## Explain indexing in a database.
 
 Classic example **"Index in Books"**
 
-# PROCEDURE
+## PROCEDURE
 
 ```sql
 CREATE PROCEDURE sales_employees
@@ -261,7 +261,7 @@ WHERE department = 'Sales';
 END
 ```
 
-# friend salary
+## friend salary
 
 ```sql
 SELECT St.Name
@@ -276,7 +276,7 @@ WHERE P2.Salary>P1.Salary
 ORDER BY P2.Salary;
 ```
 
-# CURSOR
+## CURSOR
 
 ```sql
 DECLARE 

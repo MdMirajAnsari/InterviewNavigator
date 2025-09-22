@@ -1,4 +1,4 @@
-# call
+## call
 
 The **`call()`** method of [`Function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) instances calls this function with a given `this` value and arguments provided individually.
 var person =
@@ -14,7 +14,7 @@ console.log(person.age); //20
 birthDay.call(person, 3); //the "this" keyword of birthDay function will refer to "person" object.
 console.log(person.age); //23
 
-# apply
+## apply
 
 The apply() method of Function instances calls this function with a given this value, and arguments provided as an array (or an array-like object).
 
@@ -39,7 +39,7 @@ function calculateTotalMarks(subject1, subject2, subject3)
 calculateTotalMarks.apply(student1, [ 60, 70, 80 ] ); //supply "student" object as "this" keyword of calculateTotalMarks function; and also supply the values of array into respective parameters, sequentially.
 calculateTotalMarks.apply(student2, [ 56, 45, 88 ] );
 
-# bind
+## bind
 
 The **`bind()`** method of [`Function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) instances creates a new function that, when called, calls this function with its `this` keyword set to the provided value, and a given sequence of arguments preceding any provided when the new function is called.
 
@@ -67,7 +67,7 @@ var student1 = {
   section: "A"
 };
 
-# Hoisting
+## Hoisting
 
 Hoisting is JavaScript's default behavior of moving declarations to the top.
 
@@ -97,7 +97,7 @@ var Add = function Sum(val1, val2)
 }
 ```
 
-# Closure
+## Closure
 
 A **closure** is the combination of a function bundled together (enclosed) with references to its surrounding state (the  **lexical environment** ). In other words, a closure gives a function access to its outer scope. In JavaScript, closures are created every time a function is created, at function creation time.
 
@@ -124,11 +124,11 @@ function init() {
 init();
 ```
 
-# Lexical Scopr
+## Lexical Scopr
 
 inner function can access their variable from their parent.
 
-# This
+## This
 
 This object refers the object it belongs to. but it defined how it getting called
 
@@ -138,7 +138,7 @@ function-refers undefined in strict mode otherwisw it refers window
 
 arrow function- inherits from surrounding scope.
 
-# Slice And Splice
+## Slice And Splice
 
 * **Modification** :
 * `slice()`: Does not modify the original array.

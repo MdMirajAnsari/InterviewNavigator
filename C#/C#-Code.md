@@ -377,7 +377,7 @@ class Program
 
 ```
 
-# Reverse an Array
+## Reverse an Array
 
 ```csharp
 using System;
@@ -397,7 +397,7 @@ public class Program
 }
 ```
 
-# Move zero at Last
+## Move zero at Last
 
 ```csharp
 using System;
@@ -424,7 +424,7 @@ public class Program
 }
 ```
 
-# Check Big Letter
+## Check Big Letter
 
 ```csharp
 using System;
@@ -441,7 +441,7 @@ public class Program
 }
 ```
 
-# Bubble Sort
+## Bubble Sort
 
 ```csharp
 
@@ -481,7 +481,7 @@ public class Program
 }
 ```
 
-# Custom largest Number
+## Custom largest Number
 
 ```csharp
 using System;
@@ -511,7 +511,7 @@ public class Program
 }
 ```
 
-# Largest Array Value
+## Largest Array Value
 
 ```csharp
 using System;
@@ -537,7 +537,7 @@ class Program
 
 ```
 
-# Sum of Array
+## Sum of Array
 
 ```csharp
 using System;
@@ -559,7 +559,7 @@ class Program
 }
 ```
 
-# Convert string into Array of Integers
+## Convert string into Array of Integers
 
 ```csharp
 using System;

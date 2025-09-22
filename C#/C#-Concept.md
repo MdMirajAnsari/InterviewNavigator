@@ -1,3 +1,15 @@
+## **Version**
+
+It was officially released for General Availability in Nov, 2024 with the announcement of .NET 9
+
+It includes key features:
+
+- Params Collections
+- New Lock Type
+- New Escape Sequence \e
+- Init Array with Index from the End Operator ^
+- Relaxed Constraints on ref struct and ref variables
+
 ## **Difference between Class and Objects in C#**
 
 - **Class**: A blueprint describing properties/behaviors.
@@ -15,7 +27,7 @@ var car = new Car { Model = "Civic" }; // object (instance)
 car.Start();
 ```
 
-# Constructor
+## Constructor
 
 - Special method used to initialize a new object’s state.
 - Has no return type and shares the class name.
@@ -51,7 +63,7 @@ var b = new Person("Alice", 30); // uses overloaded constructor
 
 In a static constructor, you cannot use any access specifiers like public, private, and protected.
 
-Static Constructors are responsible for initializing static variables 
+Static Constructors are responsible for initializing static variables
 
 Execute only once, i.e when first object is created for the class or when the class is accessed for the first time during the execution of Main method?
 
@@ -194,7 +206,7 @@ Runtime enginer to execute application
 
 Console, String, StringBuilder, convert, Thread, Task
 
-# Value Type vs Reference Types
+## Value Type vs Reference Types
 
 System.value
 
@@ -204,12 +216,12 @@ Syste,.Object
 
 classes,delegate, string, array
 
-# What is a managed and unmanaged code
+## What is a managed and unmanaged code
 
 Managed code lets you run the code on a managed CLR runtime environment in the .NET framework.
 Unmanaged code is when the code doesn’t run on CLR, it is an unmanaged code that works outside the .NET framework.
 
-# Garbage Collection
+## Garbage Collection
 
 Garbage Collection is a process of deleting objects from memory, to free-up memory; so the same memory can be re-used
 
@@ -230,7 +242,7 @@ Heap contains three segments (called generations):
 * Generation 1 [Survival Generation]
 * Generation 0 [Short-Lived Generation]
 
-# IDisposable
+## IDisposable
 
 The "IDisposable" interface of "System" namespace, has a method called "Dispose", which is used to close un-managed resources that are created during the life-time of the object.
 
@@ -238,11 +250,11 @@ The "IDisposable" interface of "System" namespace, has a method called "Dispose"
 
 You can prefix "using" keyword before the local variable declaration, in order to call "Dispose" method when that variable goes out of scope.
 
-# Destructor
+## Destructor
 
 Destructor is a special method of the class, which is used to close un-managed resources (such as database connections and file connections), that are opened during the class execution.
 
-# Base Keyword
+## Base Keyword
 
 The `base` keyword is used to refer to the base class when chaining constructors or when you want to access a member (method, property, anything) in the base class that has been overridden or hidden in the current class. For example,
 
@@ -283,7 +295,7 @@ I'm B
 I'm A
 ```
 
-# Ref and Out
+## Ref and Out
 
 when you want multiple outputs from a function, then you need to use the ref and out parameters in C#.
 
@@ -329,7 +341,7 @@ namespace RefvsOutDemo
 }
 ```
 
-# Type Conversion
+## Type Conversion
 
 'Type Conversion' is a process of convert a value from one type (source type) to another type (destination type).
 
@@ -343,13 +355,13 @@ Eg: int -> long
 
 (from higher-numerical-type to lower-numerical-type)
 
-# For And Foreach
+## For And Foreach
 
 for-for is faster, need modification,
 
 foreach-no need modification, enumeration, inside loop Add method not recommended.
 
-# Generic Method
+## Generic Method
 
 ```csharp
 public static T Add<T>(T number1, T number2)
@@ -360,7 +372,7 @@ public static T Add<T>(T number1, T number2)
 }
 ```
 
-# Thread
+## Thread
 
 Threads in C# allow you to perform multiple operations simultaneously, making your applications more responsive and efficient.
 
@@ -371,15 +383,15 @@ You can control thread behavior using various methods and properties:
 * **Abort** : Stops the thread (not recommended in .NET Core).
 * **Sleep** : Pauses the thread for a specified time.
 
-# 2D Array
+## 2D Array
 
 **int[,] A = {{2, 5, 9},{6, 9, 15}};**
 
-# Task
+## Task
 
 **Task** represents an asynchronous operation. It’s part of the `System.Threading.Tasks` namespace and is used to perform operations asynchronously on thread pool threads rather than the main thread.
 
-# InstanceOf
+## InstanceOf
 
 We cannot create an instance of an interface.
 
@@ -387,7 +399,7 @@ We cannot create an instance of an Abstract Class.
 
 No, you cannot create an instance of a static class in C#.
 
-# Inherit
+## Inherit
 
 No, you cannot inherit a static class in C#
 
@@ -431,7 +443,7 @@ There are 3 ways to work with collections. The three namespaces are given below:
 
 `readonly`: This value can only be changed in the constructor. Can't be changed in normal functions.
 
-# FOR AND FOREACH
+## FOR AND FOREACH
 
 The foreach statement is used to iterate through the collection to get the information that you want, but can not be used to add or remove items from the source collection to avoid unpredictable side effects. If you need to add or remove items from the source collection, use a for loop.
 
@@ -700,9 +712,9 @@ int len = name.Length;   // ok
 
 ## IEnumerable vs IQueryable vs List
 
-- **IEnumerable<T>**: forward-only iteration over in-memory collections; LINQ to Objects; executes immediately when enumerated.
-- **IQueryable<T>**: represents a query to be translated/executed by a provider (e.g., EF Core); deferred execution on server.
-- **List<T>**: concrete, resizable in-memory collection supporting indexing and mutation.
+- **IEnumerable`<T>`**: forward-only iteration over in-memory collections; LINQ to Objects; executes immediately when enumerated.
+- **IQueryable`<T>`**: represents a query to be translated/executed by a provider (e.g., EF Core); deferred execution on server.
+- **List`<T>`**: concrete, resizable in-memory collection supporting indexing and mutation.
 
 ```csharp
 IEnumerable<int> seq = Enumerable.Range(1, 10).Where(x => x % 2 == 0);
