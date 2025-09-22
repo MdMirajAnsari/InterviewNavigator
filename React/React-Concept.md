@@ -59,6 +59,8 @@ They are commonly used for cross-cutting concerns like authentication, logging, 
 
 JSX code here which is basically HTML code inside of JavaScript. Indeed, JSX stands for JavaScript XML because HTML in the end is XML, you could say. So, we got this HTML code in JavaScript.
 
+## HOOKS
+
 ## USESTATE
 
 managing state
@@ -148,221 +150,283 @@ const expensiveValue = useMemo(() => {
 }, [input]);
 ```
 
-## USELOCATION
+USELOCATION
 
-used to access the **current location object** in your app.
+`useLocation` (from React Router) returns the current location object (pathname, search, hash, state). Useful to react to URL changes.
 
-## USECALLBACK
-
-`useCallback` returns a **memoized version of a function** that only changes if its dependencies change.
-
+**Example:**
 ```javascript
-import React, { useState, useCallback } from "react";
+import { useLocation } from 'react-router-dom';
 
-const Child = React.memo(({ onClick }) => {
-  console.log("Child re-rendered");
-  return <button onClick={onClick}>Click Me</button>;
-});
-
-function Parent() {
-  const [count, setCount] = useState(0);
-
-  // Without useCallback → new function every render
-  const handleClick = useCallback(() => {
-    console.log("Button clicked");
-  }, []); // no dependencies → stable reference
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(c => c + 1)}>Increment</button>
-      <Child onClick={handleClick} />
-    </div>
-  );
+function WhereAmI() {
+  const location = useLocation();
+  return <pre>{JSON.stringify(location, null, 2)}</pre>;
 }
-
 ```
 
-## USECONTEXT
+USECALLBACK
 
-React’s **Context API** allows you to share values (like theme, user, auth) across the app without  **prop drilling** .
+`useCallback(fn, deps)` memoizes a function so its identity is stable between renders unless dependencies change. Helps avoid unnecessary re-renders in children.
 
+**Example:**
 ```javascript
-import React, { createContext, useContext, useState } from "react";
+import { useState, useCallback, memo } from 'react';
 
-// 1. Create Context
-const ThemeContext = createContext();
+const List = memo(function List({ onSelect }) {
+  return <button onClick={() => onSelect(1)}>Select 1</button>;
+});
 
-function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
-
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-
+export default function Page() {
+  const [count, setCount] = useState(0);
+  const handleSelect = useCallback((id) => {
+    console.log('Selected', id);
+  }, []);
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+    <>
+      <button onClick={() => setCount(c => c + 1)}>Inc {count}</button>
+      <List onSelect={handleSelect} />
+    </>
+  );
+}
+```
+
+USECONTEXT
+
+`useContext(MyContext)` reads the nearest Provider value to avoid prop drilling.
+
+**Example:**
+```javascript
+import { createContext, useContext } from 'react';
+
+const ThemeContext = createContext('light');
+
+function Button() {
+  const theme = useContext(ThemeContext);
+  return <button className={theme}>Click</button>;
+}
+
+export default function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Button />
     </ThemeContext.Provider>
   );
 }
-
-function ThemedButton() {
-  // 2. Consume Context
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  return (
-    <button onClick={toggleTheme}>
-      Current Theme: {theme}
-    </button>
-  );
-}
-
-// 3. Use Provider in App
-export default function App() {
-  return (
-    <ThemeProvider>
-      <ThemedButton />
-    </ThemeProvider>
-  );
-}
-
 ```
 
-## **USELAYOUTEFFECT**
+USEIMPERATIVEHANDLE
 
-`useLayoutEffect` is a React hook that works  **like `useEffect`** , but it runs **synchronously after all DOM mutations** (before the browser paints the screen).
+`useImperativeHandle(ref, createHandle)` customizes the instance value exposed to parent refs. Use with `forwardRef` for imperative methods.
 
+**Example:**
 ```javascript
-import React, { useLayoutEffect, useRef, useState } from "react";
+import { useRef, forwardRef, useImperativeHandle } from 'react';
 
-function Box() {
-  const boxRef = useRef();
-  const [width, setWidth] = useState(0);
+const Input = forwardRef(function Input(props, ref) {
+  const innerRef = useRef(null);
+  useImperativeHandle(ref, () => ({ focus: () => innerRef.current?.focus() }));
+  return <input ref={innerRef} {...props} />;
+});
 
-  useLayoutEffect(() => {
-    const boxWidth = boxRef.current.getBoundingClientRect().width;
-    setWidth(boxWidth);
-  }, []);
-
+export default function Form() {
+  const inputRef = useRef(null);
   return (
-    <div>
-      <div ref={boxRef} style={{ width: "200px", height: "50px", background: "skyblue" }}>
-        Measured Box
-      </div>
-      <p>Box width: {width}px</p>
-    </div>
+    <>
+      <Input ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus</button>
+    </>
   );
 }
-
 ```
 
+## CONTEXT API
+Context API lets you share values (e.g., theme, auth) across the component tree without prop drilling. Provide at a high level, consume with `useContext`.
+
+**When to use:** Shared config or state read by many components. For complex state/side effects, consider Redux or other state libs.
 ## **What is React Router?**
+Client-side routing library for React that maps URLs to components without full page reloads. Provides components/hooks for navigation and route data.
 
-**React Router** is a standard library for handling  **routing in React applications** .
-
-It enables you to create **navigation** between different components/pages  **without reloading the page** .
-
+**Example (v6):**
 ```javascript
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-function Home() {
-  return <h2>Home Page</h2>;
-}
-
-function About() {
-  return <h2>About Page</h2>;
-}
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/about">About</Link>
-      </nav>
-
+      <nav><Link to="/">Home</Link> | <Link to="/about">About</Link></nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<div>Home</div>} />
+        <Route path="/about" element={<div>About</div>} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
-
 ```
+### ****What is prop drilling and its disadvantages?****
+Prop drilling is passing props through multiple layers to reach a deeply nested child that needs them.
 
-## ****What is prop drilling and its disadvantages?****
+**Disadvantages:**
+* Noisy/boilerplate; brittle to refactors; intermediate components receive unused props; performance concerns.
 
-**Prop drilling** is when you pass data from a parent component down to deeply nested child components  **through multiple layers of props** , even if intermediate components don’t need the data.
-
+**Alternatives:** Context API, custom hooks, state libraries (Redux, Zustand).
 ## What is Reonciliation in React?
+Reconciliation is React’s process of diffing the new element tree against the previous one to compute minimal DOM updates. React assumes same-type elements have similar trees and uses `key` to match list items.
 
-Reconciliation in React is the process by which React efficiently updates the actual DOM (Document Object Model) to reflect changes in a component's state or props. It's a key mechanism for optimizing UI updates and ensuring a smooth user experience.** **
-
+**Tips:** Provide stable `key`s, avoid index keys for reordering lists.
 ## Explain Strict Mode in React.
-
-React **Strict Mode** is a dev-only feature that  **warns about unsafe lifecycles, side effects, and deprecated APIs** . It may run effects twice in dev to help catch bugs — but production builds are unaffected.
-
-```javascript
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-```
-
-## What is Code Spitting in React?
-
-**Code Splitting** in React is the practice of **breaking your JavaScript bundle into smaller chunks** so that users don’t need to download the entire app code at once.
-
+`<React.StrictMode>` enables extra checks in development: highlights unsafe lifecycles, warns about legacy APIs, intentionally double-invokes some functions to surface side effects. No effect in production.
 ## What are error boundaries?
+Components that catch JavaScript errors in their child tree and render a fallback UI.
 
-In React, an **Error Boundary** is a special component that **catches JavaScript errors** anywhere in its child component tree, logs them, and displays a fallback UI instead of breaking the entire React app.
+**Example:**
+```javascript
+import React from 'react';
 
-## How do you handle side effects in React components?
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { hasError: false }; }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  componentDidCatch(error, info) { console.error(error, info); }
+  render() { return this.state.hasError ? <h1>Something went wrong.</h1> : this.props.children; }
+}
+```
+# How do you handle side effects in React components?
+Use `useEffect` for async tasks, subscriptions, timers, and DOM mutations; return a cleanup function to unsubscribe.
 
+**Example:**
+```javascript
+import { useEffect, useState } from 'react';
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    let active = true;
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(r => r.json())
+      .then(d => { if (active) setUsers(d); });
+    return () => { active = false; };
+  }, []);
+  return users.map(u => <div key={u.id}>{u.name}</div>);
+}
+```
 ## What are the lifecycle methods of React?
+Class components:
+* Mounting: `constructor`, `static getDerivedStateFromProps`, `render`, `componentDidMount`
+* Updating: `shouldComponentUpdate`, `render`, `getSnapshotBeforeUpdate`, `componentDidUpdate`
+* Unmounting: `componentWillUnmount`
+* Error: `static getDerivedStateFromError`, `componentDidCatch`
 
+In function components, use effects to model lifecycle-like behavior.
 ## How to pass data between sibling components using React router?
+Use a shared parent (lift state), global store, or pass via navigation state/query.
 
+**Example (navigate state):**
+```javascript
+// Sender
+import { useNavigate } from 'react-router-dom';
+function A() {
+  const navigate = useNavigate();
+  return <button onClick={() => navigate('/b', { state: { msg: 'Hello' } })}>Go</button>;
+}
+
+// Receiver
+import { useLocation } from 'react-router-dom';
+function B() {
+  const { state } = useLocation();
+  return <div>{state?.msg}</div>;
+}
+```
 What is the difference between state and props in React?
+**State:** Internal, mutable by the component (via `setState`/hooks), controls behavior/UI.
 
-What is the difference between `useEffect` and `useLayoutEffect` in React?
+**Props:** External, read-only inputs passed from parent to child.
+### What is the difference between `useEffect` and `useLayoutEffect` in React?
+`useEffect` runs after paint, non-blocking; good for async and non-visual side effects.
 
-* Use `useEffect`  **most of the time** .
-* Use `useLayoutEffect`  **only when you need to measure or synchronously update the DOM before paint** .
+`useLayoutEffect` runs synchronously after DOM mutations but before paint; use for measurement/sync DOM updates to avoid flicker. Avoid on server.
+### What is `forwardRef()` in React used for?
+Allows a parent to pass a `ref` to a child’s DOM node or imperative API. Combine with `useImperativeHandle` to expose controlled methods.
+### Explain what React hydration is
+Hydration attaches event listeners to server-rendered HTML on the client, making it interactive without re-rendering from scratch. Used in SSR/SSG frameworks (Next.js, Remix).
+### What are React Portals used for?
+Render children into a DOM node outside the parent hierarchy (e.g., modals, tooltips) while preserving React event bubbling.
 
-## What is `forwardRef()` in React used for?
+**Example:**
+```javascript
+import { createPortal } from 'react-dom';
 
-## Explain what React hydration is
+function Modal({ children }) {
+  const root = document.getElementById('modal-root');
+  return createPortal(children, root);
+}
+```
+### How do you localize React applications?
+Use i18n libraries (e.g., `react-i18next`). Store translations per locale and wrap the app with a provider.
 
-## What are React Portals used for?
+**Example (react-i18next gist):**
+```javascript
+import { useTranslation, I18nextProvider } from 'react-i18next';
 
-## How do you localize React applications?
+function Hello() {
+  const { t } = useTranslation();
+  return <h1>{t('hello')}</h1>;
+}
+```
+### What is code splitting in a React application?
+Split bundles so users download only what they need. Use dynamic `import()` with `React.lazy` and `Suspense`.
 
-## What is code splitting in a React application?
-
+**Example:** See lazy loading section above.
 ### What is the Flux pattern and what are its benefits?
+Unidirectional data flow pattern: Actions → Dispatcher → Stores → View. Ensures predictable updates and simplifies reasoning about state changes.
 
+Redux was inspired by Flux and formalizes many of its ideas.
 ### What is React Fiber and how is it an improvement over the previous approach?
-
+Fiber reimplemented React’s reconciliation to break rendering into units of work with priorities, enabling interruption, resumption, and better scheduling (concurrent features, Suspense). Improves responsiveness over the older stack reconciler.
 ### What are forms in React?
-
+You can build forms as controlled (state-driven) or uncontrolled (DOM-driven via refs). Controlled forms ease validation and conditional UI; uncontrolled forms are simpler for basic cases or non-React integrations.
 ## How would you lift the state up in a React application, and why is it necessary?
+Lift the state to the nearest common ancestor so sibling components can share and coordinate data.
 
+**Example:**
+```javascript
+function Parent() {
+  const [value, setValue] = useState('');
+  return (
+    <>
+      <ChildA value={value} onChange={setValue} />
+      <ChildB value={value} />
+    </>
+  );
+}
+```
 ## What are Pure Components?
+Class `React.PureComponent` does a shallow comparison of props/state to skip re-renders. For function components, use `React.memo`.
 
+**Example:**
+```javascript
+const Item = React.memo(function Item({ name }) {
+  return <div>{name}</div>;
+});
+```
 ## What is the role of PropTypes in React?
+Runtime props type-checking for components; helps catch bugs during development.
 
+**Example:**
+```javascript
+import PropTypes from 'prop-types';
+
+function User({ name, age }) { return <div>{name} ({age})</div>; }
+User.propTypes = { name: PropTypes.string.isRequired, age: PropTypes.number };
+```
 ## What is the difference between `createElement` and `cloneElement`?
+`React.createElement(type, props, ...children)` creates a new element.
 
+`React.cloneElement(element, props, ...children)` clones an existing element, merging new props/children and preserving `key`/`ref`.
+
+**Example:**
+```javascript
+const el = React.createElement('button', { className: 'a' }, 'Click');
+const cloned = React.cloneElement(el, { className: 'b' }); // class becomes 'b'
+```
 ## What are stateless components?
 
 Stateless components in React are components that do not manage or hold their own state. They receive data and behavior exclusively through props and render UI based on those props. Typically, stateless components are implemented as functions (function components).
@@ -419,48 +483,303 @@ function withLogger(WrappedComponent) {
 }
 ```
 
+You can use HOCs to share code between components without repeating logic.
+
+## What are some common performance optimization techniques in React?
+
+- **Memoization:** Use `React.memo`, `useMemo`, and `useCallback` to prevent unnecessary re-renders and recomputations.
+- **Code Splitting:** Load components or routes only when needed using React.lazy and Suspense.
+- **Virtualization:** Render only visible items in large lists using libraries like `react-window` or `react-virtualized`.
+- **Avoid Inline Functions/Objects:** Define handlers and objects outside render to prevent new references on each render.
+- **Efficient State Management:** Lift state only when necessary and avoid deeply nested state.
+- **Key Prop in Lists:** Use stable and unique keys for list items to help React efficiently update lists.
+- **Use Pure Components:** Prefer functional components and `React.PureComponent` to avoid unnecessary renders.
+- **Throttling and Debouncing:** Limit the frequency of expensive operations (e.g., scroll, resize handlers).
+- **Lazy Loading Images:** Load images only when they enter the viewport.
+
+Applying these techniques helps keep React applications fast and responsive.
 
 ## What is Static site generation (SSG)?
 
-## What is lazy loading in React?
+Static Site Generation (SSG) pre-renders pages to static HTML at build time. This yields very fast load times and great SEO for content that doesn’t change per-request.
 
-## How would you handle form validation in React?
+**When to use:** Blogs, docs, marketing pages. Rebuild when content changes.
 
-## What is Redux, and how does it help manage state in large applications?
-
-## What is the difference between Redux and Context API?
-
-## How would you handle asynchronous actions in Redux?
-
-## How does React handle security vulnerabilities like XSS attacks?
-
-## **What is the purpose of render() in React?**
-
-## **What are synthetic events in React?**
-
-## **What is React Fiber?**
-
-## Redux, Redux Thunk, Redux Saga
-
-## Difference between virtual dom and shallow dom?
-
-Shadow DOM provides encapsulation for reusable web components, isolating their styles and structure, while Virtual DOM is a performance optimization technique used by JavaScript frameworks like React to minimize direct manipulation of the browser's real DOM= . The key distinction is that Shadow DOM is a browser technology for component isolation, and Virtual DOM is a conceptual strategy for efficient UI updates.
+**Example (Next.js):**
 
 ```javascript
-// React uses Virtual DOM
-function App() {
-  const [name, setName] = React.useState("John");
-  return <h1>Hello, {name}</h1>;
+// pages/posts/[id].js
+export default function Post({ post }) {
+  return <article><h1>{post.title}</h1><p>{post.body}</p></article>;
 }
 
+export async function getStaticPaths() {
+  const posts = await fetch('https://jsonplaceholder.typicode.com/posts').then(r => r.json());
+  return { paths: posts.slice(0, 3).map(p => ({ params: { id: String(p.id) } })), fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  const post = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`).then(r => r.json());
+  return { props: { post } };
+}
+```
+
+## What is lazy loading in React?
+
+Lazy loading defers loading of non-critical code until it’s needed, reducing initial bundle size.
+
+**Example:**
+
+```javascript
+import React, { Suspense } from 'react';
+const Chart = React.lazy(() => import('./Chart'));
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <Chart />
+    </Suspense>
+  );
+}
+```
+
+# How would you handle form validation in React?
+
+Options: controlled inputs with custom rules, or libraries like `react-hook-form` + schema (`Yup`/`Zod`).
+
+**Example (react-hook-form + Yup):**
+
+```javascript
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(8, 'Min 8 chars').required('Password required')
+});
+
+export default function Signup() {
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const onSubmit = data => console.log(data);
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('email')} placeholder="Email" />
+      {errors.email && <small>{errors.email.message}</small>}
+      <input type="password" {...register('password')} placeholder="Password" />
+      {errors.password && <small>{errors.password.message}</small>}
+      <button>Sign up</button>
+    </form>
+  );
+}
+```
+
+# What is Redux, and how does it help manage state in large applications?
+
+Redux is a predictable state container. It centralizes app state, updates it via dispatched actions and pure reducers, supports middleware for async logic, and offers great DevTools.
+
+**Example (Redux Toolkit):**
+
+```javascript
+// store.js
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+const todosSlice = createSlice({
+  name: 'todos',
+  initialState: [],
+  reducers: {
+    added: (state, action) => { state.push({ id: Date.now(), text: action.payload, done: false }); },
+    toggled: (state, action) => {
+      const t = state.find(x => x.id === action.payload);
+      if (t) t.done = !t.done;
+    }
+  }
+});
+
+export const { added, toggled } = todosSlice.actions;
+export const store = configureStore({ reducer: { todos: todosSlice.reducer } });
 ```
 
 ```javascript
-// Native Shadow DOM example
-let div = document.createElement("div");
-let shadow = div.attachShadow({ mode: "open" });
+// App.jsx
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { store } from './store';
+import { added, toggled } from './store';
 
-shadow.innerHTML = `<style>p { color: red; }</style><p>Hello Shadow DOM</p>`;
-document.body.appendChild(div);
+function Todos() {
+  const todos = useSelector(s => s.todos);
+  const dispatch = useDispatch();
+  return (
+    <>
+      <button onClick={() => dispatch(added('Learn Redux'))}>Add</button>
+      {todos.map(t => (
+        <div key={t.id} onClick={() => dispatch(toggled(t.id))}>
+          {t.text} {t.done ? '✓' : ''}
+        </div>
+      ))}
+    </>
+  );
+}
 
+export default function App() {
+  return <Provider store={store}><Todos /></Provider>;
+}
+```
+
+# What is the difference between Redux and Context API?
+
+- Purpose: Context avoids prop drilling; Redux provides a full state management pattern with reducers, actions, middleware, DevTools.
+- Scale: Context suits simple, low-frequency shared state; Redux suits complex, app-wide, frequently changing state.
+- Performance: Context re-renders all consumers on value change unless split/memoized; Redux selectors give granular subscriptions.
+- Async: Context requires custom handling; Redux has thunks, createAsyncThunk, sagas, etc.
+
+# How would you handle asynchronous actions in Redux?
+
+Use middleware. Easiest is Redux Toolkit’s `createAsyncThunk`; alternatives include thunks, sagas, observables.
+
+**Example (createAsyncThunk):**
+
+```javascript
+// features/usersSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+export const fetchUsers = createAsyncThunk('users/fetch', async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  return await res.json();
+});
+
+const usersSlice = createSlice({
+  name: 'users',
+  initialState: { items: [], status: 'idle', error: null },
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(fetchUsers.pending, state => { state.status = 'loading'; })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
+  }
+});
+
+export default usersSlice.reducer;
+```
+
+```javascript
+// Users.jsx
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from './features/usersSlice';
+
+export function Users() {
+  const { items, status } = useSelector(s => s.users);
+  const dispatch = useDispatch();
+  return (
+    <div>
+      <button onClick={() => dispatch(fetchUsers())} disabled={status === 'loading'}>
+        Load users
+      </button>
+      {status === 'loading' && 'Loading…'}
+      {items.map(u => <div key={u.id}>{u.name}</div>)}
+    </div>
+  );
+}
+```
+
+# How does React handle security vulnerabilities like XSS attacks?
+
+JSX escapes values by default, preventing injection. Avoid raw HTML unless necessary; if using `dangerouslySetInnerHTML`, sanitize first (e.g., with DOMPurify).
+
+**Example:**
+
+```javascript
+import DOMPurify from 'dompurify';
+
+export default function Article({ html }) {
+  const safe = DOMPurify.sanitize(html);
+  return <div dangerouslySetInnerHTML={{ __html: safe }} />;
+}
+
+// Safe by default (escaped):
+const userInput = '<img src=x onerror=alert(1) />';
+<div>{userInput}</div>; // renders text, not executable HTML
+```
+
+### **What is the purpose of render() in React?**
+
+In class components, `render()` returns the React elements to display. It must be pure (no side effects) and derive UI from `props`/`state`.
+
+**Example:**
+
+```javascript
+import React from 'react';
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
+
+### **What are synthetic events in React?**
+
+Synthetic events are React’s cross-browser wrapper for native events, giving a consistent API.
+
+**Example:**
+
+```javascript
+function Button() {
+  function handleClick(event) {
+    console.log(event.type); // "click"
+    console.log(event.nativeEvent instanceof MouseEvent); // true
+  }
+  return <button onClick={handleClick}>Click</button>;
+}
+```
+
+### **What is React Fiber?**
+
+React Fiber is the reconciliation engine enabling incremental, interruptible rendering with prioritization. It powers features like Suspense and transitions.
+
+**Example (useTransition to lower priority):**
+
+```javascript
+import { useState, useTransition } from 'react';
+
+export default function Search() {
+  const [text, setText] = useState('');
+  const [query, setQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function onChange(e) {
+    const next = e.target.value;
+    setText(next); // urgent update
+    startTransition(() => setQuery(next)); // low-priority
+  }
+
+  return (
+    <>
+      <input value={text} onChange={onChange} />
+      {isPending && <span>Updating…</span>}
+      <Results query={query} />
+    </>
+  );
+}
+```
+
+**Example (Suspense lazy loading):**
+
+```javascript
+import React, { Suspense } from 'react';
+const Profile = React.lazy(() => import('./Profile'));
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading profile…</div>}>
+      <Profile />
+    </Suspense>
+  );
+}
 ```

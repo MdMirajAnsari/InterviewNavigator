@@ -18,17 +18,21 @@ Every variable we declared inside a class and every field we declared inside a c
 
 the initialization is performed for each and all variables present in the class and this is the responsibility of the constructor. That is why a constructor is very important for us inside a class.
 
-**Static Constructor**
+## **Static Constructor**
 
 In a static constructor, you cannot use any access specifiers like public, private, and protected.
 
-Static Constructors are responsible for initializing static variables and these constructors are never called explicitly. They are called Implicitly and moreover, these constructors are the first to execute in any class
+Static Constructors are responsible for initializing static variables 
+
+Execute only once, i.e when first object is created for the class or when the class is accessed for the first time during the execution of Main method?
+
+and these constructors are never called explicitly. They are called Implicitly and moreover, these constructors are the first to execute in any class
 
 Static Constructors execute immediately once the execution of a class start and moreover, it is the first block of code to run under a class whereas non-static constructors execute only after creating the instance of the class as well as each and every time the instance of the class is created.
 
 Static Constructors cannot be parameterized, so overloading of the static constructors is not possible in C#.
 
-**private constructor**
+## **private constructor**
 
 When a class contains a private constructor then we cannot create an object for the class outside of the class. So, private constructors are used to create an object for the class within the same class. Generally, private constructors are used in the Remoting concept.
 
@@ -456,8 +460,6 @@ A **race condition** happens in **multithreading** when two or more threads  **a
 
 * Use **`Dictionary`** for **single-threaded** scenarios.
 * Use **`ConcurrentDictionary`** when multiple threads might **read/write simultaneously** and you want **built-in thread safety** without using explicit locks.
-
-
 
 How do you handle **cancellation tokens** in async tasks?
 
