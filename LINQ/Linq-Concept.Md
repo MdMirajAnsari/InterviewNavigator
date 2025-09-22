@@ -91,3 +91,77 @@ SkipWhile
 * **IEnumerable** → Best for in-memory enumeration.
 * **IQueryable** → Best for querying databases efficiently.
 * **IList** → Best for modifiable collections with index access.
+
+## What is the difference between Select and SelectMany?
+
+- Select projects element-by-element; SelectMany flattens nested sequences.
+
+```csharp
+var ordersNested = customers.Select(c => c.Orders);        // IEnumerable<IEnumerable<Order>>
+var allOrders   = customers.SelectMany(c => c.Orders);     // IEnumerable<Order>
+```
+
+## How do you perform a left join with LINQ?
+
+```csharp
+var q = from c in customers
+        join o in orders on c.Id equals o.CustomerId into grp
+        from o in grp.DefaultIfEmpty()
+        select new { c.Name, OrderId = o?.Id };
+```
+
+## How do you get distinct elements by a key?
+
+```csharp
+var distinct = items
+  .GroupBy(x => x.Key)
+  .Select(g => g.First());
+```
+
+## How to paginate results with LINQ?
+
+```csharp
+int page = 2, pageSize = 10;
+var pageItems = source.Skip((page - 1) * pageSize).Take(pageSize);
+```
+
+## How to compute aggregates per group?
+
+```csharp
+var stats = purchases
+  .GroupBy(p => p.Category)
+  .Select(g => new { Category = g.Key, Total = g.Sum(x => x.Amount), Avg = g.Average(x => x.Amount) });
+```
+
+## How to check if any/all elements match a condition?
+
+```csharp
+bool hasPremium = users.Any(u => u.IsPremium);
+bool allActive  = users.All(u => u.Active);
+```
+
+## AsEnumerable vs AsQueryable
+
+- AsEnumerable switches to client-side LINQ to Objects.
+- AsQueryable exposes provider-backed query for translation (e.g., to SQL).
+
+## How to order by multiple fields?
+
+```csharp
+var ordered = people
+  .OrderBy(p => p.LastName)
+  .ThenBy(p => p.FirstName)
+  .ThenByDescending(p => p.Age);
+```
+
+## How to find the Nth highest value?
+
+```csharp
+int n = 3;
+var nth = source
+  .Select(x => x.Score)
+  .Distinct()
+  .OrderByDescending(x => x)
+  .Skip(n - 1)
+  .FirstOrDefault();
+```
