@@ -258,7 +258,7 @@ Destructor is a special method of the class, which is used to close un-managed r
 
 The `base` keyword is used to refer to the base class when chaining constructors or when you want to access a member (method, property, anything) in the base class that has been overridden or hidden in the current class. For example,
 
-```
+```csharp
 using System;
 
 public class Program
@@ -712,9 +712,9 @@ int len = name.Length;   // ok
 
 ## IEnumerable vs IQueryable vs List
 
-- **IEnumerable`<T>`**: forward-only iteration over in-memory collections; LINQ to Objects; executes immediately when enumerated.
-- **IQueryable`<T>`**: represents a query to be translated/executed by a provider (e.g., EF Core); deferred execution on server.
-- **List`<T>`**: concrete, resizable in-memory collection supporting indexing and mutation.
+- **IEnumerable `<T>`**: forward-only iteration over in-memory collections; LINQ to Objects; executes immediately when enumerated.
+- **IQueryable `<T>`**: represents a query to be translated/executed by a provider (e.g., EF Core); deferred execution on server.
+- **List `<T>`**: concrete, resizable in-memory collection supporting indexing and mutation.
 
 ```csharp
 IEnumerable<int> seq = Enumerable.Range(1, 10).Where(x => x % 2 == 0);
