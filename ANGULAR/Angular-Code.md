@@ -265,4 +265,217 @@ export class LoginComponent {
 
 ```
 
-How do you implement **pagination** and **search** in Angular with Web API?
+## How do you implement **pagination** and **search** in Angular with Web API?
+
+```csharp
+[HttpGet]
+public async Task<IActionResult> GetProducts(int page = 1, int pageSize = 10, string? search = "")
+{
+    var query = _context.Products.AsQueryable();
+
+    if (!string.IsNullOrEmpty(search))
+    {
+        query = query.Where(p => p.Name.Contains(search));
+    }
+
+    var totalRecords = await query.CountAsync();
+
+    var products = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
+
+    return Ok(new
+    {
+        data = products,
+        totalRecords = totalRecords,
+        page = page,
+        pageSize = pageSize
+    });
+}
+
+```
+
+```csharp
+// product.service.ts
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class ProductService {
+  private baseUrl = 'https://localhost:5001/api/products';
+
+  constructor(private http: HttpClient) {}
+
+  getProducts(page: number, pageSize: number, search: string) {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('pageSize', pageSize)
+      .set('search', search);
+
+    return this.http.get<any>(this.baseUrl, { params });
+  }
+}
+
+```
+
+```csharp
+// product-list.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ProductService } from './product.service';
+
+@Component({
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+})
+export class ProductListComponent implements OnInit {
+  products: any[] = [];
+  totalRecords = 0;
+  page = 1;
+  pageSize = 5;
+  search = '';
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit() {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.productService.getProducts(this.page, this.pageSize, this.search)
+      .subscribe(res => {
+        this.products = res.data;
+        this.totalRecords = res.totalRecords;
+      });
+  }
+
+  onPageChange(newPage: number) {
+    this.page = newPage;
+    this.loadProducts();
+  }
+
+  onSearchChange() {
+    this.page = 1; // reset to first page
+    this.loadProducts();
+  }
+}
+
+```
+
+```html
+<!-- product-list.component.html -->
+<div>
+  <input type="text" [(ngModel)]="search" (ngModelChange)="onSearchChange()" placeholder="Search..." />
+
+  <ul>
+    <li *ngFor="let p of products">{{ p.name }}</li>
+  </ul>
+
+  <!-- Simple Pagination -->
+  <div>
+    <button (click)="onPageChange(page - 1)" [disabled]="page === 1">Prev</button>
+    <span>Page {{ page }} of {{ Math.ceil(totalRecords / pageSize) }}</span>
+    <button (click)="onPageChange(page + 1)" 
+            [disabled]="page >= totalRecords / pageSize">Next</button>
+  </div>
+</div>
+
+```
+
+## Call api  and show data on ui aslo add dropdown
+
+```typescript
+// comment.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class CommentService {
+  private apiUrl = 'https://jsonplaceholder.typicode.com/comments';
+
+  constructor(private http: HttpClient) {}
+
+  getComments(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+}
+
+```
+
+```typescript
+// comment-list.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommentService } from './comment.service';
+
+@Component({
+  selector: 'app-comment-list',
+  templateUrl: './comment-list.component.html',
+})
+export class CommentListComponent implements OnInit {
+  comments: any[] = [];
+  selectedField: string = 'name'; // default
+
+  constructor(private commentService: CommentService) {}
+
+  ngOnInit() {
+    this.loadComments();
+  }
+
+  loadComments() {
+    this.commentService.getComments().subscribe((res) => {
+      this.comments = res;
+    });
+  }
+
+  onFieldChange(field: string) {
+    this.selectedField = field;
+  }
+}
+
+```
+
+```html
+<!-- comment-list.component.html -->
+<div>
+  <h2>Comments</h2>
+
+  <!-- Dropdown -->
+  <label>Show: </label>
+  <select [(ngModel)]="selectedField" (change)="onFieldChange(selectedField)">
+    <option value="name">Name</option>
+    <option value="body">Body</option>
+  </select>
+
+  <!-- List -->
+  <ul>
+    <li *ngFor="let c of comments">
+      {{ c[selectedField] }}
+    </li>
+  </ul>
+</div>
+
+```
+
+
+* Make sure you import `HttpClientModule` in your `AppModule`.
+* Also import `FormsModule` for `[(ngModel)]`.
+
+```typescript
+// app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { CommentListComponent } from './comment-list.component';
+
+@NgModule({
+  declarations: [AppComponent, CommentListComponent],
+  imports: [BrowserModule, HttpClientModule, FormsModule],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+
+```
