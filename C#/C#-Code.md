@@ -380,21 +380,20 @@ class Program
 ## Reverse an Array
 
 ```csharp
-using System;
-
-public class Program
+public int[] ReverseArray(int[] arr)
 {
-	public static void Main()
-	{
-		int[] ar=[9,1,2,3,4,4,];
-		int[] ar1= new int[ar.Length];
-		for(int i=0,j=ar.Length - 1;i<j;i++,j--){
-			ar1[i]=ar[j];
-			ar1[j]=ar[i];
-		}
-		Console.WriteLine(string.Join(", ", ar1));
-	}
+    if (arr == null || arr.Length == 0) return arr;
+
+    int left = 0, right = arr.Length - 1;
+    while (left < right)
+    {
+        int temp = arr[left];
+        arr[left++] = arr[right];
+        arr[right--] = temp;
+    }
+    return arr;
 }
+
 ```
 
 ## Move zero at Last
