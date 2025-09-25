@@ -30,6 +30,7 @@ car.Start();
 ## Constructor
 
 - Special method used to initialize a new object’s state.
+- **Default constructor access modifier in C# = `private`** (if not specified).
 - Has no return type and shares the class name.
 - The compiler provides a default parameterless constructor if none is defined.
 - Fields have default values (numbers: 0, bool: false, reference: null).
@@ -64,6 +65,8 @@ var b = new Person("Alice", 30); // uses overloaded constructor
 In a static constructor, you cannot use any access specifiers like public, private, and protected.
 
 Static Constructors are responsible for initializing static variables
+
+public by default . access modifier can't be chnaged
 
 Execute only once, i.e when first object is created for the class or when the class is accessed for the first time during the execution of Main method?
 
