@@ -63,11 +63,16 @@ ef core 9
 
 EF Core is a complete rewrite focused on performance and extensibility, while EF6 is for legacy systems, lacking the cross-platform capabilities and ongoing development of EF Core
 
-## Explain Eager Loading vs Lazy Loading vs Explicit Loading.
+## Explain Eager Loading vs Lazy Loading vs Explicit Loading vs Deferred Execution vs Immediate Execution
 
 **Eager Loading**
 
 Related entities are loaded  **immediately** , at the same time as the main entity.
+
+Used when you know you’ll need related data upfront.
+Achieved using Include and ThenInclude.
+Pros: Reduces N+1 query problem.
+Cons: May load unnecessary data if not carefully selected.
 
 Use `.Include()` (and `.ThenInclude()` for deeper levels).
 
@@ -91,9 +96,11 @@ Lazy Loading
 
 Related entities are loaded **only when accessed** for the first time (on demand).
 
-Needs **virtual navigation properties** and **Lazy Loading proxies** (`Microsoft.EntityFrameworkCore.Proxies`).
-
-Can cause **N+1 query problem** if you access many related entities inside loops.
+• Related data is not loaded until accessed.
+• This is the N+1 problem.
+• Needs virtual navigation properties and EF Core proxies enabled.
+• Pros: Loads only when needed.
+• Cons: Performance hit if accessing many related records.
 
 ```csharp
 // Enable Lazy Loading in DbContext
@@ -131,6 +138,8 @@ Explicit Loading
 
 Related entities are loaded  **manually** , by calling `.Entry().Collection().Load()` or `.Entry().Reference().Load()`.
 
+Load related data on demand, manually.
+
 ```csharp
 using (var context = new AppDbContext())
 {
@@ -145,3 +154,105 @@ using (var context = new AppDbContext())
 }
 
 ```
+
+
+Deferred Execution
+• LINQ queries in EF Core are not executed immediately.
+• Execution happens only when you iterate (foreach) or use terminal operators (ToList(), Count(), Any() etc.).
+
+```csharp
+query = query.Where(e => e.Dept == "IT");
+int count = query.Count(); // Executes here
+```
+
+
+ Immediate Execution
+• Query runs right away when operators like Count(), Any(), FirstOrDefault() are used.
+
+```csharp
+int count = context.Employee.Where(e => e.Salary > 50000).Count();
+```
+
+## What are migrations in EF Core?
+
+In  **Entity Framework Core (EF Core)** , **migrations** are a way to keep your **database schema** (tables, columns, relationships) in sync with your **C# entity classes (models)** as they evolve during development.
+
+```csharp
+dotnet ef migrations add AddDateOfBirthToUser
+
+```
+
+```csharp
+dotnet ef database update
+
+```
+
+## How do you handle transactions?
+
+Implicit Transactions (Default)
+
+```csharp
+using (var context = new AppDbContext())
+{
+    context.Users.Add(new User { Name = "Alice" });
+    context.Orders.Add(new Order { Amount = 500 });
+
+    context.SaveChanges(); // All changes saved in one transaction
+}
+
+```
+
+Explicit Transactions
+
+```csharp
+using (var context = new AppDbContext())
+{
+    using (var transaction = context.Database.BeginTransaction())
+    {
+        try
+        {
+            context.Users.Add(new User { Name = "Bob" });
+            context.SaveChanges();
+
+            context.Orders.Add(new Order { Amount = 300 });
+            context.SaveChanges();
+
+            transaction.Commit();  // ✅ Commit if everything succeeds
+        }
+        catch
+        {
+            transaction.Rollback(); // ❌ Rollback if any error
+        }
+    }
+}
+
+```
+
+## Difference between DbContext vs ObjectContext.
+
+* **`ObjectContext`**
+
+  * The **older, lower-level API** introduced with  **EF 1.0** .
+  * Part of the  **Entity Framework’s Object Services API** .
+  * More  **verbose and complex** .
+  * ```csharp
+    using (var context = new SchoolEntities())
+    {
+        ObjectSet<Student> students = context.CreateObjectSet<Student>();
+        var studentList = students.Where(s => s.Age > 18).ToList();
+    }
+
+    ```
+* **`DbContext`**
+
+  * Introduced in **EF 4.1** (the “DbContext API”).
+  * A **wrapper** around `ObjectContext`.
+  * Provides a **simplified, developer-friendly** API.
+  * Became the **standard in EF Core** (where `ObjectContext` doesn’t exist anymore).
+  * ```csharp
+    using (var context = new SchoolDbContext())
+    {
+        var studentList = context.Students.Where(s => s.Age > 18).ToList();
+    }
+
+    ```

@@ -1165,3 +1165,20 @@ Renders a complete view, including the layout page (_Layout.cshtml). It is used 
 PartialViewResult
 
 Renders only a partial view. It does not include a layout page and is used for rendering reusable, smaller, smaller sections of page (eg. a widget or a form).
+
+## what is the difference between web.config and app.config
+
+
+Web.config :
+
+1. Used specifically for ASP.NET web projects, such as web forms, MVC, web APIs, and web services.
+2. Stores configuration settings like connection strings, session states, authentication, authorization, custom error pages, and more—all relevant for web applications.
+3. Multiple web.config files can exist within different folders in a web project for directory-specific settings. The web application auto-loads changes from web.config at runtime.
+4. In .NET Core, web.config is used primarily for IIS configuration when deploying, and appsettings.json is preferred for application settings.
+
+App.config :
+
+1. Used for Windows applications—such as Windows Forms, Console Apps, Windows Services, and WPF applications.
+2. Contains configuration data like connection strings, application settings, and custom sections for non-web-based .NET applications.
+3. Only one app.config file per application. When the app is compiled, it becomes [YourAppName].exe.config.
+4. Changes require restarting the application to take effect, unlike web.config which updates on-the-fly for web apps.

@@ -573,3 +573,9 @@ namespace CrudApiDemo.Controllers
 * **CSP & sanitize inputs** , and avoid storing tokens in sources accessible to JS if you can (prefer HttpOnly cookies).
 * **Rotate signing keys periodically** with a published JWKS and key ids (`kid`).
 * **Limit token scope & audience** (least privilege).
+
+## How do you improve Web API performance? (Caching, async, compression).
+
+## How do you secure Web API endpoints that do not require authentication?
+
+Even without authentication, public Web API endpoints should be  **protected against abuse, misuse, and insecure communication** . Techniques include  **HTTPS, rate limiting, input validation, API keys, CORS, and monitoring** .

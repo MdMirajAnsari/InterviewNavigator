@@ -226,7 +226,26 @@ UnionAll
 * `LIMIT/TOP/FETCH`
 * `DISTINCT`
 * `UNION / UNION ALL`
-
-
 * Difference between **Temporary Table** and  **Table Variable** .
 * What happens if you **don’t commit a transaction** in SQL Server?
+
+## What is a deadlock in SQL? How do you handle it?
+
+A **deadlock** in SQL occurs when **two or more transactions block each other** by holding locks on resources (tables, rows, pages) that the other transactions need.
+
+SQL Hints (Advanced)
+
+* Use **`WITH (NOLOCK)`** for read-only queries (but beware of dirty reads).
+* Use  **`ROWLOCK`** ,  **`UPDLOCK`** ,  **`READPAST`** , etc., carefully to reduce contention.
+* Example:
+* ```
+  SELECT * FROM Accounts WITH (NOLOCK)
+  ```
+
+
+
+## What is the difference between the WHERE and ON clauses in SQL JOINS?
+
+* Use **ON** to match rows between tables.
+* Use **WHERE** to filter the resulting dataset after joining.
+* Especially important for **LEFT/RIGHT joins** — putting filters in WHERE vs ON changes results.

@@ -737,3 +737,5 @@ var data = await httpClient.GetStringAsync(url); // no Task.Run needed
 // CPU-bound
 var result = await Task.Run(() => ComputeLargePrime());
 ```
+
+## Difference between const, readonly, static.

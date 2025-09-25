@@ -165,3 +165,29 @@ var nth = source
   .Skip(n - 1)
   .FirstOrDefault();
 ```
+
+## How can you optimize LINQ queries for performance?
+
+* Filtering early (`Where` before `ToList`)
+* Selecting only needed columns (`Select`)
+* Avoiding N+1 queries (`Include`)
+* Using `AsNoTracking()` for reads
+* Paging (`Skip/Take`)
+* Checking generated SQL (`ToQueryString()`)
+
+## Example of using SelectMany and when it’s useful.
+
+* `Select` → Projects each element into  **one output element** .
+* `SelectMany` → Projects each element into a  **collection** , then **flattens** all collections into a single sequence.
+
+```csharp
+var words = sentences.SelectMany(s => s.Split(' '));
+
+/*
+Result: IEnumerable<string>
+[
+   "Hello", "World", "LINQ", "is", "awesome"
+]
+*/
+
+```
