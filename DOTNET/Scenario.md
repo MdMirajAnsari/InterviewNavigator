@@ -579,3 +579,7 @@ namespace CrudApiDemo.Controllers
 ## How do you secure Web API endpoints that do not require authentication?
 
 Even without authentication, public Web API endpoints should be  **protected against abuse, misuse, and insecure communication** . Techniques include  **HTTPS, rate limiting, input validation, API keys, CORS, and monitoring** .
+
+## Async/await pitfalls — what happens if you call .Result inside async code?
+
+## Middleware ordering in[ASP.NET](http://asp.net/)Core — why does it matter?

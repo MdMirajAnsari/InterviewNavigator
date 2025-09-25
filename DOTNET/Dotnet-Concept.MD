@@ -1182,3 +1182,5 @@ App.config :
 2. Contains configuration data like connection strings, application settings, and custom sections for non-web-based .NET applications.
 3. Only one app.config file per application. When the app is compiled, it becomes [YourAppName].exe.config.
 4. Changes require restarting the application to take effect, unlike web.config which updates on-the-fly for web apps.
+
+## How is memory management handled in .NET (GC generations, IDisposable)?

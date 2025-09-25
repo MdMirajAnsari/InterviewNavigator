@@ -256,3 +256,5 @@ using (var context = new AppDbContext())
     }
 
     ```
+
+## How do you avoid N+1 queries in EF Core?

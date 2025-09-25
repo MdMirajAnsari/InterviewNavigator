@@ -289,8 +289,6 @@ export class ApiDemoComponent implements OnInit {
 
 ```
 
-
-
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { of, from } from 'rxjs';
@@ -337,3 +335,72 @@ export class ApiDemoComponent implements OnInit {
 }
 
 ```
+
+## How do you prevent memory leaks with Observables?
+
+* Observables are **lazy streams** → they keep running until **completed** or  **unsubscribed** .
+* If you don’t unsubscribe, the subscription stays in memory → keeping components/services alive → memory leak.
+
+We prevent memory leaks with Observables by unsubscribing properly, usually using `takeUntil` with a `Subject`, or by using Angular’s `AsyncPipe` which handles subscription cleanup automatically.
+
+
+1. **Unsubscribe Manually (ngOnDestroy)**
+
+```typescript
+subscription!: Subscription;
+
+ngOnInit() {
+  this.subscription = this.myService.getData().subscribe(data => {
+    console.log(data);
+  });
+}
+
+ngOnDestroy() {
+  this.subscription.unsubscribe();
+}
+
+```
+
+Use `takeUntil` with a Subject
+
+```typescript
+private destroy$ = new Subject`<void>`();
+
+ngOnInit() {
+  this.myService.getData()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(data => console.log(data));
+}
+
+ngOnDestroy() {
+  this.destroy$.next();
+  this.destroy$.complete();
+}
+```
+
+3. **Use `AsyncPipe` in Templates**
+
+   ```typescript
+   <div *ngIf="myService.getData() | async as data">
+     {{ data }}
+   </div>
+
+   ```
+
+
+5. **Use Higher-Order Mapping (`switchMap`)**
+
+* Cancels previous subscription automatically when new value comes in.
+* ```typescript
+  this.searchForm.valueChanges
+    .pipe(
+      debounceTime(300),
+      switchMap(term => this.myService.search(term))
+    )
+    .subscribe(results => console.log(results));
+
+  ```
+
+## Why use trackBy in *ngFor and what happens if you skip it?
+
+## How do you optimize Angular for performance in production?

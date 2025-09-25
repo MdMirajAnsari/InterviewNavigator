@@ -346,11 +346,13 @@ Directives: Structural directives like *ngIf and *ngFor often work with data bin
 Angular Services are injectable classes that encapsulate reusable logic such as data access (HTTP), business rules, state management, or utilities. Services are provided via Angular's Dependency Injection (DI) and are typically singletons when registered at the root level.
 
 Key points:
+
 - Share logic/data across components.
 - Promote separation of concerns (keep components lean).
 - Scope via providers: root (singleton), module, or component-level.
 
 Example: service and usage
+
 ```typescript
 // my.service.ts
 import { Injectable } from '@angular/core';
@@ -378,6 +380,7 @@ export class UsersComponent implements OnInit {
 ```
 
 Scoping a service to a component (new instance per component subtree):
+
 ```typescript
 @Component({
   selector: 'scoped-example',
@@ -388,6 +391,7 @@ export class ScopedExampleComponent {}
 ```
 
 Best practices:
+
 - Keep services stateless where possible; if stateful, document lifetime.
 - Prefer `providedIn: 'root'` for app-wide singletons and tree-shaking.
 - Use interfaces/tokens for configuration and testing flexibility.
@@ -495,7 +499,7 @@ ngAfterViewInit() {
 
 ## Difference between ContentChild and ContentChildren
 
-- ContentChild/ContentChildren: Query projected content (inside <ng-content>) from a parent using content projection.
+- ContentChild/ContentChildren: Query projected content (inside `<ng-content>`) from a parent using content projection.
 
 ```typescript
 // child component
@@ -541,6 +545,7 @@ ngAfterViewInit() {
 - Reactive forms: Defined in code with `FormGroup`/`FormControl`, better for complex validation and testability.
 
 Template-driven example:
+
 ```html
 <form #f="ngForm" (ngSubmit)="submit(f.value)">
   <input name="email" ngModel required email />
@@ -549,6 +554,7 @@ Template-driven example:
 ```
 
 Reactive example:
+
 ```typescript
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -599,6 +605,7 @@ Reactive Form Example
 Angular components have lifecycle hooks you can tap into to run code at key moments.
 
 Common hooks (in call order):
+
 - ngOnChanges(changes): when @Input values change
 - ngOnInit(): once after first @Input set
 - ngDoCheck(): custom change detection
@@ -607,6 +614,7 @@ Common hooks (in call order):
 - ngOnDestroy(): before component is destroyed (cleanup)
 
 Example logging hooks:
+
 ```typescript
 import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 
@@ -620,6 +628,7 @@ export class LifeComponent implements OnInit, OnDestroy, OnChanges, AfterViewIni
 ```
 
 Cleanup pattern:
+
 ```typescript
 private destroy$ = new Subject<void>();
 
@@ -637,10 +646,12 @@ ngOnDestroy() {
 The `async` pipe subscribes to an Observable/Promise in the template and renders the latest value. It also handles unsubscribe automatically.
 
 Benefits:
+
 - Auto-subscribe/unsubscribe
 - Triggers change detection on emissions (works well with OnPush)
 
 Example with Observable:
+
 ```typescript
 // component.ts
 import { Component } from '@angular/core';
@@ -653,6 +664,7 @@ export class CounterComponent {
 ```
 
 Example with HTTP:
+
 ```typescript
 // component.ts
 users$ = this.http.get<User[]>('/api/users');
@@ -783,11 +795,12 @@ ng build --aot    # Angular Ahead-of-Time build
 Angular runs change detection (CD) to keep the view in sync with data. The strategy controls when a component checks for changes.
 
 - Default (CheckAlways):
+
   - CD runs for the whole component tree on many triggers (events, XHRs, setTimeout, zone-aware tasks).
   - Any parent update propagates to all children.
   - Easiest, but more work per change.
-
 - OnPush:
+
   - CD runs for the component only when one of these happens:
     - An @Input reference changes (new object/array/primitive value).
     - An event originates inside the component (e.g., (click)).
@@ -796,6 +809,7 @@ Angular runs change detection (CD) to keep the view in sync with data. The strat
   - Skips checks if inputs are the same reference → better performance.
 
 Example (Default vs OnPush):
+
 ```typescript
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
@@ -844,6 +858,7 @@ export class ParentComponent {
 ```
 
 OnPush with async pipe (auto-updates on emission):
+
 ```typescript
 @Component({
   selector: 'onpush-stream',
@@ -856,6 +871,7 @@ export class OnPushStreamComponent {
 ```
 
 Manual triggers (advanced):
+
 ```typescript
 constructor(private cdr: ChangeDetectorRef) {}
 
@@ -866,6 +882,7 @@ ngAfterViewInit() {
 ```
 
 Guidance:
+
 - Prefer OnPush for performance-critical trees and immutable patterns.
 - Replace objects/arrays instead of mutating to trigger OnPush.
 - Use `async` pipe for streams; avoids manual subscription and triggers CD on emission.
@@ -890,7 +907,6 @@ export class SquarePipe implements PipeTransform {
 
 ```
 
-
 * **Definition:** Impure pipes execute  **every time change detection runs** , regardless of whether the input changed.
 * **Use Case:** Useful for **mutable objects or arrays** that change internally but maintain the same reference.
 * **Declaration:** Set `pure: false` in the `@Pipe` decorator.
@@ -907,3 +923,5 @@ export class FilterPipe implements PipeTransform {
 }
 
 ```
+
+## What are Subjects vs BehaviorSubjects vs ReplaySubjects?

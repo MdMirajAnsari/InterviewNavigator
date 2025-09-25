@@ -739,3 +739,28 @@ var result = await Task.Run(() => ComputeLargePrime());
 ```
 
 ## Difference between const, readonly, static.
+
+## Explain parallel programming
+
+Parallel programming is a technique where a problem is divided into **smaller independent tasks** that run **simultaneously** on multiple processors/cores.
+
+1. **Task Parallel Library (TPL)**
+
+   ```csharp
+   using System.Threading.Tasks;
+
+   Parallel.For(0, 10, i =>
+   {
+       Console.WriteLine($"Task {i} running on thread {Task.CurrentId}");
+   });
+
+   ```
+2. **PLINQ (Parallel LINQ)**
+
+   ```csharp
+   var numbers = Enumerable.Range(1, 1000);
+   var squares = numbers.AsParallel().Select(n => n * n).ToList();
+
+   ```
+
+## What is the difference between ref, out, and in parameters in C#?
