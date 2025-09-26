@@ -582,4 +582,4 @@ Even without authentication, public Web API endpoints should be  **protected aga
 
 ## Async/await pitfalls — what happens if you call .Result inside async code?
 
-## Middleware ordering in[ASP.NET](http://asp.net/)Core — why does it matter?
+## Middleware ordering in ASP.NET Core — why does it matter?
