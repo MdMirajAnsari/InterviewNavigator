@@ -1,5 +1,6 @@
 ## Method Syntax and Query Syntax
 
+```csharp
 var evenNumbers = numbers
 
 .Where(n => n % 2 ==0);
@@ -9,6 +10,7 @@ var evenNumbers = from number in numbers
     where number % 2 == 0
 
     select number;
+```
 
 ## Deferred Execution
 

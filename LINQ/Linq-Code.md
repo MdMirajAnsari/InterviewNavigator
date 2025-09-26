@@ -17,7 +17,7 @@ foreach (var d in duplicates)
 
 ## Remove Duplicate
 
-```
+```csharp
 using System;
 using System.Linq;
 
@@ -44,7 +44,6 @@ var distinctById = people
     .GroupBy(p => p.Id)
     .Select(g => g.First());
 ```
-
 
 ## **Get even/odd numbers from list using LINQ** .
 

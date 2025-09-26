@@ -56,6 +56,8 @@ In HTML5, a manifest file (specifically an Application Cache Manifest file, ofte
 
 ## What is the Geolocation API in HTML5?
 
+The **Geolocation API in HTML5** is a web API that allows web applications to access the geographical location of a user's device.
+
 ## What do *DOCTYPE* and *html lang* attributes do?
 
 The `<!DOCTYPE html>` declaration and the `lang` attribute on the `<html>` tag serve distinct but important purposes in an HTML document:
