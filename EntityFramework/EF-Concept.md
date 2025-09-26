@@ -35,7 +35,7 @@ await context.Entry(product)
     .LoadAsync();
 ```
 
-how to implement transaction in ef core?
+## how to implement transaction in ef core?
 
 ```csharp
 using var tx = await context.Database.BeginTransactionAsync();
@@ -155,7 +155,6 @@ using (var context = new AppDbContext())
 
 ```
 
-
 Deferred Execution
 • LINQ queries in EF Core are not executed immediately.
 • Execution happens only when you iterate (foreach) or use terminal operators (ToList(), Count(), Any() etc.).
@@ -164,7 +163,6 @@ Deferred Execution
 query = query.Where(e => e.Dept == "IT");
 int count = query.Count(); // Executes here
 ```
-
 
  Immediate Execution
 • Query runs right away when operators like Count(), Any(), FirstOrDefault() are used.
@@ -258,3 +256,7 @@ using (var context = new AppDbContext())
     ```
 
 ## How do you avoid N+1 queries in EF Core?
+
+1. **Use Eager Loading with `Include`**
+2. Use Explicit Loading (Selective)
+3. Use Projection (`Select`)
