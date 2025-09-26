@@ -16,7 +16,7 @@ Flexibility: Modular bounded contexts allow the system to adapt to changing busi
 
 Maintainability: Clear boundaries and encapsulated logic make the codebase easier to maintain and evolve.
 
-## **CQRS**(Command **Query **Responsibility**Segregation)**
+## **CQRS**(Command Query Responsibility **Segregation)**
 
 CQRS (Command Query Responsibility Segregation) is a design pattern that separates the read and write operations of a system into two distinct models:
 
@@ -352,11 +352,27 @@ The term comes from the **motorcycle sidecar** 🏍️ → the main service is t
 
 ## Adaptor Pattern
 
+The **Adapter Pattern** (also called  **Wrapper Pattern** ) is a **structural design pattern** that allows objects with **incompatible interfaces** to work together.
+
 ## Strangler Pattern
 
 The Strangler Pattern (or Strangler Fig Pattern) is a software engineering approach used to incrementally replace an existing system (often a legacy system) with a new one. Instead of a complete, high-risk rewrite, the pattern involves gradually building new functionality around the edges of the old system, slowly "strangling" it until the legacy system is fully replaced or significantly reduced.
 
 ## CAP theorem
+
+The **CAP theorem** (also called  **Brewer’s theorem** ) is a fundamental principle in  **distributed systems** .
+
+It states that a distributed database system can only guarantee **two out of three** properties at the same time:
+
+1. **C – Consistency**
+
+   Every read receives the most recent write (all nodes see the same data at the same time).
+2. **A – Availability**
+
+   Every request receives a (non-error) response — but it might not be the most recent data.
+3. **P – Partition Tolerance**
+
+   The system continues to operate even if network failures occur that split communication between nodes.
 
 ## HLD and LLD
 
