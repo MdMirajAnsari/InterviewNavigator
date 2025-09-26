@@ -261,6 +261,85 @@ WHERE department = 'Sales';
 END
 ```
 
+## FUNCTION
+
+**Scalar Function** → returns a single value
+
+**Table-Valued Function (TVF)** → returns a table
+
+```sql
+-- Create Scalar Function
+CREATE FUNCTION dbo.GetAge (@DOB DATE)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Age INT;
+    SET @Age = DATEDIFF(YEAR, @DOB, GETDATE());
+
+    -- Adjust if birthday hasn’t occurred yet this year
+    IF (MONTH(@DOB) > MONTH(GETDATE())) 
+       OR (MONTH(@DOB) = MONTH(GETDATE()) AND DAY(@DOB) > DAY(GETDATE()))
+       SET @Age = @Age - 1;
+
+    RETURN @Age;
+END;
+GO
+
+-- Using the function
+SELECT dbo.GetAge('1995-09-27') AS Age;
+
+```
+
+```sql
+-- Create Inline TVF
+CREATE FUNCTION dbo.GetEmployeesByDept (@DeptId INT)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT EmployeeID, Name, DepartmentID
+    FROM Employees
+    WHERE DepartmentID = @DeptId
+);
+GO
+
+-- Using the function
+SELECT * FROM dbo.GetEmployeesByDept(2);
+
+```
+
+## TRIGGER
+
+```sql
+CREATE TRIGGER trgAfterInsert
+ON Employees
+AFTER INSERT
+AS
+BEGIN
+    PRINT 'A new employee has been added';
+END
+```
+
+```sql
+CREATE TRIGGER trgInsteadOfDelete
+ON Employees
+INSTEAD OF DELETE
+AS
+BEGIN
+    PRINT 'Delete prevented. Use HR approval first.';
+END
+```
+
+## VIEW
+
+```sql
+CREATE VIEW vw_EmployeeSalary
+AS
+SELECT Name, Salary
+FROM Employees;
+
+```
+
 ## friend salary
 
 ```sql
