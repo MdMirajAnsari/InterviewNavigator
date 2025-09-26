@@ -160,6 +160,60 @@ Desctructor is called implicitily
 
 can can call destructor explicilty by using GC.Collect();
 
+## **Abstract class**
+
+Abstract class is a parent class
+
+we cannot create instance of abstract class
+
+can inherit from other class
+
+Abstract Method:- Parent class don't want to provide defination of method, abstract method can be declared in abstract class only. its compulsary to override abstract method in child class.
+
+## Interface
+
+Interface methods are default "public" and "abstract"
+
+we cannot create object of interface and abstract class
+
+cannot inherit from other class
+
+Explicit Interface 
+
+```csharp
+public interface IPrinter
+{
+    void Print();
+}
+
+public interface IScanner
+{
+    void Print();
+}
+
+public class Machine : IPrinter, IScanner
+{
+    // Explicit implementation for IPrinter
+    void IPrinter.Print()
+    {
+        Console.WriteLine("Printing from IPrinter");
+    }
+
+    // Explicit implementation for IScanner
+    void IScanner.Print()
+    {
+        Console.WriteLine("Printing from IScanner");
+    }
+}
+
+```
+
+## Polymorphism
+
+compile Time- Method overloading, early binding
+
+run time- Methid Overriding, late binding
+
 ## **What is Garbage Collection in .NET Framework?**
 
 ###### Garbage Collector is nothing but a feature provided by CLR that helps us clean or destroy unused managed objects. Cleaning or destroying those unused managed objects basically reclaims the memory.
