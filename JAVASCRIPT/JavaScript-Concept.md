@@ -314,12 +314,10 @@ greet();  // ✅ Works (after definition)
 
 ```
 
-
 * **Function declaration** = named, hoisted, available everywhere in scope.
 * **Function expression** = assigned to variable, not hoisted (must be defined before use).
 
 ## What is symbol in Javascript?
-
 
 * A **Symbol** is a **primitive data type** (introduced in ES6).
 * It represents a  **unique and immutable value** .
@@ -336,8 +334,8 @@ console.log(sym2 === sym3); // false (each symbol is unique)
 
 ## Difference between Array.some() and Array.every()?
 
-* `some()` → **at least one** must match 
-* `every()` → **all must match** 
+* `some()` → **at least one** must match
+* `every()` → **all must match**
 
 ```javascript
 const nums = [10, 20, 30, 40];
@@ -346,3 +344,15 @@ console.log(nums.some(n => n > 25));  // true  (30, 40 are > 25)
 console.log(nums.every(n => n > 25)); // false (10 and 20 are not > 25)
 
 ```
+
+## Major ES6 Features
+
+Destructuring Assignment
+
+```javascript
+const [a, b] = [1, 2];
+const {name, age} = {name: "John", age: 25};
+
+```
+
+Arrow Functions
