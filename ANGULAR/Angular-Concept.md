@@ -925,3 +925,158 @@ export class FilterPipe implements PipeTransform {
 ```
 
 ## What are Subjects vs BehaviorSubjects vs ReplaySubjects?
+
+### Subject
+
+A Subject is a special type of Observable that allows values to be multicasted to many Observers. It's like an EventEmitter, but it's the only way of making any Observable execution be shared among multiple subscribers.
+
+**Key Characteristics:**
+
+- **No initial value** - starts empty
+- **Hot Observable** - emits values only after subscription
+- **Multicast** - can have multiple subscribers
+- **Manual emission** - values are emitted using `next()`
+
+```typescript
+import { Subject } from 'rxjs';
+
+const subject = new Subject<string>();
+
+// Subscribers
+subject.subscribe(value => console.log('Subscriber 1:', value));
+subject.subscribe(value => console.log('Subscriber 2:', value));
+
+// Emit values
+subject.next('Hello');
+subject.next('World');
+
+// Output:
+// Subscriber 1: Hello
+// Subscriber 2: Hello
+// Subscriber 1: World
+// Subscriber 2: World
+```
+
+### BehaviorSubject
+
+BehaviorSubject is a variant of Subject that requires an initial value and emits its current value whenever it is subscribed to.
+
+**Key Characteristics:**
+
+- **Has initial value** - must provide initial value
+- **Current value access** - new subscribers get the last emitted value immediately
+- **State management** - perfect for holding application state
+- **getValue()** method to get current value
+
+```typescript
+import { BehaviorSubject } from 'rxjs';
+
+const behaviorSubject = new BehaviorSubject<number>(0); // Initial value: 0
+
+// First subscriber gets initial value immediately
+behaviorSubject.subscribe(value => console.log('Subscriber 1:', value)); // Output: 0
+
+behaviorSubject.next(1);
+behaviorSubject.next(2);
+
+// Second subscriber gets the last emitted value
+behaviorSubject.subscribe(value => console.log('Subscriber 2:', value)); // Output: 2
+
+// Get current value without subscribing
+console.log('Current value:', behaviorSubject.getValue()); // Output: 2
+```
+
+### ReplaySubject
+
+ReplaySubject is a variant of Subject that replays old values to new subscribers. It can replay a specific number of values or all values within a time window.
+
+**Key Characteristics:**
+
+- **Replays old values** - new subscribers get previous emissions
+- **Configurable buffer** - can specify how many values to replay
+- **Time-based replay** - can replay values within a time window
+- **No initial value** - starts empty but replays previous values
+
+```typescript
+import { ReplaySubject } from 'rxjs';
+
+// Replay last 2 values
+const replaySubject = new ReplaySubject<number>(2);
+
+replaySubject.next(1);
+replaySubject.next(2);
+replaySubject.next(3);
+
+// New subscriber gets last 2 values
+replaySubject.subscribe(value => console.log('Subscriber:', value));
+// Output: 2, 3
+
+// Time-based replay (replay values from last 1000ms)
+const timeReplaySubject = new ReplaySubject<number>(undefined, 1000);
+
+timeReplaySubject.next(1);
+setTimeout(() => timeReplaySubject.next(2), 500);
+setTimeout(() => timeReplaySubject.next(3), 1500);
+
+setTimeout(() => {
+  timeReplaySubject.subscribe(value => console.log('Time subscriber:', value));
+  // Output: 2, 3 (only values from last 1000ms)
+}, 2000);
+```
+
+### Comparison Table
+
+|  |  |  |  |
+| - | - | - | - |
+
+### Practical Use Cases
+
+**Subject - Event Broadcasting:**
+
+```typescript
+// User actions
+const userActionSubject = new Subject<string>();
+
+userActionSubject.subscribe(action => {
+  console.log('User performed:', action);
+});
+
+// Emit when user clicks
+userActionSubject.next('button-clicked');
+```
+
+**BehaviorSubject - Application State:**
+
+```typescript
+// User authentication state
+const authState = new BehaviorSubject<boolean>(false);
+
+// Components can get current state immediately
+authState.subscribe(isLoggedIn => {
+  console.log('User logged in:', isLoggedIn);
+});
+
+// Update state
+authState.next(true);
+```
+
+**ReplaySubject - Data Caching:**
+
+```typescript
+// API data caching
+const apiDataSubject = new ReplaySubject<any[]>(1);
+
+// First API call
+apiDataSubject.next([{id: 1, name: 'John'}]);
+
+// Later subscribers get cached data
+apiDataSubject.subscribe(data => {
+  console.log('Cached data:', data);
+});
+```
+
+## What is Zone.js?
+
+Zone.js is a library that provides a mechanism to intercept and keep track of asynchronous operations in JavaScript. It's the foundation of Angular's change detection system and enables automatic change detection when asynchronous operations complete.
+
+Zone.js is essential for Angular's automatic change detection and provides a powerful way to monitor and control asynchronous operations in JavaScript applications.
