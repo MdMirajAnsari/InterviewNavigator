@@ -51,7 +51,6 @@ A sequence is an object in SQL Server that is used to generate a number sequence
 
 The Sequence Object is one of the new features introduced in SQL Server 2012. A sequence is a user-defined object and as its name suggests it generates a sequence of numeric values according to the properties with which it is created. It is similar to the Identity column, but there are many differences between them that we will discuss in our next article. But the most important point to keep in mind is that the Sequence Object in SQL Server is not limited to a column or table but is scoped to an entire database.
 
-
 ## Trigger
 
 A **trigger** is a special type of **stored procedure** in SQL Server that automatically **executes in response to certain events** on a table or view.
@@ -248,3 +247,7 @@ SQL Hints (Advanced)
 * Use **ON** to match rows between tables.
 * Use **WHERE** to filter the resulting dataset after joining.
 * Especially important for **LEFT/RIGHT joins** — putting filters in WHERE vs ON changes results.
+
+## What is NOCOUNT ?
+
+In SQL Server, `SET NOCOUNT` is a **session setting** often used inside stored procedures, triggers, or batches to control whether SQL Server sends back the message about the number of rows affected by a T-SQL statement.
