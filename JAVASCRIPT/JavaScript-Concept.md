@@ -356,3 +356,32 @@ const {name, age} = {name: "John", age: 25};
 ```
 
 Arrow Functions
+
+## What is Callback hell in JavaScript?
+
+Callback Hell in **JavaScript** refers to a situation where multiple asynchronous operations are nested inside each other using **callbacks**
+
+```javascript
+getUser(function(user) {
+    getOrders(user.id, function(orders) {
+        getOrderDetails(orders[0].id, function(details) {
+            processPayment(details, function(result) {
+                console.log("Payment processed:", result);
+            });
+        });
+    });
+});
+
+```
+
+Solutions to Callback Hell:
+
+```javascript
+getUser()
+  .then(user => getOrders(user.id))
+  .then(orders => getOrderDetails(orders[0].id))
+  .then(details => processPayment(details))
+  .then(result => console.log("Payment processed:", result))
+  .catch(err => console.error(err));
+
+```
