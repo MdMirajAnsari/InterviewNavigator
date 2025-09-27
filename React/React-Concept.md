@@ -155,6 +155,7 @@ USELOCATION
 `useLocation` (from React Router) returns the current location object (pathname, search, hash, state). Useful to react to URL changes.
 
 **Example:**
+
 ```javascript
 import { useLocation } from 'react-router-dom';
 
@@ -169,6 +170,7 @@ USECALLBACK
 `useCallback(fn, deps)` memoizes a function so its identity is stable between renders unless dependencies change. Helps avoid unnecessary re-renders in children.
 
 **Example:**
+
 ```javascript
 import { useState, useCallback, memo } from 'react';
 
@@ -195,6 +197,7 @@ USECONTEXT
 `useContext(MyContext)` reads the nearest Provider value to avoid prop drilling.
 
 **Example:**
+
 ```javascript
 import { createContext, useContext } from 'react';
 
@@ -219,6 +222,7 @@ USEIMPERATIVEHANDLE
 `useImperativeHandle(ref, createHandle)` customizes the instance value exposed to parent refs. Use with `forwardRef` for imperative methods.
 
 **Example:**
+
 ```javascript
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 
@@ -240,13 +244,17 @@ export default function Form() {
 ```
 
 ## CONTEXT API
+
 Context API lets you share values (e.g., theme, auth) across the component tree without prop drilling. Provide at a high level, consume with `useContext`.
 
 **When to use:** Shared config or state read by many components. For complex state/side effects, consider Redux or other state libs.
+
 ## **What is React Router?**
+
 Client-side routing library for React that maps URLs to components without full page reloads. Provides components/hooks for navigation and route data.
 
 **Example (v6):**
+
 ```javascript
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
@@ -262,37 +270,115 @@ function App() {
   );
 }
 ```
+
 ## ****What is prop drilling and its disadvantages?****
+
 Prop drilling is passing props through multiple layers to reach a deeply nested child that needs them.
 
 **Disadvantages:**
+
 * Noisy/boilerplate; brittle to refactors; intermediate components receive unused props; performance concerns.
 
 **Alternatives:** Context API, custom hooks, state libraries (Redux, Zustand).
+
 ## What is Reonciliation in React?
+
 Reconciliation is React’s process of diffing the new element tree against the previous one to compute minimal DOM updates. React assumes same-type elements have similar trees and uses `key` to match list items.
 
 **Tips:** Provide stable `key`s, avoid index keys for reordering lists.
+
 ## Explain Strict Mode in React.
+
 `<React.StrictMode>` enables extra checks in development: highlights unsafe lifecycles, warns about legacy APIs, intentionally double-invokes some functions to surface side effects. No effect in production.
+
 ## What are error boundaries?
-Components that catch JavaScript errors in their child tree and render a fallback UI.
+
+In  **React** , an **Error Boundary** is a special type of component that is used to **catch JavaScript errors** in its child component tree, log those errors, and display a fallback UI instead of breaking the entire React app.
 
 **Example:**
+
 ```javascript
-import React from 'react';
+import React from "react";
 
 class ErrorBoundary extends React.Component {
-  constructor(props) { super(props); this.state = { hasError: false }; }
-  static getDerivedStateFromError() { return { hasError: true }; }
-  componentDidCatch(error, info) { console.error(error, info); }
-  render() { return this.state.hasError ? <h2>Something went wrong.</h2> : this.props.children; }
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so fallback UI shows
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    // Log error details
+    console.error("Error caught by boundary:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h2>Something went wrong.</h2>;
+    }
+    return this.props.children;
+  }
 }
+
+export default ErrorBoundary;
+
 ```
+
+```javascript
+<ErrorBoundary>
+  <MyComponent />
+</ErrorBoundary>
+
+```
+
+
+
+Currently, **function components cannot directly be Error Boundaries** because they don’t have lifecycle methods.
+
+But you can use the [`react-error-boundary`](https://www.npmjs.com/package/react-error-boundary) library, which provides hooks (`useErrorHandler`) and a ready-made `ErrorBoundary` component.
+
+```javascript
+import { ErrorBoundary } from "react-error-boundary";
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert" style={{ color: "red" }}>
+      <p>⚠️ Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
+}
+
+function BuggyComponent() {
+  throw new Error("Boom! Component crashed 🚨");
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        // Reset state or retry logic
+      }}
+    >
+      <BuggyComponent />
+    </ErrorBoundary>
+  );
+}
+
+```
+
 ## How do you handle side effects in React components?
+
 Use `useEffect` for async tasks, subscriptions, timers, and DOM mutations; return a cleanup function to unsubscribe.
 
 **Example:**
+
 ```javascript
 import { useEffect, useState } from 'react';
 
@@ -308,18 +394,24 @@ function Users() {
   return users.map(u => <div key={u.id}>{u.name}</div>);
 }
 ```
+
 ## What are the lifecycle methods of React?
+
 Class components:
+
 * Mounting: `constructor`, `static getDerivedStateFromProps`, `render`, `componentDidMount`
 * Updating: `shouldComponentUpdate`, `render`, `getSnapshotBeforeUpdate`, `componentDidUpdate`
 * Unmounting: `componentWillUnmount`
 * Error: `static getDerivedStateFromError`, `componentDidCatch`
 
 In function components, use effects to model lifecycle-like behavior.
+
 ## How to pass data between sibling components using React router?
+
 Use a shared parent (lift state), global store, or pass via navigation state/query.
 
 **Example (navigate state):**
+
 ```javascript
 // Sender
 import { useNavigate } from 'react-router-dom';
@@ -335,22 +427,32 @@ function B() {
   return <div>{state?.msg}</div>;
 }
 ```
+
 What is the difference between state and props in React?
 **State:** Internal, mutable by the component (via `setState`/hooks), controls behavior/UI.
 
 **Props:** External, read-only inputs passed from parent to child.
+
 ## What is the difference between `useEffect` and `useLayoutEffect` in React?
+
 `useEffect` runs after paint, non-blocking; good for async and non-visual side effects.
 
 `useLayoutEffect` runs synchronously after DOM mutations but before paint; use for measurement/sync DOM updates to avoid flicker. Avoid on server.
+
 ## What is `forwardRef()` in React used for?
+
 Allows a parent to pass a `ref` to a child’s DOM node or imperative API. Combine with `useImperativeHandle` to expose controlled methods.
+
 ## Explain what React hydration is
+
 Hydration attaches event listeners to server-rendered HTML on the client, making it interactive without re-rendering from scratch. Used in SSR/SSG frameworks (Next.js, Remix).
+
 ## What are React Portals used for?
+
 Render children into a DOM node outside the parent hierarchy (e.g., modals, tooltips) while preserving React event bubbling.
 
 **Example:**
+
 ```javascript
 import { createPortal } from 'react-dom';
 
@@ -359,10 +461,13 @@ function Modal({ children }) {
   return createPortal(children, root);
 }
 ```
+
 ## How do you localize React applications?
+
 Use i18n libraries (e.g., `react-i18next`). Store translations per locale and wrap the app with a provider.
 
 **Example (react-i18next gist):**
+
 ```javascript
 import { useTranslation, I18nextProvider } from 'react-i18next';
 
@@ -371,22 +476,33 @@ function Hello() {
   return <h2>{t('hello')}</h2>;
 }
 ```
+
 ## What is code splitting in a React application?
+
 Split bundles so users download only what they need. Use dynamic `import()` with `React.lazy` and `Suspense`.
 
 **Example:** See lazy loading section above.
+
 ## What is the Flux pattern and what are its benefits?
+
 Unidirectional data flow pattern: Actions → Dispatcher → Stores → View. Ensures predictable updates and simplifies reasoning about state changes.
 
 Redux was inspired by Flux and formalizes many of its ideas.
+
 ## What is React Fiber and how is it an improvement over the previous approach?
+
 Fiber reimplemented React’s reconciliation to break rendering into units of work with priorities, enabling interruption, resumption, and better scheduling (concurrent features, Suspense). Improves responsiveness over the older stack reconciler.
+
 ## What are forms in React?
+
 You can build forms as controlled (state-driven) or uncontrolled (DOM-driven via refs). Controlled forms ease validation and conditional UI; uncontrolled forms are simpler for basic cases or non-React integrations.
+
 ## How would you lift the state up in a React application, and why is it necessary?
+
 Lift the state to the nearest common ancestor so sibling components can share and coordinate data.
 
 **Example:**
+
 ```javascript
 function Parent() {
   const [value, setValue] = useState('');
@@ -398,35 +514,45 @@ function Parent() {
   );
 }
 ```
+
 ## What are Pure Components?
+
 Class `React.PureComponent` does a shallow comparison of props/state to skip re-renders. For function components, use `React.memo`.
 
 **Example:**
+
 ```javascript
 const Item = React.memo(function Item({ name }) {
   return <div>{name}</div>;
 });
 ```
+
 ## What is the role of PropTypes in React?
+
 Runtime props type-checking for components; helps catch bugs during development.
 
 **Example:**
+
 ```javascript
 import PropTypes from 'prop-types';
 
 function User({ name, age }) { return <div>{name} ({age})</div>; }
 User.propTypes = { name: PropTypes.string.isRequired, age: PropTypes.number };
 ```
+
 ## What is the difference between `createElement` and `cloneElement`?
+
 `React.createElement(type, props, ...children)` creates a new element.
 
 `React.cloneElement(element, props, ...children)` clones an existing element, merging new props/children and preserving `key`/`ref`.
 
 **Example:**
+
 ```javascript
 const el = React.createElement('button', { className: 'a' }, 'Click');
 const cloned = React.cloneElement(el, { className: 'b' }); // class becomes 'b'
 ```
+
 ## What are stateless components?
 
 Stateless components in React are components that do not manage or hold their own state. They receive data and behavior exclusively through props and render UI based on those props. Typically, stateless components are implemented as functions (function components).
