@@ -706,7 +706,7 @@ export default function Dashboard() {
 
 ## How would you handle form validation in React?
 
-Options: controlled inputs with custom rules, or libraries like `react-hook-form` + schema (`Yup`/`Zod`).
+Options: controlled inputs with custom rules, or libraries like 
 
 Formik + Yup
 
