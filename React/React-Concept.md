@@ -23,37 +23,56 @@ You can use it to fetch data, update state, and handle cleanup (e.g., aborting r
 
 ## 3. Explain the concept of controlled and uncontrolled components in React.
 
-In React, controlled and uncontrolled components refer to how form inputs (like `<input>`, `<textarea>`, or `<select>`) are managed in terms of their value and state. The distinction lies in whether React's state is the single source of truth for the input's value (controlled) or if the DOM itself manages the input's value (uncontrolled).
-**Controlled Components**
-Definition: A controlled component is a form input where the value is controlled by React state. The input's value is set by a state variable, and any changes to the input are handled by updating that state via an event handler (e.g., onChange).
-How It Works:The input’s value prop is tied to a state variable.
-An onChange handler updates the state whenever the user interacts with the input.
-React re-renders the component with the updated state, keeping the input’s value in sync.
+Controlled:- The value of the input is  **controlled by state** .
 
-Key Characteristics:
-The state is the single source of truth.
-You have full control over the input’s value and can manipulate it programmatically.
-Useful for validating input, formatting data, or conditionally rendering based on input values.
+An **uncontrolled component** is when the  **DOM itself keeps track of the form input value** , not React.
 
-**Uncontrolled Components**
-Definition: An uncontrolled component is a form input where the value is managed by the DOM itself, not React state. You access the input’s value using a ref or directly from the DOM when needed (e.g., on form submission).
-How It Works:The input’s value prop is not set by React state.
-A ref (created with useRef) is used to access the input’s DOM node and retrieve its value.
-React does not control the input’s value during user interactions; the DOM handles it.
+* Instead of `useState`, you use a **ref** to access the input value when needed.
 
-Key Characteristics:
-The DOM is the source of truth for the input’s value.
-Less React involvement, as state updates aren’t required for every change.
-Useful for simple forms or when integrating with non-React libraries.
+```javascript
+import { useRef } from "react";
+
+export default function UncontrolledInput() {
+  const inputRef = useRef();
+
+  const handleSubmit = () => {
+    alert("Name: " + inputRef.current.value); // access DOM directly
+  };
+
+  return (
+    <div>
+      <input type="text" ref={inputRef} />   {/* uncontrolled */}
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+
+```
 
 ## 4. What are higher-order components (HOCs) in React, and how are they used?
 
-A Higher-Order Component (HOC) in React is a design pattern used to reuse component logic. It is a function that takes a component as an argument and returns a new component with enhanced functionality. HOCs are a way to share behavior or logic across multiple components without duplicating code, leveraging React’s compositional nature.
-Definition: An HOC is a function that wraps a component to add additional props, state, or behavior, returning a new component.
-Key Characteristics:
-HOCs are not part of React’s API but are a pattern that emerges from React’s functional composition.
-They are pure functions with no side effects, taking a component and returning a new one.
-They are commonly used for cross-cutting concerns like authentication, logging, or data fetching.
+A **Higher-Order Component (HOC)** is a  **function that takes a component as input and returns a new component with additional props, logic, or functionality** .
+
+```javascript
+// HOC function
+function withLoader(WrappedComponent) {
+  return function EnhancedComponent({ loading, ...props }) {
+    if (loading) return <p>Loading...</p>;
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Example usage
+function UserList({ users }) {
+  return <ul>{users.map((u) => <li key={u}>{u}</li>)}</ul>;
+}
+
+const UserListWithLoader = withLoader(UserList);
+
+// In App
+<UserListWithLoader loading={true} users={["Alice", "Bob"]} />
+
+```
 
 ## JSX
 
@@ -95,13 +114,13 @@ managing state
 
 ## USEREDUCER
 
-`useReducer` is a React Hook for managing complex state logic in functional components. It is an alternative to `useState` and is useful when state transitions depend on previous state or when multiple state variables are updated together.
+`useReducer` is a **React hook** used to manage **complex state logic** inside a functional component.
 
-**How it works:**
+It’s an  **alternative to `useState`** , especially when:
 
-- You define a reducer function that takes the current state and an action, and returns the new state.
-- You call `useReducer(reducer, initialState)` to get the current state and a dispatch function.
-- Dispatching actions triggers the reducer to update the state.
+* State has **multiple sub-values** (e.g., objects, arrays).
+* Updates depend on the  **previous state** .
+* You want Redux-like state management  **inside a single component** .
 
 **Example:**
 
@@ -335,8 +354,6 @@ export default ErrorBoundary;
 
 ```
 
-
-
 Currently, **function components cannot directly be Error Boundaries** because they don’t have lifecycle methods.
 
 But you can use the [`react-error-boundary`](https://www.npmjs.com/package/react-error-boundary) library, which provides hooks (`useErrorHandler`) and a ready-made `ErrorBoundary` component.
@@ -441,7 +458,25 @@ What is the difference between state and props in React?
 
 ## What is `forwardRef()` in React used for?
 
-Allows a parent to pass a `ref` to a child’s DOM node or imperative API. Combine with `useImperativeHandle` to expose controlled methods.
+`forwardRef` is a **React function** that lets you  **pass a `ref` from a parent component down to a child component** .
+
+```javascript
+const InputField = React.forwardRef((props, ref) => {
+  return <input type="text" ref={ref} {...props} />;
+});
+
+export default function App() {
+  const inputRef = React.useRef();
+
+  return (
+    <div>
+      <InputField ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus</button>
+    </div>
+  );
+}
+
+```
 
 ## Explain what React hydration is
 
@@ -673,31 +708,62 @@ export default function Dashboard() {
 
 Options: controlled inputs with custom rules, or libraries like `react-hook-form` + schema (`Yup`/`Zod`).
 
-**Example (react-hook-form + Yup):**
+Formik + Yup
 
 ```javascript
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-const schema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(8, 'Min 8 chars').required('Password required')
+const schema = Yup.object({
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().min(6, "Too short!").required("Required"),
 });
 
-export default function Signup() {
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = data => console.log(data);
+export default function FormikExample() {
+  return (
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={schema}
+      onSubmit={(values) => alert(JSON.stringify(values))}
+    >
+      <Form>
+        <Field name="email" placeholder="Email" />
+        <ErrorMessage name="email" component="div" style={{ color: "red" }} />
+
+        <Field name="password" type="password" placeholder="Password" />
+        <ErrorMessage name="password" component="div" style={{ color: "red" }} />
+
+        <button type="submit">Submit</button>
+      </Form>
+    </Formik>
+  );
+}
+
+```
+
+react-hook-form
+
+```javascript
+import { useForm } from "react-hook-form";
+
+export default function RHFExample() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => alert(JSON.stringify(data));
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('email')} placeholder="Email" />
-      {errors.email && <small>{errors.email.message}</small>}
-      <input type="password" {...register('password')} placeholder="Password" />
-      {errors.password && <small>{errors.password.message}</small>}
-      <button>Sign up</button>
+      <input {...register("email", { required: "Email is required" })} placeholder="Email" />
+      {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+
+      <input {...register("password", { minLength: { value: 6, message: "Min 6 chars" } })} type="password" placeholder="Password" />
+      {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+
+      <button type="submit">Submit</button>
     </form>
   );
 }
+
 ```
 
 ## What is Redux, and how does it help manage state in large applications?
