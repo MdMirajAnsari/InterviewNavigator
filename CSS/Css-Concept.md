@@ -1,8 +1,51 @@
+## What is the difference between relative, absolute, fixed, and sticky positioning in CSS?
+
+* **relative** → positioned relative to its normal position.
+* **absolute** → positioned relative to the nearest positioned ancestor (not `static`).
+* **fixed** → positioned relative to the viewport; does not move when scrolling.
+* **sticky** → toggles between relative and fixed depending on scroll position.
+
+Examples:
+
+```html
+<div class="container">
+  <div class="relative">Relative box
+    <div class="absolute">Absolute inside relative</div>
+  </div>
+  <div class="fixed">Fixed header</div>
+  <div class="sticky">Sticky section title</div>
+</div>
+```
+
+```css
+.container { height: 2000px; padding-top: 60px; }
+
+/* static is default */
+.relative { position: relative; border: 1px solid #ccc; height: 200px; }
+
+.absolute {
+  position: absolute;           /* positioned relative to .relative */
+  right: 8px; bottom: 8px; background: #ffe08a; padding: 4px 8px;
+}
+
+.fixed {
+  position: fixed;              /* stays at top while scrolling */
+  top: 0; left: 0; right: 0; height: 48px;
+  background: #6200ee; color: #fff; display: flex; align-items: center; padding: 0 12px;
+}
+
+.sticky {
+  position: sticky;             /* sticks after reaching 10px from top */
+  top: 10px; background: #e0f7fa; padding: 8px; margin-top: 600px;
+}
+```
+
+
 ## What is the difference between Visibility : hidden vs display: none ?
 
 visibility hidden : This will hides the element but it will still takes up the space in the layout. whereas.,
 
-display hidden: will removes the element from the document.
+display none: will removes the element from the document.
 
 ## What is css specificity ?
 
@@ -36,78 +79,19 @@ When we use the attribute “visibility: hidden” for an HTML element then that
 
 CSSOM (often confused with BOM) is the CSS Object Model: a tree representation of CSS used by the browser to compute styles. BOM (Browser Object Model) refers to browser APIs like `window`, `history`, `location`.
 
-## what is difference between PX, unit, em, rem in css?
+## Difference between relative import (`@import`) and `<link>` for CSS?
 
-* Use **`rem` for font sizes** (consistent scaling).
-* Use **`em` for spacing relative to font** (like padding inside buttons).
-* Use  **`%` for fluid layouts** .
-* Use **`px` sparingly** (icons, borders, tiny fixed details).
+* `<link>` → Better performance, supports multiple stylesheets, loads parallelly.
+* `@import` → Loads sequentially (slower), less recommended.
 
-Example:
-```css
-html { font-size: 16px; }
+## What is the difference between `em`, `rem`, `%`, `px`, and `vh/vw` units?* Use **`rem` for font sizes** (consistent scaling).
 
-/* rem: relative to root (html) */
-h1 { font-size: 2rem; }          /* 32px */
+* **px** → fixed size, not scalable.
+* **em** → relative to parent element’s font size.
+* **rem** → relative to root (`html`) font size.
+* **%** → relative to parent’s size (width/height).
+* **vh/vw** → relative to viewport height/width.
 
-/* em: relative to current element's font-size */
-button { font-size: 1rem; padding: 0.5em 1em; } /* padding scales with font */
-
-/* %: relative to parent size */
-.sidebar { width: 25%; }
-
-/* px: fixed pixels */
-.icon { width: 24px; height: 24px; }
-```
-
-## what is different position in css?
-
-* **static** → default, follows normal document flow.
-* **relative** → positioned relative to itself; still takes up space.
-* **absolute** → positioned relative to nearest positioned ancestor (or body); removed from flow.
-* **fixed** → positioned relative to viewport; stays in place when scrolling.
-* **sticky** → behaves like relative until a scroll threshold, then sticks like fixed.
-
-Rule of thumb:
-
-* Use **relative** for slight adjustments.
-* Use **absolute** for placing inside a container.
-* Use **fixed** for headers, footers, floating buttons.
-* Use **sticky** for “stick-on-scroll” elements.
-
-Examples:
-```html
-<div class="container">
-  <div class="relative">Relative box
-    <div class="absolute">Absolute inside relative</div>
-  </div>
-  <div class="fixed">Fixed header</div>
-  <div class="sticky">Sticky section title</div>
-</div>
-```
-
-```css
-.container { height: 2000px; padding-top: 60px; }
-
-/* static is default */
-.relative { position: relative; border: 1px solid #ccc; height: 200px; }
-
-.absolute {
-  position: absolute;           /* positioned relative to .relative */
-  right: 8px; bottom: 8px; background: #ffe08a; padding: 4px 8px;
-}
-
-.fixed {
-  position: fixed;              /* stays at top while scrolling */
-  top: 0; left: 0; right: 0; height: 48px;
-  background: #6200ee; color: #fff; display: flex; align-items: center; padding: 0 12px;
-}
-
-.sticky {
-  position: sticky;             /* sticks after reaching 10px from top */
-  top: 10px; background: #e0f7fa; padding: 8px; margin-top: 600px;
-}
-```
 
 ## what is pseudo selector?
 
@@ -174,6 +158,7 @@ input:focus { border: 2px solid orange; }
 - rem: relative to root font-size.
 
 Examples:
+
 ```html
 <div class="hero">Hero (vw/vh)</div>
 <div class="parent">
