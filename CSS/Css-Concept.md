@@ -5,6 +5,23 @@
 * **fixed** → positioned relative to the viewport; does not move when scrolling.
 * **sticky** → toggles between relative and fixed depending on scroll position.
 
+
+* `static`:
+
+  This is the default value. Elements with `position: static;` are positioned according to the normal document flow and are not affected by the `top`, `bottom`, `left`, or `right` properties.
+* `relative`:
+
+  An element with `position: relative;` is positioned relative to its normal position in the document flow. The `top`, `right`, `bottom`, and `left` properties offset the element from its original location, but other content is not adjusted to fill the gap left by the element.** **
+* `absolute`:
+
+  An element with `position: absolute;` is removed from the normal document flow and positioned relative to its nearest positioned ancestor (an ancestor with a `position` value other than `static`). If no such ancestor exists, it is positioned relative to the initial containing block (usually the viewport). The `top`, `right`, `bottom`, and `left` properties specify its distance from the edges of its positioning context.
+* `fixed`:
+
+  An element with `position: fixed;` is positioned relative to the viewport. This means it remains in the same position on the screen even when the page is scrolled. The `top`, `right`, `bottom`, and `left` properties specify its distance from the viewport edges.
+* `sticky`:
+
+  An element with `position: sticky;` behaves like `position: relative;` within its parent until a specified scroll threshold is reached, at which point it becomes "stuck" to a particular edge of the viewport, behaving like `position: fixed;`. The `top`, `right`, `bottom`, and `left` properties define the threshold for sticking and its position once stuck.
+
 Examples:
 
 ```html
@@ -39,7 +56,6 @@ Examples:
   top: 10px; background: #e0f7fa; padding: 8px; margin-top: 600px;
 }
 ```
-
 
 ## What is the difference between Visibility : hidden vs display: none ?
 
@@ -91,7 +107,6 @@ CSSOM (often confused with BOM) is the CSS Object Model: a tree representation o
 * **rem** → relative to root (`html`) font size.
 * **%** → relative to parent’s size (width/height).
 * **vh/vw** → relative to viewport height/width.
-
 
 ## what is pseudo selector?
 
@@ -229,4 +244,12 @@ p::first-letter { font-size: 200%; color: red; }
 /* Style the first line */
 p::first-line { font-weight: bold; }
 
+```
+
+## Translate
+
+The **`translate()`** CSS function repositions an element in the horizontal and/or vertical directions.
+
+```css
+transform: translate(42px, 18px);
 ```

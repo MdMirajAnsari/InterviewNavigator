@@ -1,3 +1,17 @@
+## Difference between semantic tags and non-semantic tags?
+
+**Semantic Elements**
+
+**Multimedia Support**
+
+## What is meta data in html?
+
+HTML metadata provides information about an HTML document
+
+```html
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+
 ## What are semantic and non-symentic HTML elements ?
 
 Semantic elements: They clearly describes what type of content they hold.
@@ -20,13 +34,27 @@ viewport size varies based on the screen size.
 
 The anchor tag `<a>` is used to create a hyperlink to another webpage or to a certain part of the webpage and these links are clickable, whereas, link tag `<link>` defines a link between a document and an external resource and these are not clickable.
 
+```html
+<link rel="stylesheet" href="style.css">
+```
+
 ## What is new about the relationship between the `<header>` and `<h2>` tags in HTML5?
 
 As HTML5 was all about better semantics and arrangements of the tags and elements, the `<header>` tag specifies the header section of the webpage. Unlike in previous version there was one `<h2>` element for the entire webpage, now this is the header for one section such as `<article>` or `<section>`. According to the HTML5 specification, each `<header>` element must at least have one `<h2>` tag
 
 ## What is the difference between `<figure>` tag and `<img>` tag?
 
-The `<img>` tag is used to embed a single image into a web page, while the `<figure>` tag is a semantic container used to group self-contained content, such as an `<img>` and its associated `<figcaption>` (caption), that can be removed without affecting the main document's flow. Use `<img>` for decorative images or when an image is part of the main text flow and doesn't need a caption. Use `<figure>` when the content (image, code snippet, etc.) provides context or is a key part of the main message, especially when it needs a caption.
+The `<figure>` tag is a semantic container for self-contained content like images, diagrams, or code snippets, which can be associated with a caption using the `<figcaption>` tag, while the `<img>` tag is a self-closing tag specifically used to display an image on a web page by referencing its source file.
+
+* Use **`<img>`** when you just need to show an image.
+* Use **`<figure>` (with `<img>` inside)** when the image needs a  **caption or explanation** .
+* ```html
+  <figure>
+    <img src="cat.jpg" alt="A cute cat">
+    <figcaption>This is my cat enjoying the sunshine.</figcaption>
+  </figure>
+
+  ```
 
 ## Is the `<datalist>` tag and `<select>` tag same?
 
