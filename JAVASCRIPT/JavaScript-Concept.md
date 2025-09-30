@@ -1,103 +1,58 @@
 ## call
 
-**Quick Example:**
-```javascript
-function greet() { return `Hello, ${this.name}`; }
-const person = { name: 'John' };
-greet.call(person); // "Hello, John"
-```
-
 The **`call()`** method of [`Function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) instances calls this function with a given `this` value and arguments provided individually.
 
 ```javascript
-var person =
-{
-  age: 20
-};
+function greet(greeting, punctuation) {
+  console.log(`${greeting}, ${this.name}${punctuation}`);
+}
 
-let birthDay = function(years) {
-  this.age += years;
-};
+const user = { name: "Miraj" };
 
-console.log(person.age); //20
-birthDay.call(person, 3); //the "this" keyword of birthDay function will refer to "person" object.
-console.log(person.age); //23
+greet.call(user, "Hello", "!"); 
+// Output: Hello, Miraj!
+
 ```
 
 ## apply
 
-**Quick Example:**
-```javascript
-function sum(a, b, c) { return a + b + c; }
-sum.apply(null, [1, 2, 3]); // 6
-```
-
 The apply() method of Function instances calls this function with a given this value, and arguments provided as an array (or an array-like object).
 
 ```javascript
-var student1 = {
-  studentName: "Scott",
-  section: "A"
-};
-
-var student2 = {
-  studentName: "John",
-  section: "B"
-};
-
-//function at outside the object
-function calculateTotalMarks(subject1, subject2, subject3)
-{
-  let totalMarks = subject1 + subject2 + subject3;
-  let message = `Hey ${this.studentName}, your total marks is: ${totalMarks}`;
-  console.log(message);
+function greet(greeting, punctuation) {
+  console.log(`${greeting}, ${this.name}${punctuation}`);
 }
 
-calculateTotalMarks.apply(student1, [ 60, 70, 80 ] ); //supply "student" object as "this" keyword of calculateTotalMarks function; and also supply the values of array into respective parameters, sequentially.
-calculateTotalMarks.apply(student2, [ 56, 45, 88 ] );
+const user = { name: "Miraj" };
+
+greet.apply(user, ["Hi", "!!"]); 
+// Output: Hi, Miraj!!
+
 ```
 
 ## bind
 
-**Quick Example:**
-```javascript
-function greet(greeting) { return `${greeting}, ${this.name}`; }
-const person = { name: 'John' };
-const boundGreet = greet.bind(person);
-boundGreet('Hello'); // "Hello, John"
-```
-
 The **`bind()`** method of [`Function`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) instances creates a new function that, when called, calls this function with its `this` keyword set to the provided value, and a given sequence of arguments preceding any provided when the new function is called.
 
 ```javascript
-var student2 = {
-  studentName: "John",
-  section: "B"
-};
-
-//function at outside the object
-function calculateTotalMarks(subject1, subject2, subject3)
-{
-  let totalMarks = subject1 + subject2 + subject3;
-  let message = `Hey ${this.studentName}, your total marks is: ${totalMarks}`;
-  console.log(message);
+function greet(greeting, punctuation) {
+  console.log(`${greeting}, ${this.name}${punctuation}`);
 }
 
-var student1Calculate = calculateTotalMarks.bind(student1); //it creates a new function and stores reference of student1 as "this" keyword. The function will not be executed.
-student1Calculate(60, 70, 80); //executes the function; this = student1
+const user = { name: "Miraj" };
 
-var student2Calculate = calculateTotalMarks.bind(student2); //it creates a new function and stores reference of student2 as "this" keyword. The function will not be executed.
-student2Calculate(56, 45, 88); //executes the function; this = student2
+// bind returns a new function
+const greetMiraj = greet.bind(user, "Hey");
 
-var student1 = {
-  studentName: "Scott",
-  section: "A"
-};
+greetMiraj("?"); 
+// Output: Hey, Miraj?
+
 ```
 
 ## Hoisting
 
 **Quick Example:**
+
 ```javascript
 console.log(x); // undefined (not error)
 var x = 5;
@@ -134,6 +89,7 @@ var Add = function Sum(val1, val2)
 ## Closure
 
 **Quick Example:**
+
 ```javascript
 function outer(x) {
   return function inner(y) {
@@ -176,6 +132,7 @@ inner function can access their variable from their parent.
 ## This
 
 **Quick Example:**
+
 ```javascript
 const obj = {
   name: 'John',
@@ -207,6 +164,7 @@ arrow function- inherits from surrounding scope.
 ## Debounce and Throttle
 
 **Quick Examples:**
+
 ```javascript
 // Debounce: Wait for user to stop typing
 const debouncedSearch = debounce(searchFunction, 300);
@@ -216,9 +174,11 @@ const throttledScroll = throttle(handleScroll, 100);
 ```
 
 ### Debounce
+
 **Debounce** delays the execution of a function until after a specified delay has passed since it was last called. If the function is called again before the delay completes, the timer resets.
 
 **Use Cases:**
+
 - Search input fields
 - Window resize events
 - Button clicks to prevent double-submission
@@ -252,9 +212,11 @@ window.addEventListener('resize', debouncedResize);
 ```
 
 ### Throttle
+
 **Throttle** ensures a function is called at most once per specified time interval, regardless of how many times it's triggered.
 
 **Use Cases:**
+
 - Scroll events
 - Mouse move events
 - API calls to prevent excessive requests
@@ -298,16 +260,18 @@ const throttledApiCall = throttle(function(data) {
 ```
 
 ### Key Differences
-| Feature | Debounce | Throttle |
-|---------|----------|----------|
-| **Execution** | After delay completes | At regular intervals |
-| **Reset** | Timer resets on new call | Timer doesn't reset |
-| **Use Case** | Wait for user to finish | Limit execution frequency |
-| **Example** | Search input | Scroll events |
+
+| Feature             | Debounce                 | Throttle                  |
+| ------------------- | ------------------------ | ------------------------- |
+| **Execution** | After delay completes    | At regular intervals      |
+| **Reset**     | Timer resets on new call | Timer doesn't reset       |
+| **Use Case**  | Wait for user to finish  | Limit execution frequency |
+| **Example**   | Search input             | Scroll events             |
 
 ## let, const, var
 
 **Quick Examples:**
+
 ```javascript
 var x = 1;        // Function scoped, hoisted, redeclarable
 let y = 2;        // Block scoped, hoisted (TDZ), not redeclarable
@@ -316,15 +280,16 @@ const z = 3;      // Block scoped, hoisted (TDZ), not reassignable
 
 ### Variable Declaration Comparison
 
-| Feature | var | let | const |
-|---------|-----|-----|-------|
-| **Scope** | Function-scoped | Block-scoped | Block-scoped |
-| **Hoisting** | Hoisted (undefined) | Hoisted (TDZ) | Hoisted (TDZ) |
-| **Reassignment** | ✅ Allowed | ✅ Allowed | ❌ Not allowed |
-| **Redeclaration** | ✅ Allowed | ❌ Not allowed | ❌ Not allowed |
-| **Initialization** | Optional | Optional | Required |
+| Feature                  | var                 | let            | const          |
+| ------------------------ | ------------------- | -------------- | -------------- |
+| **Scope**          | Function-scoped     | Block-scoped   | Block-scoped   |
+| **Hoisting**       | Hoisted (undefined) | Hoisted (TDZ)  | Hoisted (TDZ)  |
+| **Reassignment**   | ✅ Allowed          | ✅ Allowed     | ❌ Not allowed |
+| **Redeclaration**  | ✅ Allowed          | ❌ Not allowed | ❌ Not allowed |
+| **Initialization** | Optional            | Optional       | Required       |
 
 ### var (Function-scoped)
+
 ```javascript
 function example() {
   if (true) {
@@ -349,6 +314,7 @@ for (var i = 0; i < 3; i++) {
 ```
 
 ### let (Block-scoped)
+
 ```javascript
 function example() {
   if (true) {
@@ -383,6 +349,7 @@ if (true) {
 ```
 
 ### const (Block-scoped, Immutable Reference)
+
 ```javascript
 // Must be initialized
 const name = "John";
@@ -440,6 +407,7 @@ function example(param1, param2) {
 ```
 
 ### Best Practices
+
 1. **Use `const` by default** - for values that won't change
 2. **Use `let` when reassignment needed** - for variables that change
 3. **Avoid `var`** - use only when you need function scope specifically
@@ -448,6 +416,7 @@ function example(param1, param2) {
 ## rest and spread
 
 **Quick Examples:**
+
 ```javascript
 // Rest: Collect remaining arguments
 function sum(first, ...rest) { return first + rest.reduce((a, b) => a + b); }
@@ -458,9 +427,11 @@ const newArr = [...arr, 4]; // [1, 2, 3, 4]
 ```
 
 ### Rest Operator (`...`)
+
 The **rest operator** collects multiple elements and condenses them into a single element (usually an array).
 
 **Use Cases:**
+
 - Function parameters (collecting remaining arguments)
 - Array destructuring (collecting remaining elements)
 - Object destructuring (collecting remaining properties)
@@ -509,9 +480,11 @@ console.log(multiply(2, 1, 2, 3, 4)); // [2, 4, 6, 8]
 ```
 
 ### Spread Operator (`...`)
+
 The **spread operator** expands an iterable (array, string, object) into individual elements.
 
 **Use Cases:**
+
 - Array operations (copying, merging, adding elements)
 - Object operations (copying, merging, adding properties)
 - Function calls (passing array elements as individual arguments)
@@ -630,12 +603,14 @@ console.log(finalSettings.notifications); // { email: false, push: false }
 ```
 
 ### Key Differences
-| Operator | Purpose | Context |
-|----------|---------|---------|
-| **Rest (`...`)** | Collect multiple elements into one | Function parameters, destructuring |
-| **Spread (`...`)** | Expand one element into multiple | Arrays, objects, function calls |
+
+| Operator                   | Purpose                            | Context                            |
+| -------------------------- | ---------------------------------- | ---------------------------------- |
+| **Rest (`...`)**   | Collect multiple elements into one | Function parameters, destructuring |
+| **Spread (`...`)** | Expand one element into multiple   | Arrays, objects, function calls    |
 
 ### Common Patterns
+
 ```javascript
 // Clone arrays/objects
 const arr = [1, 2, 3];
@@ -653,6 +628,7 @@ const finalOptions = { ...defaultOptions, ...userOptions }; // { timeout: 10000,
 ## deep copy and shallow copy
 
 **Quick Examples:**
+
 ```javascript
 // Shallow copy
 const shallow = { ...original };
@@ -664,6 +640,7 @@ const deep2 = JSON.parse(JSON.stringify(original));
 ```
 
 ### Shallow Copy
+
 A **shallow copy** creates a new object, but only copies references for nested objects/arrays instead of cloning them. Changes to nested objects affect both copies.
 
 ```javascript
@@ -701,6 +678,7 @@ console.log(original.hobbies);     // ["reading", "gaming", "swimming"] ❌ (cha
 ```
 
 ### Deep Copy
+
 A **deep copy** creates a new object with completely new nested objects/arrays. Changes in one object do not affect the other.
 
 ```javascript
@@ -754,13 +732,13 @@ const deepCopy3 = deepClone(original);
 
 ### Comparison Table
 
-| Method | Type | Pros | Cons |
-|--------|------|------|------|
-| `{...obj}` | Shallow | Simple, fast | Nested objects shared |
-| `Object.assign({}, obj)` | Shallow | Simple, fast | Nested objects shared |
-| `structuredClone(obj)` | Deep | Native, handles most types | Newer browsers only |
-| `JSON.parse(JSON.stringify(obj))` | Deep | Works everywhere | No functions, dates, undefined |
-| Custom recursive function | Deep | Full control | More code to maintain |
+| Method                              | Type    | Pros                       | Cons                           |
+| ----------------------------------- | ------- | -------------------------- | ------------------------------ |
+| `{...obj}`                        | Shallow | Simple, fast               | Nested objects shared          |
+| `Object.assign({}, obj)`          | Shallow | Simple, fast               | Nested objects shared          |
+| `structuredClone(obj)`            | Deep    | Native, handles most types | Newer browsers only            |
+| `JSON.parse(JSON.stringify(obj))` | Deep    | Works everywhere           | No functions, dates, undefined |
+| Custom recursive function           | Deep    | Full control               | More code to maintain          |
 
 ### Practical Examples
 
@@ -797,11 +775,13 @@ deepNumbers[2].value = 30; // Safe - doesn't affect original
 ### When to Use Each
 
 **Use Shallow Copy when:**
+
 - You only need to modify top-level properties
 - Performance is critical (shallow is faster)
 - You're certain there are no nested objects/arrays
 
 **Use Deep Copy when:**
+
 - You need to modify nested objects/arrays
 - You want complete isolation between objects
 - You're working with complex data structures
@@ -809,6 +789,7 @@ deepNumbers[2].value = 30; // Safe - doesn't affect original
 ## event bubbling and event capturing
 
 **Quick Examples:**
+
 ```javascript
 // Event bubbling (default)
 element.addEventListener('click', handler);
@@ -821,13 +802,15 @@ event.stopPropagation();
 ```
 
 ### Event Flow in DOM
+
 When an event occurs on a DOM element, it doesn't just trigger on that element. The event follows a specific path through the DOM tree in three phases:
 
 1. **Capture Phase** (Event Capturing)
-2. **Target Phase** 
+2. **Target Phase**
 3. **Bubble Phase** (Event Bubbling)
 
 ### Event Bubbling
+
 **Event bubbling** is the process where an event starts from the target element and bubbles up to its parent elements, then to their parents, and so on until it reaches the document root.
 
 ```html
@@ -876,6 +859,7 @@ document.body.addEventListener('click', function(e) {
 ```
 
 ### Event Capturing
+
 **Event capturing** is the opposite of bubbling. The event starts from the document root and goes down to the target element.
 
 ```javascript
@@ -972,6 +956,7 @@ document.getElementById('button').addEventListener('click', function(e) {
 ```
 
 ### Event Delegation
+
 Event delegation leverages bubbling to handle events efficiently:
 
 ```html
@@ -1053,6 +1038,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
 ```
 
 ### Key Points
+
 - **Bubbling**: Event travels from target to root (default behavior)
 - **Capturing**: Event travels from root to target (useCapture = true)
 - **Target Phase**: Event is at the actual element that triggered it
@@ -1063,6 +1049,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
 ## high order function
 
 **Quick Examples:**
+
 ```javascript
 // Function that takes another function as argument
 function higherOrder(fn) { return fn(); }
@@ -1075,7 +1062,9 @@ function createMultiplier(x) { return y => x * y; }
 ```
 
 ### What are Higher-Order Functions?
+
 A **higher-order function** is a function that either:
+
 1. Takes one or more functions as arguments, OR
 2. Returns a function as its result, OR
 3. Both
@@ -1339,6 +1328,7 @@ const enhancedSubmitHandler = createEventHandler(handleSubmit);
 ```
 
 ### Benefits of Higher-Order Functions
+
 1. **Code Reusability** - Write once, use many times
 2. **Abstraction** - Hide implementation details
 3. **Composition** - Combine functions to create new functionality
@@ -1346,6 +1336,7 @@ const enhancedSubmitHandler = createEventHandler(handleSubmit);
 5. **Flexibility** - Make code more flexible and maintainable
 
 ### Key Takeaways
+
 - Higher-order functions are fundamental to functional programming
 - They enable powerful patterns like decorators, middleware, and composition
 - Array methods (`map`, `filter`, `reduce`, etc.) are examples of higher-order functions
@@ -1354,6 +1345,7 @@ const enhancedSubmitHandler = createEventHandler(handleSubmit);
 ## EventDelegation
 
 **Quick Examples:**
+
 ```javascript
 // Instead of adding listeners to each button
 document.getElementById('list').addEventListener('click', (e) => {
@@ -1364,6 +1356,7 @@ document.getElementById('list').addEventListener('click', (e) => {
 ```
 
 ### What is Event Delegation?
+
 **Event delegation** is a technique where instead of adding event listeners to individual elements, you add a single event listener to a parent element that handles events for all its child elements. This leverages event bubbling to manage events efficiently.
 
 ### Basic Concept
@@ -1684,6 +1677,7 @@ document.getElementById('tab-container').addEventListener('click', function(e) {
 ```
 
 ### Benefits of Event Delegation
+
 1. **Performance** - Fewer event listeners, less memory usage
 2. **Dynamic Content** - Works with elements added after page load
 3. **Maintainability** - Centralized event handling logic
@@ -1691,6 +1685,7 @@ document.getElementById('tab-container').addEventListener('click', function(e) {
 5. **Memory Efficiency** - Single listener instead of many
 
 ### When NOT to Use Event Delegation
+
 - When you need to prevent event bubbling
 - When event handling logic is very specific to individual elements
 - When you need direct access to the element's properties frequently
@@ -1699,6 +1694,7 @@ document.getElementById('tab-container').addEventListener('click', function(e) {
 ## Pure Function
 
 **Quick Examples:**
+
 ```javascript
 // Pure function - same input = same output, no side effects
 function add(a, b) { return a + b; }
@@ -1709,7 +1705,9 @@ function increment() { return ++counter; }
 ```
 
 ### What is a Pure Function?
+
 A **pure function** is a function that:
+
 1. **Always returns the same output** for the same input (deterministic)
 2. **Has no side effects** - doesn't modify external state or variables
 3. **Doesn't depend on external state** - only uses its parameters and local variables
@@ -1976,6 +1974,7 @@ runTests();
 ```
 
 ### Key Benefits Summary
+
 1. **Predictable** - Same input always produces same output
 2. **Testable** - Easy to write unit tests
 3. **Cacheable** - Results can be memoized
@@ -1987,6 +1986,7 @@ runTests();
 ## ImPure Function
 
 **Quick Examples:**
+
 ```javascript
 // Impure - modifies external state
 let count = 0;
@@ -2000,7 +2000,9 @@ function logAndReturn(x) { console.log(x); return x; }
 ```
 
 ### What is an Impure Function?
+
 An **impure function** is a function that:
+
 1. **Has side effects** - modifies external state, variables, or performs I/O operations
 2. **Depends on external state** - relies on variables outside its scope
 3. **May produce different outputs** for the same input (non-deterministic)
@@ -2396,6 +2398,7 @@ function createUserService(dependencies) {
 ```
 
 ### Key Takeaways
+
 - **Impure functions are necessary** for real-world applications
 - **Minimize side effects** and isolate them when possible
 - **Separate pure logic from side effects** for better testability
@@ -2406,6 +2409,7 @@ function createUserService(dependencies) {
 ## Weakmap and WeakSet
 
 **Quick Examples:**
+
 ```javascript
 // WeakMap - object keys only, no iteration
 const weakMap = new WeakMap();
@@ -2420,9 +2424,11 @@ weakSet.has(obj); // true
 ```
 
 ### What are WeakMap and WeakSet?
+
 **WeakMap** and **WeakSet** are collections introduced in ES6 that hold "weak" references to objects. They allow garbage collection of their entries when the objects are no longer referenced elsewhere.
 
 ### Key Characteristics
+
 1. **Weak References** - Don't prevent garbage collection of their keys/values
 2. **Non-iterable** - Cannot be enumerated or have their size determined
 3. **Object keys only** - WeakMap keys and WeakSet values must be objects
@@ -2498,12 +2504,12 @@ class User {
   constructor(name, email) {
     this.name = name;
     this.email = email;
-    
+  
     // Store private data in WeakMap
     if (!User.privateData) {
       User.privateData = new WeakMap();
     }
-    
+  
     // Add private data
     User.privateData.set(this, {
       password: this.generatePassword(),
@@ -2621,11 +2627,11 @@ class ExpensiveComputationCache {
       console.log('Returning cached result');
       return this.cache.get(obj);
     }
-    
+  
     // Perform expensive computation
     console.log('Performing expensive computation...');
     const result = this.performExpensiveOperation(obj);
-    
+  
     // Cache the result
     this.cache.set(obj, result);
     return result;
@@ -2666,12 +2672,12 @@ class EventManager {
       this.listeners.set(element, new Map());
       this.elementMetadata.add(element);
     }
-    
+  
     const elementListeners = this.listeners.get(element);
     if (!elementListeners.has(eventType)) {
       elementListeners.set(eventType, new Set());
     }
-    
+  
     elementListeners.get(eventType).add(handler);
     element.addEventListener(eventType, handler);
   }
@@ -2682,7 +2688,7 @@ class EventManager {
       if (elementListeners.has(eventType)) {
         elementListeners.get(eventType).delete(handler);
         element.removeEventListener(eventType, handler);
-        
+      
         // Clean up empty sets
         if (elementListeners.get(eventType).size === 0) {
           elementListeners.delete(eventType);
@@ -2856,6 +2862,7 @@ function demonstrateMemoryCleanup() {
 ```
 
 ### Key Takeaways
+
 1. **WeakMap/WeakSet don't prevent garbage collection** of their keys/values
 2. **Use for private data** without memory leaks
 3. **Perfect for DOM element tracking** and cleanup
@@ -2867,6 +2874,7 @@ function demonstrateMemoryCleanup() {
 ## Currying
 
 **Quick Examples:**
+
 ```javascript
 // Regular function
 function add(a, b, c) { return a + b + c; }
@@ -2881,6 +2889,7 @@ add5(2)(3); // 10
 ```
 
 ### What is Currying?
+
 **Currying** is a functional programming technique where a function that takes multiple arguments is transformed into a sequence of functions, each taking a single argument. The curried function returns a new function that expects the next argument until all arguments are provided.
 
 ### Basic Currying Concept
@@ -3102,6 +3111,7 @@ const postRequest = createRequest('POST');
 ```
 
 ### Key Takeaways
+
 1. **Currying transforms multi-argument functions** into single-argument functions
 2. **Enables partial application** - fix some arguments to create specialized functions
 3. **Facilitates function composition** and functional programming patterns
