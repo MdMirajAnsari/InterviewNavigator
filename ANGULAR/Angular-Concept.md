@@ -1,3 +1,20 @@
+## Angular 16
+
+Standalone Components – Simplified Architecture
+Forget the old NgModules. Components can now be self-contained, easier to test, and directly imported. Cleaner, faster, smarter.
+
+Angular Signals – Reactive State Made Simple
+A fine-grained reactivity system (signal(), computed(), effect()) that updates only what’s necessary. No more messy subscriptions or unnecessary re-renders.
+
+New Control Flow – @if, @for, @switch
+Say goodbye to *ngIf, *ngFor, *ngSwitch. The new syntax makes templates cleaner, more readable, and more efficient.
+
+Zoneless Angular – Performance Boost
+No zone.js required! Angular now uses signals and manual detection for leaner, faster rendering. Ideal for real-time and large-scale apps.
+
+Latest APIs – Resource & Effects
+Handle async data with Resource API (auto-loading, error, success states). Run side-effects with Effects API — without boilerplate RxJS subscriptions.
+
 ## Angular Directives
 
 The Angular Directives are the elements which are basically used to change the behavior or appearance or layout of the DOM (Document Object Model) element. In other words, we can say that the directives are basically used to extend the power of HTML attributes and to change the appearance or behavior of a DOM element.
