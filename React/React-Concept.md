@@ -706,7 +706,7 @@ export default function Dashboard() {
 
 ## How would you handle form validation in React?
 
-Options: controlled inputs with custom rules, or libraries like 
+Options: controlled inputs with custom rules, or libraries like
 
 Formik + Yup
 
@@ -974,4 +974,25 @@ export default function Page() {
     </Suspense>
   );
 }
+```
+
+## Difference between useMemo() and useCallback()?
+
+* **useMemo:** Use it for **expensive calculations** or derived values that depend on dependencies.
+* **useCallback:** Use it when you need to **pass stable functions as props** to child components to prevent unnecessary re-renders (especially with `React.memo`).
+* **useMemo → caches a value**
+* **useCallback → caches a function**
+
+```javascript
+const expensiveValue = useMemo(() => {
+  return computeExpensiveValue(data);
+}, [data]);
+
+```
+
+```javascript
+const handleClick = useCallback(() => {
+  console.log("Clicked!");
+}, []);
+
 ```

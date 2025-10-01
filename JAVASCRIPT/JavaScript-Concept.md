@@ -3314,3 +3314,11 @@ getUser()
   .catch(err => console.error(err));
 
 ```
+
+## What is event bubbling
+
+Event bubbling is a phase of event propagation where the event **starts at the target element** and then **bubbles up to its parent elements** in the DOM tree.
+
+## What is event capturing
+
+Event capturing is the opposite phase where the event **starts from the root** and  **travels down to the target element** .
