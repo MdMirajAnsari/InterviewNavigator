@@ -278,16 +278,6 @@ let y = 2;        // Block scoped, hoisted (TDZ), not redeclarable
 const z = 3;      // Block scoped, hoisted (TDZ), not reassignable
 ```
 
-### Variable Declaration Comparison
-
-| Feature                  | var                 | let            | const          |
-| ------------------------ | ------------------- | -------------- | -------------- |
-| **Scope**          | Function-scoped     | Block-scoped   | Block-scoped   |
-| **Hoisting**       | Hoisted (undefined) | Hoisted (TDZ)  | Hoisted (TDZ)  |
-| **Reassignment**   | ✅ Allowed          | ✅ Allowed     | ❌ Not allowed |
-| **Redeclaration**  | ✅ Allowed          | ❌ Not allowed | ❌ Not allowed |
-| **Initialization** | Optional            | Optional       | Required       |
-
 ### var (Function-scoped)
 
 ```javascript
@@ -405,13 +395,6 @@ function example(param1, param2) {
   // param1 = "new value"; // This would create a new local variable
 }
 ```
-
-### Best Practices
-
-1. **Use `const` by default** - for values that won't change
-2. **Use `let` when reassignment needed** - for variables that change
-3. **Avoid `var`** - use only when you need function scope specifically
-4. **Declare variables as close to usage as possible**
 
 ## rest and spread
 
@@ -2688,7 +2671,7 @@ class EventManager {
       if (elementListeners.has(eventType)) {
         elementListeners.get(eventType).delete(handler);
         element.removeEventListener(eventType, handler);
-      
+  
         // Clean up empty sets
         if (elementListeners.get(eventType).size === 0) {
           elementListeners.delete(eventType);
