@@ -1041,10 +1041,6 @@ setTimeout(() => {
 }, 2000);
 ```
 
-### Comparison Table
-
-|  |  |  |  |
-| - | - | - | - |
 
 ### Practical Use Cases
 
