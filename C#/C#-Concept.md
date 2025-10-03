@@ -178,7 +178,7 @@ we cannot create object of interface and abstract class
 
 cannot inherit from other class
 
-Explicit Interface 
+Explicit Interface
 
 ```csharp
 public interface IPrinter
@@ -244,7 +244,9 @@ The purpose of generalization is to achieve polymorphism and the purpose of spec
 
 **Partial Class and Partial Methods in C#**
 
-partial classes allow you to split the definition of a single class across multiple files. If two partial class definitions in separate files have the same name, they must meet specific requirements to work correctly:**1. **Same Namespace**: Both partial class definitions must be in the same namespace (or have no namespace if they are in the global namespace).
+partial classes allow you to split the definition of a single class across multiple files. If two partial class definitions in separate files have the same name, they must meet specific requirements to work correctly:**1. 
+
+**Same Namespace**: Both partial class definitions must be in the same namespace (or have no namespace if they are in the global namespace).
 
 1. **Same Class Name**: The class names must match exactly, including case sensitivity.
 2. **Partial Keyword**: Both class definitions must use the **partial** keyword.
@@ -794,6 +796,10 @@ var result = await Task.Run(() => ComputeLargePrime());
 
 ## Difference between const, readonly, static.
 
+* **const** → Compile-time constant. Must be assigned at declaration. Value never changes. (e.g., `Pi = 3.14`).
+* **readonly** → Runtime constant. Can be assigned at declaration or in constructor, then frozen. (e.g., config values, creation time).
+* **static** → Belongs to the class, not the object. Shared across all instances. Can be mutable or combined with `readonly`.
+
 ## Explain parallel programming
 
 Parallel programming is a technique where a problem is divided into **smaller independent tasks** that run **simultaneously** on multiple processors/cores.
@@ -818,3 +824,7 @@ Parallel programming is a technique where a problem is divided into **smaller in
    ```
 
 ## What is the difference between ref, out, and in parameters in C#?
+
+* **ref** → Variable must be initialized before passing; method can **read & modify** it.
+* **out** → Variable doesn’t need initialization; method **must assign** it before returning.
+* **in** → Variable must be initialized before passing; method can **only read** it (read-only reference).
