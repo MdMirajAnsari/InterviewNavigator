@@ -1,12 +1,40 @@
 ## **Version**
 
-It was officially released for General Availability in Nov, 2024 with the announcement of .NET 9
+It was officially released for General Availability in Nov, 2024 with the announcement of .NET 9 and c# 13
 
 It includes key features:
 
+Native AOT (Ahead-of-Time Compilation)
+
+Runtime Optimizations
+
+Dynamic Garbage Collection
+
 - Params Collections
+- ```csharp
+  void PrintNumbers(params int[] numbers) 
+  {
+      foreach(var n in numbers)
+          Console.WriteLine(n);
+  }
+
+  PrintNumbers(1, 2, 3); // old way
+  PrintNumbers(new List<int>{ 4, 5, 6 }); // new C# 13 way
+
+  ```
 - New Lock Type
+- ```csharp
+  lock(myLockObject) 
+  {
+      // critical section
+  }
+
+  ```
 - New Escape Sequence \e
+- ```csharp
+  Console.WriteLine("\e[31mThis is red text\e[0m");
+
+  ```
 - Init Array with Index from the End Operator ^
 - Relaxed Constraints on ref struct and ref variables
 
@@ -244,7 +272,7 @@ The purpose of generalization is to achieve polymorphism and the purpose of spec
 
 **Partial Class and Partial Methods in C#**
 
-partial classes allow you to split the definition of a single class across multiple files. If two partial class definitions in separate files have the same name, they must meet specific requirements to work correctly:**1. 
+partial classes allow you to split the definition of a single class across multiple files. If two partial class definitions in separate files have the same name, they must meet specific requirements to work correctly:**1.
 
 **Same Namespace**: Both partial class definitions must be in the same namespace (or have no namespace if they are in the global namespace).
 
