@@ -392,15 +392,21 @@ A **Distributed Locking System** is a mechanism used in **distributed systems or
 
 **Apache Kafka** is a  **distributed event streaming platform** .
 
+It have High throughput
+
 * Originally developed at  **LinkedIn** , now part of the  **Apache Software Foundation** .
 * Designed for **real-time data pipelines** and  **stream processing** .
 * Handles **high-throughput, fault-tolerant, scalable** event streaming.
 
 ## Zookeeper
 
-Used to manage brokers and metadata (now being replaced by  **KRaft** ).
+**ZooKeeper** is an **open-source distributed coordination service** from Apache, used heavily in distributed systems (like  **Kafka, Hadoop, HBase** ). It helps manage **configuration, synchronization, naming, and leader election** in a cluster.
 
 ## Pub/Sub System
+
+A **Pub/Sub system** (short for  **Publish–Subscribe** ) is a **messaging pattern** where senders (publishers) and receivers (subscribers) communicate through a **message broker** without being directly connected.
+
+It’s widely used in  **event-driven architectures, distributed systems, and microservices** .
 
 ## CDN
 
@@ -455,24 +461,50 @@ If something goes wrong, you can instantly roll back by redirecting traffic back
 
 ## Database Sharding
 
-Sharding is typically used to address challenges in large-scale systems, such as:
-
-1. **Scalability**: As data grows, a single database server may struggle to handle increased traffic or storage. Sharding allows you to scale horizontally by adding more servers.
-2. **Performance**: Queries run faster on smaller datasets, as each shard processes only a subset of the data.
-3. **Availability**: Distributing data across multiple servers reduces the risk of a single point of failure.
-4. **Geographic Distribution**: Shards can be placed closer to users in different regions, reducing latency (e.g., one shard in the US, another in Europe).
-
-How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, location, or timestamp) is chosen to determine how data is distributed across shards. This is also called the **partition key**.
+**Sharding** is a database architecture pattern where a  **large database is split into smaller, faster, more manageable pieces called *shards*** .
 
 * **Example: For a social media app, you might shard by **user_id**, so all data for a specific user resides in one shard.**
-* Difference between **Load Balancer** and  **Reverse Proxy** .
-* What is **Idempotent API** and why is it important?
-* Explain **gRPC** and how it differs from REST API.
-* Explain **ElasticSearch** basics.
-* Difference between **WebSocket** and  **HTTP polling** .
-* What is **Distributed Locking System** and why is it used?
-* 
-* Difference between **Vertical Scaling** and  **Horizontal Scaling** .
-* Explain **Service Discovery** in microservices.
-* What is a  **Sidecar Pattern** ?
-* How would you implement **resilience** in microservices?
+
+## Difference between **Load Balancer** and  **Reverse Proxy** .
+
+A **reverse proxy** can act as a **load balancer** when it distributes traffic across multiple servers.
+
+But not all reverse proxies are load balancers.
+
+## What is **Idempotent API** and why is it important?
+
+An **idempotent API** is an API endpoint that produces the **same result no matter how many times it is called** with the same input.
+
+## Explain **gRPC** and how it differs from REST API.
+
+**gRPC**
+
+* High-performance **RPC framework** by Google.
+* Uses **HTTP/2** and **Protocol Buffers** (binary, compact, strongly typed).
+* Supports **unary & streaming** (client, server, bidirectional).
+* Ideal for  **microservices and real-time communication** .
+
+**REST API**
+
+* Architectural style using **HTTP/1.1** and  **JSON/XML** .
+* Request–response only, text-based, loosely typed.
+* Simpler, widely supported, good for  **public web APIs** .
+
+## Explain **ElasticSearch** basics.
+
+## Difference between **WebSocket** and  **HTTP polling** .
+
+* **Polling = client asks repeatedly**
+* **WebSocket = server pushes immediately**
+
+## What is **Distributed Locking System** and why is it used?
+
+A **Distributed Locking System** is a mechanism that ensures **only one process or node can access a shared resource at a time** in a  **distributed system** .
+
+## What is a  **Sidecar Pattern** ?
+
+The **Sidecar Pattern** is a **microservices design pattern** where an additional helper container or service (the “sidecar”) runs alongside the main application container in the same **pod** or environment.
+
+## How would you implement **resilience** in microservices?
+
+**Resilience** is the ability of a microservices system to **handle failures gracefully** and continue operating without complete disruption.
