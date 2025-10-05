@@ -175,64 +175,15 @@ Rate limiting restricts the number of requests a client can make to a server wit
 
 ## Token Bucket
 
-The **token bucket** algorithm is a widely used method for rate limiting, controlling the rate at which requests or actions are processed in a system. It’s simple, efficient, and allows for bursty traffic while enforcing an average rate limit over time. Below, I’ll explain the token bucket algorithm, how it works, its advantages, use cases, and a basic implementation example.**How the Token Bucket Algorithm Works***Concept**: Imagine a bucket that holds tokens, where each token represents permission to process a request (e.g., an API call, network packet, etc.).
-
-* **Key Parameters**:
-  * **Bucket Capacity**: The maximum number of tokens the bucket can hold, determining the maximum burst size.
-  * **Token Rate**: The rate at which tokens are added to the bucket (e.g., 10 tokens per second).
-  * **Request Cost**: Each request consumes a fixed number of tokens (usually 1).
-* **Process**:
-  1. **Tokens are added to the bucket at a constant rate (e.g., 10 tokens/second).**
-  2. **When a request arrives, it checks if there are enough tokens in the bucket.**
-     * **If sufficient tokens are available, the request consumes the required tokens and is processed.**
-     * **If not, the request is rejected (hard limit) or queued (soft limit).**
-  3. **If the bucket is full, additional tokens are discarded (no overflow).**
-* **Burst Handling**: The bucket allows bursts up to its capacity, enabling short-term high request rates as long as tokens are available, but enforces the average rate over time.
+**Token Bucket** is a **rate-limiting algorithm** used to control how much data or how many requests can be sent or processed over time.
 
 ## Leacky Bucket
 
-The **leaky bucket** algorithm is a rate-limiting technique used to control the rate at which requests, data packets, or events are processed in a system. It ensures a steady output rate, smoothing out bursts of traffic, and is commonly used in networking, task scheduling, and API management. Below, I’ll explain how it works, its mechanics, advantages, use cases, and how it differs from the token bucket algorithm, along with a simple implementation.**How the Leaky Bucket Algorithm Works***Concept**: Imagine a bucket with a hole at the bottom, leaking water (requests) at a constant rate. Incoming requests fill the bucket, but they are processed (leaked) at a fixed rate, regardless of how fast they arrive.
-
-* **Key Parameters**:
-  * **Bucket Capacity**: The maximum number of requests the bucket can hold.
-  * **Leak Rate**: The constant rate at which requests are processed (e.g., 10 requests per second).
-* **Process**:
-  1. **Incoming requests are added to the bucket if there’s space.**
-  2. **If the bucket is full, new requests are rejected (hard limit) or queued externally (soft limit).**
-  3. **Requests are processed (leaked) from the bucket at a constant rate, regardless of the arrival rate.**
-  4. **The bucket ensures a smooth, steady output, preventing bursts from overwhelming the system.**
-* **Key Feature**: Unlike the token bucket, which allows bursts up to a capacity, the leaky bucket enforces a constant output rate, making it ideal for systems requiring predictable throughput.
-
-Example* **Bucket capacity: 50 requests.**
-
-* **Leak rate: 10 requests/second.**
-* **If 100 requests arrive at once:**
-  * **The bucket accepts up to 50 requests; the remaining 50 are rejected or queued externally.**
-  * **The bucket processes 10 requests/second, regardless of the input burst.**
-  * **After 5 seconds, the bucket is empty, and new requests can be added.**
-
-Advantages* **Smooth Output**: Ensures a constant processing rate, preventing system overload from bursts.
-
-* **Predictability**: Ideal for systems requiring consistent throughput (e.g., network traffic shaping).
-* **Simplicity**: Easy to implement with a queue and a fixed-rate processor.
-* **Resource Protection**: Prevents downstream systems from being overwhelmed by sudden spikes.
-
-Disadvantages* **No Burst Support**: Unlike the token bucket, it doesn’t allow bursts, which may delay legitimate high-rate requests.
-
-* **Queue Management**: If the bucket fills frequently, rejected requests or external queuing can degrade user experience.
-* **Latency**: Requests may wait in the bucket, increasing latency for bursty traffic.
+The **Leaky Bucket algorithm** is a **traffic shaping and rate limiting** technique that ensures  **a steady, constant output rate** , no matter how bursty the incoming traffic is.
 
 ## API Gateway
 
-An **API Gateway** is a server or service that acts as an intermediary between clients (e.g., web or mobile applications) and backend services (e.g., microservices, databases, or APIs). It serves as a single entry point for managing, routing, and processing API requests, simplifying communication in complex systems, especially in **microservices architectures**. Here's a concise explanation of its key aspects:**What Does an API Gateway Do?1. **Request Routing**: Receives client requests and directs them to the appropriate backend service based on the request's URL, headers, or other criteria.
-
-1. **Aggregation**: Combines data from multiple services into a single response to reduce client-server round trips, improving efficiency.
-2. **Security**: Enforces authentication (e.g., API keys, OAuth, JWT) and authorization to ensure only valid users access resources. It can also protect against threats like DDoS attacks.
-3. **Rate Limiting & Throttling**: Controls the number of requests a client can make to prevent overuse and ensure fair resource usage.
-4. **Protocol Translation**: Converts requests between different protocols (e.g., HTTP to gRPC) to enable communication between diverse systems.
-5. **Caching**: Stores frequently requested data to reduce latency and server load.
-6. **Monitoring & Analytics**: Logs requests, responses, and errors for performance tracking and debugging.
-7. **Load Balancing**: Distributes traffic across multiple service instances to ensure scalability and high availability.
+An **API Gateway** is the **single entry point** for all client requests to a  **microservices-based application** .
 
 ## Load Balancer
 
@@ -278,16 +229,9 @@ This make software more understandable,maintainable and testable.
 
 ## Facade Design Pattern
 
-The Facade Design Pattern is a structural pattern that provides a simplified interface to a complex system of classes, libraries, or frameworks. The primary goal of the Facade pattern is to present a clear, simplified, and minimized interface to the external clients while delegating all the complex underlying operations to the appropriate classes within the system. The Facade (usually a wrapper) class sits on the top of a group of subsystems and allows them to communicate in a unified manner.
+The **Facade Design Pattern** provides a **unified and simplified interface** to a  **complex subsystem** , making it easier for clients to interact with multiple classes.
 
-As the name suggests, Facade means the Face of the Building. Suppose you created one building. The people walking outside the building can only see the walls and glass of the Building. The People do not know anything about the wiring, the pipes, the interiors, and other complexities inside the building. That means the Facade hides all the complexities of the building and displays a friendly face to people walking outside the building.
-
-##### Understanding Facade Design Pattern in C# with one Real-Time Example:
-
-* Identify Complex Subsystems: First, identify the complex parts of your system that need simplification. These could be complex libraries or systems with multiple interacting classes.
-* Create a Facade Class: Design a facade class that provides a simple interface to the complex subsystems.
-* Delegate Calls to Subsystems: The facade should delegate the client requests to the appropriate objects within the subsystem. The facade should handle all the intricacies and dependencies of the subsystems.
-* Client Code Interaction: The client interacts with the system through the facade, simplifying its use of the complex subsystems.
+Example: In a home theater system, the Facade (`HomeTheaterFacade`) simplifies control over several components like `DVDPlayer`, `Projector`, and `Lights`.
 
 ## SAGA Pattern
 
