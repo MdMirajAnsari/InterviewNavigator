@@ -185,6 +185,10 @@ The **Leaky Bucket algorithm** is a **traffic shaping and rate limiting** techni
 
 An **API Gateway** is the **single entry point** for all client requests to a  **microservices-based application** .
 
+## Sliding Window
+
+The **Sliding Window** is a **technique** used in programming and computer science to optimize problems involving **arrays or strings** where you need to examine a **subset (window)** of elements that moves (or "slides") through the data.
+
 ## Load Balancer
 
 A **Load Balancer (LB)** is a component (hardware or software) that **distributes incoming network traffic across multiple servers (backend instances)** to ensure:
