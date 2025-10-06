@@ -581,6 +581,10 @@ constructor(private fb: FormBuilder) {}
 submit() { console.log(this.form.value); }
 ```
 
+## FromGroup, FormControl, FormArray, FormBuilder
+
+## Custom Validation in Reactive Form
+
 ## how angular handle change detection
 
 Angular uses **dirty checking** to detect changes
@@ -1040,7 +1044,6 @@ setTimeout(() => {
   // Output: 2, 3 (only values from last 1000ms)
 }, 2000);
 ```
-
 
 ### Practical Use Cases
 

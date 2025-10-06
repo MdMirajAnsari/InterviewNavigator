@@ -58,6 +58,9 @@ The `<figure>` tag is a semantic container for self-contained content like image
 
 ## Is the `<datalist>` tag and `<select>` tag same?
 
+* Use **`<select>`** for **fixed** options.
+* Use **`<datalist>`** for **autocomplete** suggestions with flexibility.
+
 ## What are Semantic Elements?
 
 Semantic elements are those which describe the particular meaning to the browser and the developer. Elements like `<form>`, `<table>`, `<article>`, `<figure>`, etc., are semantic elements
@@ -137,7 +140,7 @@ Embeds another HTML page inside the current page (maps, videos, widgets). Use wi
 <p>Search result: <mark>javascript</mark> tutorial</p>
 ```
 
-## **What is the purpose of the data-* attribute in HTML? Provide an example use case.*
+## What is the purpose of the data- attribute in HTML? Provide an example use case.
 
 Custom data attributes for storing extra information on elements, accessible via JS (`dataset`).
 
