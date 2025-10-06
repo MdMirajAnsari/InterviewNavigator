@@ -202,3 +202,8 @@ self.onmessage = e => {
 ## Not Valid tag in html5
 
 Deprecated/non-standard in HTML5 (avoid): `font`, `center`, `big`, `tt`, `strike`, `u` (use CSS), `marquee`, `blink`.
+
+## Difference between span and div
+
+* **`<div>`** = big container → for layout and structure, block
+* **`<span>`** = small container → for styling parts of text, inline
