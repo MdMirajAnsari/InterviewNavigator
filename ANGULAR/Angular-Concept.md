@@ -185,32 +185,6 @@ Summary of Steps1. Create a service with @Injectable and define its logic.
 6. (Optional) Explore advanced DI features like InjectionToken or factory providers.
 7. Test the DI setup using Angular’s testing utilities.
 
-## BehaviourSubject
-
-A BehaviorSubject in Angular (part of the RxJS library) is a special type of Subject that holds a current value and emits it to new subscribers immediately upon subscription.
-
-```typescript
-import { BehaviorSubject } from 'rxjs';
-
-const subject = new BehaviorSubject<number>(0);
-```
-
-Unlike a regular Subject, it always has a value, even if no events have been emitted yet, making it useful for representing state that components can rely on.Key Characteristics of BehaviorSubjectInitial Value: Requires an initial value when created.
-Current Value Access: Subscribers get the most recent value (or initial value) immediately upon subscription.
-Multiple Subscribers: Like other Subjects, it supports multiple subscribers, and all receive the same value when next() is called.
-State Management: Often used to hold and share state (e.g., user data, form state) across components.
-Common Methods
-
-next(value): Emits a new value to all subscribers.
-getValue(): Retrieves the current value of the BehaviorSubject.
-subscribe(): Allows components to subscribe to value changes.
-asObservable(): Converts the BehaviorSubject to an Observable to prevent external code from calling next().
-
-Use Cases
-State Management: Share application state (e.g., user authentication status, theme settings).
-Form Data: Track form input changes across components.
-Real-Time Updates: Reflect changes like notifications or live data feeds.
-
 ## Lifecycle Hooks
 
 OnChanges
@@ -694,14 +668,6 @@ users$ = this.http.get<User[]>('/api/users');
 <li *ngFor="let u of users$ | async">{{ u.name }}</li>
 ```
 
-## **BehaviorSubject**
-
-A Subject or Observable doesn't have a current value. When a value is emitted, it is passed to subscribers and the Observable is done with it.
-
-If you want to have a current value, use BehaviorSubject which is designed for exactly that purpose. BehaviorSubject keeps the last emitted value and emits it immediately to new subscribers.
-
-It also has a method getValue() to get the current value.
-
 ## Observable and Observer
 
 Pattern matching of message passing from publisher to subscriber
@@ -722,7 +688,7 @@ subject class multicast the values to all observer at-a-time.
 
 Subject = Observable + Array of Observers
 
-```
+```typescript
 var mySubject = new Subject<dataType>();
 subject.next(data);
 
@@ -743,7 +709,7 @@ child to grandChild
 
 Represent plain html tags of the template
 
-```
+```typescript
 <div #refvariable></div>
 
 class Component

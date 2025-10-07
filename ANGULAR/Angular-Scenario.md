@@ -343,7 +343,6 @@ export class ApiDemoComponent implements OnInit {
 
 We prevent memory leaks with Observables by unsubscribing properly, usually using `takeUntil` with a `Subject`, or by using Angular’s `AsyncPipe` which handles subscription cleanup automatically.
 
-
 1. **Unsubscribe Manually (ngOnDestroy)**
 
 ```typescript
@@ -386,9 +385,7 @@ ngOnDestroy() {
    </div>
 
    ```
-
-
-5. **Use Higher-Order Mapping (`switchMap`)**
+4. **Use Higher-Order Mapping (`switchMap`)**
 
 * Cancels previous subscription automatically when new value comes in.
 * ```typescript
