@@ -82,6 +82,56 @@ export class ParentComponent {
 
 ```
 
+## Parent to child using viewChild
+
+child.component.ts
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<p>Message from Parent: {{ message }}</p>`,
+})
+export class ChildComponent {
+  message = 'No message yet';
+
+  updateMessage(newMessage: string) {
+    this.message = newMessage;
+  }
+}
+
+```
+
+parent.component.ts
+
+```typescript
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <h3>Parent Component</h3>
+    <button (click)="sendMessage()">Send Message to Child</button>
+    <app-child></app-child>
+  `,
+})
+export class ParentComponent implements AfterViewInit {
+  @ViewChild(ChildComponent) child!: ChildComponent;
+
+  ngAfterViewInit() {
+    // Optional: call child's method once the view initializes
+    this.child.updateMessage('Hello from Parent (ngAfterViewInit)');
+  }
+
+  sendMessage() {
+    this.child.updateMessage('Hello from Parent (button click)');
+  }
+}
+
+```
+
 ## @ViewChild
 
 ```@ViewChild(ChildComponent)
@@ -456,7 +506,6 @@ export class CommentListComponent implements OnInit {
 </div>
 
 ```
-
 
 * Make sure you import `HttpClientModule` in your `AppModule`.
 * Also import `FormsModule` for `[(ngModel)]`.

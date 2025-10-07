@@ -1,4 +1,60 @@
-## Passing data from child to parent
+## Passing Data from Parent to Child Component in React (props)
+
+```javascript
+//App.js
+import React from 'react';
+import Parent from './Parent';
+
+export default function App() {
+  return (
+    <div>
+      <Parent />
+    </div>
+  );
+}
+```
+
+```javascript
+//Child.js
+import React from 'react';
+
+const Child = (props) => {
+  return (
+    <>
+      <div>{props.sendData}</div>
+    </>
+  );
+};
+export default Child;
+```
+
+```javascript
+//Parent.js
+import React, { useState } from 'react';
+import Child from './Child';
+const Parent = () => {
+  const [data, setData] = useState('');
+  const [show, setShow] = useState('');
+  function sendData() {
+    setData(show);
+  }
+  function loadData(e) {
+    setShow(e.target.value);
+  }
+  return (
+    <>
+      <Child sendData={data} />
+      <input onChange={(e) => loadData(e)} />
+      <button onClick={sendData}>Click</button>
+    </>
+  );
+};
+export default Parent;
+```
+
+
+
+## Passing data from child to parent (callback fn)
 
 ```javascript
 // App.js
@@ -67,60 +123,9 @@ function ChildComponent({ onData }) {
 export default ChildComponent;
 ```
 
-## Passing Data from Parent to Child Component in React
 
-```javascript
-//App.js
-import React from 'react';
-import Parent from './Parent';
-
-export default function App() {
-  return (
-    <div>
-      <Parent />
-    </div>
-  );
-}
-```
-
-```javascript
-//Child.js
-import React from 'react';
-
-const Child = (props) => {
-  return (
-    <>
-      <div>{props.sendData}</div>
-    </>
-  );
-};
-export default Child;
-```
-
-```javascript
-//Parent.js
-import React, { useState } from 'react';
-import Child from './Child';
-const Parent = () => {
-  const [data, setData] = useState('');
-  const [show, setShow] = useState('');
-  function sendData() {
-    setData(show);
-  }
-  function loadData(e) {
-    setShow(e.target.value);
-  }
-  return (
-    <>
-      <Child sendData={data} />
-      <input onChange={(e) => loadData(e)} />
-      <button onClick={sendData}>Click</button>
-    </>
-  );
-};
-export default Parent;
-```
 ## Redux Toolkit Example
+
 ```javascript
 //AuthSlice.js
 import { createSlice } from "@reduxjs/toolkit";
@@ -158,6 +163,7 @@ export const store = configureStore({
     }
 })
 ```
+
 ```javascript
 //Use
 import {useDispatch, useSelector} from "react-redux"
