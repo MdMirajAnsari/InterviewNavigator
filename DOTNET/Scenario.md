@@ -583,3 +583,236 @@ Even without authentication, public Web API endpoints should be  **protected aga
 ## Async/await pitfalls — what happens if you call .Result inside async code?
 
 ## Middleware ordering in ASP.NET Core — why does it matter?
+
+## **Best-practice example** for creating a clean, production-style **ASP.NET Core Web API** endpoint that returns  **student details** .
+
+```
+SchoolApi/
+ ├── Controllers/
+ │    └── StudentsController.cs
+ ├── Models/
+ │    └── Student.cs
+ ├── Repositories/
+ │    └── IStudentRepository.cs
+ │    └── StudentRepository.cs
+ ├── Services/
+ │    └── IStudentService.cs
+ │    └── StudentService.cs
+ ├── Data/
+ │    └── SchoolDbContext.cs
+ ├── Program.cs
+
+```
+
+Models/Student.cs
+
+```csharp
+namespace SchoolApi.Models
+{
+    public class Student
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public DateTime DateOfBirth { get; set; }
+        public string Course { get; set; } = string.Empty;
+    }
+}
+
+```
+
+Data/SchoolDbContext.cs
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using SchoolApi.Models;
+
+namespace SchoolApi.Data
+{
+    public class SchoolDbContext : DbContext
+    {
+        public SchoolDbContext(DbContextOptions<SchoolDbContext> options)
+            : base(options) { }
+
+        public DbSet<Student> Students { get; set; }
+    }
+}
+
+```
+
+Repositories/IStudentRepository.cs
+
+```csharp
+using SchoolApi.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace SchoolApi.Repositories
+{
+    public interface IStudentRepository
+    {
+        Task<Student?> GetStudentByIdAsync(int id);
+        Task<IEnumerable<Student>> GetAllStudentsAsync();
+    }
+}
+
+```
+
+Repositories/StudentRepository.cs
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using SchoolApi.Data;
+using SchoolApi.Models;
+
+namespace SchoolApi.Repositories
+{
+    public class StudentRepository : IStudentRepository
+    {
+        private readonly SchoolDbContext _context;
+
+        public StudentRepository(SchoolDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Student?> GetStudentByIdAsync(int id)
+        {
+            return await _context.Students.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        {
+            return await _context.Students.ToListAsync();
+        }
+    }
+}
+
+```
+
+Services/IStudentService.cs
+
+```csharp
+using SchoolApi.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace SchoolApi.Services
+{
+    public interface IStudentService
+    {
+        Task<Student?> GetStudentAsync(int id);
+        Task<IEnumerable<Student>> GetAllStudentsAsync();
+    }
+}
+
+```
+
+Services/StudentService.cs
+
+```csharp
+using SchoolApi.Models;
+using SchoolApi.Repositories;
+
+namespace SchoolApi.Services
+{
+    public class StudentService : IStudentService
+    {
+        private readonly IStudentRepository _repository;
+
+        public StudentService(IStudentRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<Student?> GetStudentAsync(int id)
+        {
+            return await _repository.GetStudentByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        {
+            return await _repository.GetAllStudentsAsync();
+        }
+    }
+}
+
+```
+
+Controllers/StudentsController.cs
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using SchoolApi.Services;
+using SchoolApi.Models;
+
+namespace SchoolApi.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class StudentsController : ControllerBase
+    {
+        private readonly IStudentService _service;
+
+        public StudentsController(IStudentService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetStudentById(int id)
+        {
+            var student = await _service.GetStudentAsync(id);
+            if (student == null)
+                return NotFound(new { Message = $"Student with ID {id} not found." });
+
+            return Ok(student);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            var students = await _service.GetAllStudentsAsync();
+            return Ok(students);
+        }
+    }
+}
+
+```
+
+Program.cs
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using SchoolApi.Data;
+using SchoolApi.Repositories;
+using SchoolApi.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add DbContext
+builder.Services.AddDbContext<SchoolDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register Repositories & Services
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.MapControllers();
+app.Run();
+
+```
