@@ -132,6 +132,76 @@ export class ParentComponent implements AfterViewInit {
 
 ```
 
+## Child to Grand Child - using ContentChild
+
+Step 1: GrandchildComponent
+
+```typescript
+// grandchild.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-grandchild',
+  template: `<p>Grandchild works!</p>`
+})
+export class GrandchildComponent {
+  message = 'Hello from Grandchild!';
+  sayHello() {
+    console.log('👶 Grandchild says Hello!');
+  }
+}
+
+```
+
+Step 2: ChildComponent (using @ContentChild)
+
+```typescript
+// child.component.ts
+import { Component, AfterContentInit, ContentChild } from '@angular/core';
+import { GrandchildComponent } from '../grandchild/grandchild.component';
+
+@Component({
+  selector: 'app-child',
+  template: `
+    <div class="child">
+      <h3>Child Component</h3>
+      <ng-content></ng-content> <!-- projection -->
+    </div>
+  `
+})
+export class ChildComponent implements AfterContentInit {
+  
+  // Access the projected GrandchildComponent
+  @ContentChild(GrandchildComponent) grandchild!: GrandchildComponent;
+
+  ngAfterContentInit() {
+    console.log('Accessing Grandchild from Child:', this.grandchild.message);
+    this.grandchild.sayHello();
+  }
+}
+
+```
+
+Step 3: ParentComponent (projects the Grandchild)
+
+```typescript
+// parent.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <h2>Parent Component</h2>
+    <app-child>
+      <!-- Projected content -->
+      <app-grandchild></app-grandchild>
+    </app-child>
+  `
+})
+export class ParentComponent {}
+
+```
+
 ## @ViewChild
 
 ```@ViewChild(ChildComponent)
