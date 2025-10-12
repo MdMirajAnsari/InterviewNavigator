@@ -15,3 +15,11 @@
 }
 
 ```
+
+## Reset all properties
+
+```css
+button{
+all:unset;
+}
+```

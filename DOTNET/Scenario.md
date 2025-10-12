@@ -816,3 +816,21 @@ app.MapControllers();
 app.Run();
 
 ```
+
+## when garbage collector come and collect in which case
+
+#### 1. **Low Memory Situation**
+
+When the  **system is running low on physical memory** , the runtime triggers GC to free up space.
+
+#### 2. **Heap Threshold Exceeded**
+
+When a **generation’s heap (Gen 0, Gen 1, or Gen 2)** becomes full, the GC runs to reclaim unused objects:
+
+* **Generation 0** → short-lived objects (local variables, temporary objects)
+* **Generation 1** → survivors from Gen 0
+* **Generation 2** → long-lived objects (static data, cached data)
+
+#### 3. **Manual Trigger**
+
+You can **manually force** garbage collection using:

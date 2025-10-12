@@ -756,6 +756,13 @@ Middleware class is used to separate the middleware logic from a lambda expressi
 
 The extension method called “UseWhen” is used to execute a branch of middleware only when the specified condition is true.
 
+## Middleware vs Filters
+
+Middleware is a **component in the HTTP request pipeline** that processes requests **before** they reach your controllers and **after** the response leaves them.
+
+Filters are part of the  **ASP.NET MVC pipeline** , applied **inside controllers** to run code **before or after controller actions** (or results) execute.
+
+
 ## Caching
 
 ASP.NET Core supports several types of caching:
@@ -1167,7 +1174,6 @@ PartialViewResult
 Renders only a partial view. It does not include a layout page and is used for rendering reusable, smaller, smaller sections of page (eg. a widget or a form).
 
 ## what is the difference between web.config and app.config
-
 
 Web.config :
 

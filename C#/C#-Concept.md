@@ -856,3 +856,9 @@ Parallel programming is a technique where a problem is divided into **smaller in
 * **ref** → Variable must be initialized before passing; method can **read & modify** it.
 * **out** → Variable doesn’t need initialization; method **must assign** it before returning.
 * **in** → Variable must be initialized before passing; method can **only read** it (read-only reference).
+
+## Difference Between `protected internal` and `private protected`
+
+`protected internal`:- Accessible **within the same assembly (project)** OR  **from a derived class** , even if the derived class is in another assembly.
+
+`private protected`:- Accessible **only within the same assembly** **AND**  **only by derived classes** .
