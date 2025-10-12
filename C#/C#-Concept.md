@@ -878,3 +878,18 @@ class MyClass   // 👈 default = internal
 }
 
 ```
+
+## Difference between generic and non-generic collections
+
+Non-generic collections can **store any type of object** (because they store items as `object`),
+
+but this means **boxing/unboxing** happens for value types and  **no compile-time type checking** .
+
+ArrayList,Hashtable,Queue,Stack,SortedList
+
+
+Generic collections store **specific data types only** — defined by a  **type parameter (T)** .
+
+They are **type-safe** and  **avoid boxing/unboxing** , giving better performance and cleaner code.
+
+List `<T>`	,Dictionary<TKey, TValue>,Queue `<T>`,Stack `<T>`,SortedList<TKey, TValue>,HashSet `<T>`
