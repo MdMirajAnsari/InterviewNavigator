@@ -1,4 +1,17 @@
+## forkJoin
 
+call api in one shot
+
+```csharp
+forkJoin({
+  users: this.http.get('https://api.example.com/users'),
+  orders: this.http.get('https://api.example.com/orders')
+}).subscribe(result => {
+  console.log(result.users);
+  console.log(result.orders);
+});
+
+```
 
 ## map → Transform API responses into usable data.
 
