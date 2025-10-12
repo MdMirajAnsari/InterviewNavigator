@@ -862,3 +862,19 @@ Parallel programming is a technique where a problem is divided into **smaller in
 `protected internal`:- Accessible **within the same assembly (project)** OR  **from a derived class** , even if the derived class is in another assembly.
 
 `private protected`:- Accessible **only within the same assembly** **AND**  **only by derived classes** .
+
+## Default Scope (Access Modifier) of a **Class**
+
+```csharp
+
+// Top-level class
+class MyClass   // 👈 default = internal
+{
+     int id; // 👈 default = private
+    // Nested class
+    class NestedClass   // 👈 default = private
+    {
+    }
+}
+
+```
