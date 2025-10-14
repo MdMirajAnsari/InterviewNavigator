@@ -1062,3 +1062,20 @@ apiDataSubject.subscribe(data => {
 Zone.js is a library that provides a mechanism to intercept and keep track of asynchronous operations in JavaScript. It's the foundation of Angular's change detection system and enables automatic change detection when asynchronous operations complete.
 
 Zone.js is essential for Angular's automatic change detection and provides a powerful way to monitor and control asynchronous operations in JavaScript applications.
+
+## Difference between Hot and Cold Observable?
+
+A **Cold Observable** starts producing values  **only when a subscriber subscribes** .
+
+Common Examples:
+
+* `of()`
+* `from()`
+* `interval()` (if not shared)
+* HTTP calls in Angular (`HttpClient.get()` is Cold)
+
+A **Hot Observable** produces values **independent of subscribers** — it keeps emitting whether anyone is listening or not.
+
+Common Examples:
+
+* `Subject`, `BehaviorSubject`, `ReplaySubject`

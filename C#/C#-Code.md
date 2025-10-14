@@ -1,3 +1,5 @@
+## STRING
+
 ## Reverse a String
 
 ```csharp
@@ -49,6 +51,12 @@ public char FirstNonRepeatingChar(string s)
     throw new InvalidOperationException("No non-repeating character found.");
 }
 ```
+
+
+
+---
+
+
 
 ## Find Duplicates in an Array
 

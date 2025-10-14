@@ -38,6 +38,10 @@ Dynamic Garbage Collection
 - Init Array with Index from the End Operator ^
 - Relaxed Constraints on ref struct and ref variables
 
+---
+
+
+
 ## **Difference between Class and Objects in C#**
 
 - **Class**: A blueprint describing properties/behaviors.
@@ -54,6 +58,10 @@ public class Car
 var car = new Car { Model = "Civic" }; // object (instance)
 car.Start();
 ```
+
+---
+
+
 
 ## Constructor
 
@@ -188,6 +196,10 @@ Desctructor is called implicitily
 
 can can call destructor explicilty by using GC.Collect();
 
+---
+
+
+
 ## **Abstract class**
 
 Abstract class is a parent class
@@ -283,6 +295,12 @@ partial classes allow you to split the definition of a single class across multi
 
 **Sealed Class and Sealed Methods in C#**
 
+
+
+---
+
+
+
 ## CLR-Common Language Runtime
 
 Runtime enginer to execute application
@@ -292,6 +310,10 @@ Runtime enginer to execute application
 ## BCL- Base Class Library
 
 Console, String, StringBuilder, convert, Thread, Task
+
+---
+
+
 
 ## Value Type vs Reference Types
 
@@ -538,6 +560,10 @@ If you are iterating through a collection of items, and do not care about the in
 
 If you need to process every second item in a collection for example, or process them ion the reverse order, then a for loop is the only practical way.
 
+---
+
+
+
 ## DELEGATE
 
 What is Func Generic Delegate in C#?
@@ -565,6 +591,10 @@ Points to Remember while working with C# Generic Delegates:
 3. The Func delegates can contain a maximum of 16 input parameters and must have one return type and that will be the last parameter in the parameter list.
 4. Action delegate can contain a maximum of 16 input parameters and does not have any return type.
 5. The Predicate delegate should satisfy some criteria of a method and must have only one input parameter. By default, it is having one output parameter of return type and we don’t have to pass the output parameter to the Predicate.
+
+---
+
+
 
 ## Concurrency
 
@@ -626,19 +656,9 @@ Constructor Injection
 Property Injection
 Method Injection
 
-## What is thread pooling in C#?
-
-**reuse of threads** from a pool managed by CLR instead of creating new ones. It improves performance, reduces overhead, and is widely used in background task execution.
-
 ## What is a race condition in multithreading?
 
 A **race condition** happens in **multithreading** when two or more threads  **access shared data at the same time** , and the **final result depends on the order** in which the threads execute.
-
-## Thread and Task
-
-* **Thread** = low-level execution unit (manual control, expensive).
-* **Task** = higher-level abstraction (async/await, parallelism, lightweight).
-* In modern .NET, **prefer `Task`** unless you have a strong reason to use raw threads
 
 ## Difference between **ConcurrentDictionary** and regular Dictionary.
 
@@ -887,9 +907,32 @@ but this means **boxing/unboxing** happens for value types and  **no compile-tim
 
 ArrayList,Hashtable,Queue,Stack,SortedList
 
-
 Generic collections store **specific data types only** — defined by a  **type parameter (T)** .
 
 They are **type-safe** and  **avoid boxing/unboxing** , giving better performance and cleaner code.
 
 List `<T>`	,Dictionary<TKey, TValue>,Queue `<T>`,Stack `<T>`,SortedList<TKey, TValue>,HashSet `<T>`
+
+---
+
+
+
+## THREADING
+
+## Concurrent
+
+Its concept where programmer can divide the program into independent parts(threads) and can execute them in order-independent manner or in partial order, without affecting the outcome.
+
+## Parallel
+
+Parallel execution is a concept that enables a program to execute multiple task simultaneously, typically by utilizing multiple CPU's or processing cores.
+
+## Thread and Task
+
+* **Thread** = It is a light-weight unit of execution within process.
+* **Task** = higher-level abstraction (async/await, parallelism, lightweight).
+* In modern .NET, **prefer `Task`** unless you have a strong reason to use raw threads
+
+## What is thread pooling in C#?
+
+**reuse of threads** from a pool managed by CLR instead of creating new ones. It improves performance, reduces overhead, and is widely used in background task execution.
