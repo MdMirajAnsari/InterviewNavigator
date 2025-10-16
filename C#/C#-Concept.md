@@ -915,3 +915,25 @@ Two threads that use the same lock object can access a common shared resource on
 Monitor.Enter
 
 Monitor.Exit
+
+## lock
+
+The **lock** keyword is a much cleaner, safer, and the **preferred** C# language feature for achieving mutual exclusion. It simplifies the process of acquiring and releasing a lock on a shared resource.
+
+## **Semaphore**
+
+A **Semaphore** is a synchronization primitive that limits the number of threads that can access a particular resource or a pool of resources concurrently. It maintains a "count" of available slots.
+
+## Mutex
+
+A **Mutex** (short for  **Mutual Exclusion** ) is a synchronization primitive that is very similar to a lock, as it is used to ensure that only one thread can access a resource at a time. However, it has one critical difference.
+
+---
+
+
+
+## TASK
+
+The Task Parallel Library (TPL), introduced in .NET Framework 4.0, provides a higher-level abstraction for asynchronous and parallel programming than raw threads. At its core, TPL is built around the Task class.
+
+A Task represents an asynchronous operation. Think of it as a promise that some work will be completed in the future. Instead of directly managing threads, you describe units of work (tasks), and the TPL's sophisticated scheduler efficiently maps these tasks to the underlying thread pool.
