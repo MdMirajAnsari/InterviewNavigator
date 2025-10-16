@@ -40,8 +40,6 @@ Dynamic Garbage Collection
 
 ---
 
-
-
 ## **Difference between Class and Objects in C#**
 
 - **Class**: A blueprint describing properties/behaviors.
@@ -60,8 +58,6 @@ car.Start();
 ```
 
 ---
-
-
 
 ## Constructor
 
@@ -198,8 +194,6 @@ can can call destructor explicilty by using GC.Collect();
 
 ---
 
-
-
 ## **Abstract class**
 
 Abstract class is a parent class
@@ -295,11 +289,7 @@ partial classes allow you to split the definition of a single class across multi
 
 **Sealed Class and Sealed Methods in C#**
 
-
-
 ---
-
-
 
 ## CLR-Common Language Runtime
 
@@ -312,8 +302,6 @@ Runtime enginer to execute application
 Console, String, StringBuilder, convert, Thread, Task
 
 ---
-
-
 
 ## Value Type vs Reference Types
 
@@ -562,8 +550,6 @@ If you need to process every second item in a collection for example, or process
 
 ---
 
-
-
 ## DELEGATE
 
 What is Func Generic Delegate in C#?
@@ -593,12 +579,6 @@ Points to Remember while working with C# Generic Delegates:
 5. The Predicate delegate should satisfy some criteria of a method and must have only one input parameter. By default, it is having one output parameter of return type and we don’t have to pass the output parameter to the Predicate.
 
 ---
-
-
-
-## Concurrency
-
-Concurrency means doing several things at the same time. For example, if we have to do a million tasks, then instead of doing them sequentially one by one, we can do them simultaneously, thus reducing the duration of the program execution.
 
 ## **What are Accessors in C#?**
 
@@ -655,10 +635,6 @@ IQueryable in C# is an interface that is used to query data from a data source. 
 Constructor Injection
 Property Injection
 Method Injection
-
-## What is a race condition in multithreading?
-
-A **race condition** happens in **multithreading** when two or more threads  **access shared data at the same time** , and the **final result depends on the order** in which the threads execute.
 
 ## Difference between **ConcurrentDictionary** and regular Dictionary.
 
@@ -738,46 +714,6 @@ volatile bool _running = true;
 
 void Worker() { while (_running) { /* work */ } }
 void Stop() { _running = false; } // other thread will observe change promptly
-```
-
-## Race condition and prevention
-
-Race condition: multiple threads access/modify shared state without proper synchronization.
-
-Prevent with locks, interlocked operations, immutability, or thread confinement.
-
-```csharp
-int _counter = 0;
-object _gate = new object();
-
-void SafeInc() { lock (_gate) { _counter++; } }
-// or
-void SafeInc2() { System.Threading.Interlocked.Increment(ref _counter); }
-```
-
-## Thread pooling in C# (detail)
-
-`ThreadPool` reuses a pool of worker threads for short-lived tasks to avoid thread creation overhead. `Task.Run` queues work to the thread pool.
-
-```csharp
-await Task.Run(() => DoCpuBound()); // uses ThreadPool
-```
-
-## lock vs Mutex vs Semaphore
-
-- **lock (`Monitor`)**: in-process, lightweight, exclusive access within same AppDomain/process.
-- **Mutex**: can be cross-process; heavier; exclusive access system-wide if named.
-- **Semaphore/SemaphoreSlim**: allow up to N concurrent entrants; `SemaphoreSlim` is in-process optimized.
-
-```csharp
-// lock
-lock (_gate) { /* critical section */ }
-
-// SemaphoreSlim (limit concurrency to 3)
-static readonly SemaphoreSlim _sem = new SemaphoreSlim(3);
-await _sem.WaitAsync();
-try { await DoWorkAsync(); }
-finally { _sem.Release(); }
 ```
 
 ## async/await pitfalls and avoiding deadlocks
@@ -915,13 +851,15 @@ List `<T>`	,Dictionary<TKey, TValue>,Queue `<T>`,Stack `<T>`,SortedList<TKey, TV
 
 ---
 
-
-
 ## THREADING
 
 ## Concurrent
 
 Its concept where programmer can divide the program into independent parts(threads) and can execute them in order-independent manner or in partial order, without affecting the outcome.
+
+## Concurrency
+
+Concurrency means doing several things at the same time. For example, if we have to do a million tasks, then instead of doing them sequentially one by one, we can do them simultaneously, thus reducing the duration of the program execution.
 
 ## Parallel
 
@@ -936,3 +874,70 @@ Parallel execution is a concept that enables a program to execute multiple task 
 ## What is thread pooling in C#?
 
 **reuse of threads** from a pool managed by CLR instead of creating new ones. It improves performance, reduces overhead, and is widely used in background task execution.
+
+## What is a race condition in multithreading?
+
+A **race condition** happens in **multithreading** when two or more threads  **access shared data at the same time** , and the **final result depends on the order** in which the threads execute.
+
+## Race condition and prevention
+
+Race condition: a race condition occurs when multiple threads try to update shared data simultaneously, and the final outcome depends on the order in which the threads are executed. The result becomes unpredictable and can lead to data corruption or incorrect computations.
+
+Prevent with locks, interlocked operations, immutability, or thread confinement.
+
+```csharp
+int _counter = 0;
+object _gate = new object();
+
+void SafeInc() { lock (_gate) { _counter++; } }
+// or
+void SafeInc2() { System.Threading.Interlocked.Increment(ref _counter); }
+```
+
+## Thread pooling in C# (detail)
+
+`ThreadPool` reuses a pool of worker threads for short-lived tasks to avoid thread creation overhead. `Task.Run` queues work to the thread pool.
+
+```csharp
+await Task.Run(() => DoCpuBound()); // uses ThreadPool
+```
+
+## Thread Synchronization
+
+Monitor
+
+Locks
+
+Mutex
+
+Semaphores
+
+
+Monitor:- 
+
+The Monitor class is a synchronization primitive (synchronization mechanism) that enables thread synchronization based on a lock object.
+
+It ebsure that only one thread can execute that code within the critical section at a time, thus preventing race conditions and deadlocks.
+
+Two threads that use the same lock object can access a common shared resource one-at-a-time.
+
+Monitor.Enter
+
+Monitor.Exit
+
+## lock vs Mutex vs Semaphore
+
+- **lock (`Monitor`)**: in-process, lightweight, exclusive access within same AppDomain/process.
+- **Mutex**: can be cross-process; heavier; exclusive access system-wide if named.
+- **Semaphore/SemaphoreSlim**: allow up to N concurrent entrants; `SemaphoreSlim` is in-process optimized.
+
+```csharp
+// lock
+lock (_gate) { /* critical section */ }
+
+// SemaphoreSlim (limit concurrency to 3)
+static readonly SemaphoreSlim _sem = new SemaphoreSlim(3);
+await _sem.WaitAsync();
+try { await DoWorkAsync(); }
+finally { _sem.Release(); }
+```
