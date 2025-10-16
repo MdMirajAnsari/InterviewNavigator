@@ -1,4 +1,4 @@
-## STRING
+## STRING OPERATIONS
 
 ## Reverse a String
 
@@ -54,9 +54,48 @@ public char FirstNonRepeatingChar(string s)
 
 
 
+## **Reverse words in a sentence** .
+
+
+
+
 ---
 
+## ARRAY OPERATIONS
 
+## Remove Duplicate and Sort
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+public class MyClass
+{
+    public static void Main()
+    {
+        int[] arr = {9, 5, 5, 4, 4, 4, 8, 8, 8, 8, 9, 7, 7, 7, 1, 1, 1, 1};
+
+        // Step 1: Use HashSet to remove duplicates
+        HashSet<int> uniqueNumbers = new HashSet<int>();
+        foreach (int num in arr)
+        {
+            uniqueNumbers.Add(num);
+        }
+
+        // Step 2: Copy to List for sorting
+        List<int> sortedList = new List<int>(uniqueNumbers);
+
+        // Step 3: Sort in ascending order
+        sortedList.Sort();
+
+        // Step 4: Print results
+        foreach (int num in sortedList)
+        {
+            Console.WriteLine(num);
+        }
+    }
+}
+```
 
 ## Find Duplicates in an Array
 
@@ -75,8 +114,6 @@ public List<int> FindDuplicates(int[] nums)
     return duplicates;
 }
 ```
-
-## **Reverse words in a sentence** .
 
 ## Remove all white spaces from a string
 
