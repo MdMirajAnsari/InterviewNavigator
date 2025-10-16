@@ -894,14 +894,6 @@ void SafeInc() { lock (_gate) { _counter++; } }
 void SafeInc2() { System.Threading.Interlocked.Increment(ref _counter); }
 ```
 
-## Thread pooling in C# (detail)
-
-`ThreadPool` reuses a pool of worker threads for short-lived tasks to avoid thread creation overhead. `Task.Run` queues work to the thread pool.
-
-```csharp
-await Task.Run(() => DoCpuBound()); // uses ThreadPool
-```
-
 ## Thread Synchronization
 
 Monitor
@@ -912,8 +904,7 @@ Mutex
 
 Semaphores
 
-
-Monitor:- 
+Monitor:-
 
 The Monitor class is a synchronization primitive (synchronization mechanism) that enables thread synchronization based on a lock object.
 
@@ -924,20 +915,3 @@ Two threads that use the same lock object can access a common shared resource on
 Monitor.Enter
 
 Monitor.Exit
-
-## lock vs Mutex vs Semaphore
-
-- **lock (`Monitor`)**: in-process, lightweight, exclusive access within same AppDomain/process.
-- **Mutex**: can be cross-process; heavier; exclusive access system-wide if named.
-- **Semaphore/SemaphoreSlim**: allow up to N concurrent entrants; `SemaphoreSlim` is in-process optimized.
-
-```csharp
-// lock
-lock (_gate) { /* critical section */ }
-
-// SemaphoreSlim (limit concurrency to 3)
-static readonly SemaphoreSlim _sem = new SemaphoreSlim(3);
-await _sem.WaitAsync();
-try { await DoWorkAsync(); }
-finally { _sem.Release(); }
-```
