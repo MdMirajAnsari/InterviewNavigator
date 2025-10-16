@@ -930,8 +930,6 @@ A **Mutex** (short for  **Mutual Exclusion** ) is a synchronization primitive th
 
 ---
 
-
-
 ## TASK
 
 The Task Parallel Library (TPL), introduced in .NET Framework 4.0, provides a higher-level abstraction for asynchronous and parallel programming than raw threads. At its core, TPL is built around the Task class.
