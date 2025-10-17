@@ -21,8 +21,6 @@ Handle async data with Resource API (auto-loading, error, success states). Run s
 
 ---
 
-
-
 ## Angular Directives
 
 The Angular Directives are the elements which are basically used to change the behavior or appearance or layout of the DOM (Document Object Model) element. In other words, we can say that the directives are basically used to extend the power of HTML attributes and to change the appearance or behavior of a DOM element.
@@ -688,6 +686,10 @@ Pattern matching of message passing from publisher to subscriber
 
 where observable is a data source, subscribe is like a method/function , Observer is generally on your side
 
+---
+
+
+
 ## Rxjs Subject
 
 Plain Observable unicast the values to observable
@@ -708,6 +710,22 @@ mySubject.subscribe((data)=>{
 ## Rxjs BehaviourSubject
 
 BehaviourSubject stores the current value which is lastly broadcast to the observer.
+
+## Replay Subject
+
+**Stores a buffer of emitted values** .
+
+```typescript
+import { ReplaySubject } from 'rxjs';
+
+// Create a ReplaySubject that stores last 2 values
+const replaySub = new ReplaySubject<number>(2);
+
+```
+
+---
+
+
 
 ## ContentChild && ContentChildren
 
