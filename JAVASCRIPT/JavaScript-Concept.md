@@ -3315,6 +3315,12 @@ getUser()
 
 ```
 
+
+
+---
+
+
+
 ## What is event bubbling
 
 Event bubbling is a phase of event propagation where the event **starts at the target element** and then **bubbles up to its parent elements** in the DOM tree.
@@ -3322,6 +3328,23 @@ Event bubbling is a phase of event propagation where the event **starts at the t
 ## What is event capturing
 
 Event capturing is the opposite phase where the event **starts from the root** and  **travels down to the target element** .
+
+## What is Event Delegation
+
+Instead of adding event listeners to  **every child element** , you add **a single listener to a parent element** and let events “bubble up” from the target child.
+
+```typescript
+document.getElementById('menu').addEventListener('click', function(event) {
+  if (event.target.tagName === 'LI') {
+    console.log(event.target.textContent);
+  }
+});
+
+```
+
+---
+
+
 
 ## What is Function Curring?
 
