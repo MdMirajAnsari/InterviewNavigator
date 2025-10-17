@@ -585,3 +585,15 @@ const routes: Routes = [
 ];
 
 ```
+
+## How to reduce bundle size in angular
+
+* `ng build --prod`
+* Lazy load modules
+* Remove unused dependencies
+* Optimize Angular Material imports
+* Tree-shake & remove dead code
+* Use smaller alternatives for big libraries
+* Compress images/assets
+* Use `OnPush` change detection 
+* Analyze bundle with `webpack-bundle-analyzer`
