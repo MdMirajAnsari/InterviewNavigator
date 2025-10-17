@@ -3322,3 +3322,18 @@ Event bubbling is a phase of event propagation where the event **starts at the t
 ## What is event capturing
 
 Event capturing is the opposite phase where the event **starts from the root** and  **travels down to the target element** .
+
+## What is Function Curring?
+
+**Currying** is the process of  **transforming a function with multiple arguments into a sequence of functions, each taking a single argument** .
+
+```typescript
+function add(a) {
+    return function(b) {
+        return a + b;
+    };
+}
+
+console.log(add(2)(3)); // 5
+
+```

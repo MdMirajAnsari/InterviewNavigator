@@ -436,3 +436,55 @@ export class HeavyTaskComponent {
 ```
 
 ## How interceptor works internally in angular
+
+## How To change the output folder name
+
+```bash
+ng build --output-path=my-build
+
+```
+
+Difference between ngFor and @for
+
+```typescript
+<li *ngFor="let item of items; trackBy: trackByFn">
+  {{ item }}
+</li>
+
+```
+
+```typescript
+@for (item of items; track item.id; let i = $index) {
+  <li>{{ i }} - {{ item.name }}</li>
+}
+
+```
+
+## Why they have introduce Signal in Angular
+
+Before Angular 16, change detection relied heavily on:
+
+* **Zone.js**
+* **Change Detection Trees**
+
+That meant:
+
+* Whenever *anything* changed (click, HTTP response, setTimeout, etc.), Angular rechecked **every component** to see if something updated.
+* This worked, but it was **inefficient** in large apps.
+
+Angular introduced **Signals** to replace global change detection with a faster, more predictable, and fine-grained reactivity model — making Angular future-ready and “zone-less”.
+
+```typescript
+import { signal } from '@angular/core';
+
+const count = signal(0);
+
+function increment() {
+  count.update(c => c + 1);
+}
+
+console.log(count()); // read value
+increment();
+console.log(count()); // 1
+
+```
