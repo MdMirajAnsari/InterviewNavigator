@@ -401,3 +401,38 @@ ngOnDestroy() {
 ## Why use trackBy in *ngFor and what happens if you skip it?
 
 ## How do you optimize Angular for performance in production?
+
+## Drawback of async pipe
+
+If you use the same observable with `| async` **multiple times** in the same template, Angular will **create multiple subscriptions** — which can cause extra re-rendering or performance issues.
+
+## How Angular outside Angular’s change detection zone
+
+Using `NgZone.runOutsideAngular()`
+
+```typescript
+import { Component, NgZone } from '@angular/core';
+
+@Component({
+  selector: 'app-heavy-task',
+  template: `<h2>{{count}}</h2>`
+})
+export class HeavyTaskComponent {
+  count = 0;
+
+  constructor(private ngZone: NgZone) {}
+
+  ngOnInit() {
+    // Run outside Angular to avoid triggering CD for each interval
+    this.ngZone.runOutsideAngular(() => {
+      setInterval(() => {
+        this.count++;
+        console.log('Count updated:', this.count);
+      }, 1000);
+    });
+  }
+}
+
+```
+
+## How interceptor works internally in angular

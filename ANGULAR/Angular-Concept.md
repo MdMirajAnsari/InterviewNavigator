@@ -1,3 +1,5 @@
+## Latest Version-
+
 ## Angular 16
 
 Standalone Components – Simplified Architecture
@@ -14,6 +16,12 @@ No zone.js required! Angular now uses signals and manual detection for leaner, f
 
 Latest APIs – Resource & Effects
 Handle async data with Resource API (auto-loading, error, success states). Run side-effects with Effects API — without boilerplate RxJS subscriptions.
+
+## ANGULAR 16 - Signal
+
+---
+
+
 
 ## Angular Directives
 
@@ -1079,3 +1087,25 @@ A **Hot Observable** produces values **independent of subscribers** — it keeps
 Common Examples:
 
 * `Subject`, `BehaviorSubject`, `ReplaySubject`
+
+## What is APP INITIALIZER?
+
+**`APP_INITIALIZER` in Angular** is a very useful feature for running  **code before the Angular app is fully initialized** .
+
+```typescript
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+
+@NgModule({
+  providers: [
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitFactory,
+      deps: [ConfigService],
+      multi: true
+    }
+  ]
+})
+export class AppModule {}
+
+```
