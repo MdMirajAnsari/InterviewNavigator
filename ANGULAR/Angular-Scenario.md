@@ -603,3 +603,46 @@ const routes: Routes = [
 * `tsconfig.json` is the  **TypeScript configuration file** .
 * It tells the **TypeScript compiler** (`tsc`) how to **compile your TypeScript code** into JavaScript.
 * In Angular, it’s used to configure  **compilation rules, target version, module system, and includes/excludes** .
+
+## How can we call one of a service without adding in the constructor?
+
+**Using `inject()` (Recommended for Standalone Components or Functions)**
+
+Angular 14+ introduced the `inject()` function, which allows you to  **get a service instance outside the constructor** .
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { MyService } from './my.service';
+
+@Component({
+  selector: 'app-demo',
+  template: `<button (click)="callService()">Call Service</button>`
+})
+export class DemoComponent {
+  // inject service
+  private myService = inject(MyService);
+
+  callService() {
+    this.myService.doSomething();
+  }
+}
+
+```
+
+## How can we use multiple router outline in angular?
+
+Multiple router-outlet elements allow display different view in separate section of page
+
+```typescript
+<!-- app.component.html -->
+<h1>My App</h1>
+
+<nav>
+  <a routerLink="/main">Main</a>
+  <a [routerLink]="[{ outlets: { sidebar: ['info'] } }]">Sidebar Info</a>
+</nav>
+
+<router-outlet></router-outlet> <!-- primary outlet -->
+<router-outlet name="sidebar"></router-outlet> <!-- secondary outlet -->
+
+```
