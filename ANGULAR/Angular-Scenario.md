@@ -488,3 +488,100 @@ increment();
 console.log(count()); // 1
 
 ```
+
+## How to **warn the user if they navigate away from a form with unsaved changes**
+
+
+* Use **`CanDeactivate` guard** for in-app route navigation.
+* Check `form.dirty` to know if user has unsaved changes.
+* Optionally, use `beforeunload` for browser-level navigation.
+* Use `confirm()` to show alert or a custom modal for better UX.
+
+Using CanDeactivate Guard
+
+```typescript
+import { Injectable } from '@angular/core';
+import { CanDeactivate } from '@angular/router';
+import { Observable } from 'rxjs';
+
+// Create an interface for components that want to use this guard
+export interface CanComponentDeactivate {
+  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
+}
+
+@Injectable({ providedIn: 'root' })
+export class UnsavedChangesGuard implements CanDeactivate<CanComponentDeactivate> {
+  canDeactivate(component: CanComponentDeactivate): Observable<boolean> | boolean {
+    return component.canDeactivate ? component.canDeactivate() : true;
+  }
+}
+
+```
+
+```typescript
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CanComponentDeactivate } from './unsaved-changes.guard';
+
+@Component({
+  selector: 'app-my-form',
+  templateUrl: './my-form.component.html'
+})
+export class MyFormComponent implements CanComponentDeactivate {
+  myForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.myForm = this.fb.group({
+      name: [''],
+      email: ['']
+    });
+  }
+
+  // This method is called by the guard
+  canDeactivate(): boolean {
+    if (this.myForm.dirty) {
+      return confirm('You have unsaved changes! Do you really want to leave?');
+    }
+    return true;
+  }
+}
+
+```
+
+```typescript
+import { Routes } from '@angular/router';
+import { MyFormComponent } from './my-form.component';
+import { UnsavedChangesGuard } from './unsaved-changes.guard';
+
+const routes: Routes = [
+  {
+    path: 'form',
+    component: MyFormComponent,
+    canDeactivate: [UnsavedChangesGuard]
+  },
+  {
+    path: 'previous',
+    component: PreviousComponent
+  }
+];
+
+```
+
+```typescript
+import { Routes } from '@angular/router';
+import { MyFormComponent } from './my-form.component';
+import { UnsavedChangesGuard } from './unsaved-changes.guard';
+
+const routes: Routes = [
+  {
+    path: 'form',
+    component: MyFormComponent,
+    canDeactivate: [UnsavedChangesGuard]
+  },
+  {
+    path: 'previous',
+    component: PreviousComponent
+  }
+];
+
+```

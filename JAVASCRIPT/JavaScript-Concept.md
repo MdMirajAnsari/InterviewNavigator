@@ -3342,6 +3342,10 @@ document.getElementById('menu').addEventListener('click', function(event) {
 
 ```
 
+## What is Event Propogation
+
+**Event Propagation** describes the **order** in which events **travel through the DOM tree** when an event (like a click) occurs.
+
 ---
 
 
@@ -3360,3 +3364,38 @@ function add(a) {
 console.log(add(2)(3)); // 5
 
 ```
+
+## What is a Prototype?
+
+In JavaScript, **every object has a hidden property called `[[Prototype]]`** (accessible via `__proto__`).
+
+This property  **links the object to another object** , known as its  **prototype** .
+
+```typescript
+const person = {
+  greet: function() {
+    console.log("Hello!");
+  }
+};
+
+const user = {
+  name: "Miraj"
+};
+
+// Link user → person
+user.__proto__ = person;
+
+console.log(user.name);   // "Miraj"  (found in user)
+user.greet();             // "Hello!" (not in user → found in prototype)
+
+```
+
+
+---
+
+## Array Method
+
+## Difference Between For of and For in?
+
+* Use **`for...in`** → when you need  **keys or indexes** .
+* Use **`for...of`** → when you need  **actual values** .
