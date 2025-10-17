@@ -1127,3 +1127,34 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 export class AppModule {}
 
 ```
+
+
+---
+
+## PIPE
+
+## Built-in Pipe
+
+Ready to use pipe for common task
+
+## Async Pipe
+
+Automatically handles observable or promises in templates.
+
+Example:- {{observable$ | async}} (auto-subscibe and unsubscribe)
+
+## Custom Pipe
+
+User Defined Pipe
+
+## Pure Pipe
+
+Only Recalculates if the input value changes.
+
+All built-in pipe are pure (default)
+
+## Impure Pipe
+
+Recalculates every change detection cycle (useful for dynamic data).
+
+---
