@@ -596,4 +596,10 @@ const routes: Routes = [
 * Use smaller alternatives for big libraries
 * Compress images/assets
 * Use `OnPush` change detection 
-* Analyze bundle with `webpack-bundle-analyzer`
+* Analyze bundle with `webpack-bundle-analyzer` 
+
+## What is the use of ts congiguration file in Angular?
+
+* `tsconfig.json` is the  **TypeScript configuration file** .
+* It tells the **TypeScript compiler** (`tsc`) how to **compile your TypeScript code** into JavaScript.
+* In Angular, it’s used to configure  **compilation rules, target version, module system, and includes/excludes** .
