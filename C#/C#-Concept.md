@@ -1,4 +1,4 @@
-## **Version** 
+## **Version**
 
 ## Latest Version- C # 13, .NET 9
 
@@ -8,6 +8,7 @@
 2. Global Using
 3. Module Initializer
 4. Nullable References Types
+5. Null Propogation .?
 
 It was officially released for General Availability in Nov, 2024 with the announcement of .NET 9 and c# 13
 
