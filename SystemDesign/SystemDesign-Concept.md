@@ -199,6 +199,8 @@ A **Load Balancer (LB)** is a component (hardware or software) that **distribute
 
 Think of it like a **traffic cop** directing cars (requests) evenly across multiple lanes (servers).
 
+It Follow Round Roubin
+
 ## WebHook
 
 A **webhook** is a mechanism that allows one application to send real-time data to another application when a specific event occurs, typically via an HTTP POST request. Often described as "user-defined HTTP callbacks," webhooks enable automated communication between systems without the need for constant polling. Here's a concise breakdown:**What Is a Webhook?* **A webhook is an event-driven integration where an application (the **sender**) pushes data to a predefined URL (the **receiver**) when a specific trigger or event happens.**
@@ -456,3 +458,7 @@ The **Sidecar Pattern** is a **microservices design pattern** where an additiona
 ## How would you implement **resilience** in microservices?
 
 **Resilience** is the ability of a microservices system to **handle failures gracefully** and continue operating without complete disruption.
+
+## Difference between Factory Method vs Abstract Factory
+
+Factory Method is a single method that creates a single type of object and is often used within a class, while Abstract Factory is an entire object that creates families of related objects, typically through a set of methods
