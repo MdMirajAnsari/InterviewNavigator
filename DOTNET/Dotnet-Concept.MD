@@ -762,7 +762,6 @@ Middleware is a **component in the HTTP request pipeline** that processes reques
 
 Filters are part of the  **ASP.NET MVC pipeline** , applied **inside controllers** to run code **before or after controller actions** (or results) execute.
 
-
 ## Caching
 
 ASP.NET Core supports several types of caching:
@@ -1190,3 +1189,10 @@ App.config :
 4. Changes require restarting the application to take effect, unlike web.config which updates on-the-fly for web apps.
 
 ## How is memory management handled in .NET (GC generations, IDisposable)?
+
+
+## **What is an AppDomain?**
+
+An **AppDomain (Application Domain)** is a **logical isolation boundary** provided by the  **.NET CLR (Common Language Runtime)** .
+
+It allows  **multiple .NET applications to run within a single process** , while keeping their code, memory, and security contexts **isolated** from each other.
