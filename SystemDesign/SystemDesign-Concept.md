@@ -6,6 +6,14 @@ L - Liskov principle - If class A is subtype of class B then, Class B should be 
 I - Interface segregation - Clients should not be forced to depend on methods that they do not use.
 D - Dependency inversion - High level modules should not depend on low level modules. Both must depend on abstraction.
 
+## Disign pattern Types
+
+**C.S.B. → Creational, Structural, Behavioral**
+
+* **Creational** → Object creation
+* **Structural** → Object composition
+* **Behavioral** → Object interaction
+
 ## What is **DDD?**
 
 Benefits of DDD in System DesignBusiness Alignment: The software reflects real-world business processes, improving usability and relevance.

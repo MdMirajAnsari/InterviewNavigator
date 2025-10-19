@@ -1,4 +1,4 @@
-## Candidate Vs Primary
+## rCandidate Vs Primary
 
 `Candidate Key` – A Candidate Key can be any column or a combination of columns that can  **qualify as unique key in database** . There can be multiple Candidate Keys in one table. Each Candidate Key can qualify as Primary Key.
 
@@ -251,3 +251,29 @@ SQL Hints (Advanced)
 ## What is NOCOUNT ?
 
 In SQL Server, `SET NOCOUNT` is a **session setting** often used inside stored procedures, triggers, or batches to control whether SQL Server sends back the message about the number of rows affected by a T-SQL statement.
+
+## Performance in SQL
+
+table scan -> index scan
+
+connection pooling
+
+## What is RECOMPILE
+
+When you use `RECOMPILE`, SQL Server will **ignore the cached plan**
+
+and **generate a new execution plan each time** the procedure runs.
+
+```sql
+CREATE PROCEDURE GetOrdersByCustomer
+    @CustomerId INT
+WITH RECOMPILE
+AS
+BEGIN
+    SELECT * FROM Orders WHERE CustomerId = @CustomerId;
+END
+
+```
+
+
+## Transaction Isolation Levels in DBMS

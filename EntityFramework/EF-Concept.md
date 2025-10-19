@@ -35,6 +35,23 @@ await context.Entry(product)
     .LoadAsync();
 ```
 
+
+
+## Difference between EFCore and EF6?
+
+EF Core is a complete rewrite focused on performance and extensibility, while EF6 is for legacy systems, lacking the cross-platform capabilities and ongoing development of EF Core
+
+EF Core- Precompiled Queries.
+
+**DB First is actually quite easy — scaffolding with CLI commands, it creates the context + models. From there you can scaffold the controllers. In Mac I use MySQL.** ”
+
+```sql
+dotnet ef dbcontext scaffold "server=localhost;user=root;password=1234;database=MyAppDb" \
+Pomelo.EntityFrameworkCore.MySql \
+--output-dir Models
+
+```
+
 ## how to implement transaction in ef core?
 
 ```csharp
@@ -58,10 +75,6 @@ catch
 ## lastest version
 
 ef core 9
-
-## Difference between EFCore and EF6?
-
-EF Core is a complete rewrite focused on performance and extensibility, while EF6 is for legacy systems, lacking the cross-platform capabilities and ongoing development of EF Core
 
 ## Explain Eager Loading vs Lazy Loading vs Explicit Loading vs Deferred Execution vs Immediate Execution
 
