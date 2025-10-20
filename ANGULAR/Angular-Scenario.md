@@ -491,7 +491,6 @@ console.log(count()); // 1
 
 ## How to **warn the user if they navigate away from a form with unsaved changes**
 
-
 * Use **`CanDeactivate` guard** for in-app route navigation.
 * Check `form.dirty` to know if user has unsaved changes.
 * Optionally, use `beforeunload` for browser-level navigation.
@@ -595,8 +594,8 @@ const routes: Routes = [
 * Tree-shake & remove dead code
 * Use smaller alternatives for big libraries
 * Compress images/assets
-* Use `OnPush` change detection 
-* Analyze bundle with `webpack-bundle-analyzer` 
+* Use `OnPush` change detection
+* Analyze bundle with `webpack-bundle-analyzer`
 
 ## What is the use of ts congiguration file in Angular?
 
@@ -646,3 +645,13 @@ Multiple router-outlet elements allow display different view in separate section
 <router-outlet name="sidebar"></router-outlet> <!-- secondary outlet -->
 
 ```
+
+## Angular Performance
+
+OnPush strategy
+
+trackBy
+
+## checking for **vulnerable packages** in an Angular project
+
+Using `npm audit` (Built-in)

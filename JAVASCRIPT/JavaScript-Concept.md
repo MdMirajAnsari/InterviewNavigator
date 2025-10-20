@@ -3315,11 +3315,7 @@ getUser()
 
 ```
 
-
-
 ---
-
-
 
 ## What is event bubbling
 
@@ -3347,8 +3343,6 @@ document.getElementById('menu').addEventListener('click', function(event) {
 **Event Propagation** describes the **order** in which events **travel through the DOM tree** when an event (like a click) occurs.
 
 ---
-
-
 
 ## What is Function Curring?
 
@@ -3390,7 +3384,6 @@ user.greet();             // "Hello!" (not in user → found in prototype)
 
 ```
 
-
 ---
 
 ## Array Method
@@ -3399,3 +3392,60 @@ user.greet();             // "Hello!" (not in user → found in prototype)
 
 * Use **`for...in`** → when you need  **keys or indexes** .
 * Use **`for...of`** → when you need  **actual values** .
+
+---
+
+
+
+## JavaScipt Internal
+
+## Difference Between Macro Task and Micro Task
+
+1. Macro Tasks
+
+➤ Definition:
+
+Macro-tasks are **larger, scheduled tasks** that are executed  **one at a time** , with the event loop checking the micro-task queue between them.
+
+➤ Examples:
+
+* `setTimeout`
+* `setInterval`
+* `setImmediate` (Node.js)
+* `I/O callbacks` (like reading a file)
+* `UI rendering events`
+* `script` (the whole JS file itself is a macro-task)
+
+➤ Execution flow:
+
+Each **macro-task** runs from start to finish,
+
+then all **pending micro-tasks** are executed **before the next macro-task** starts.
+
+2. Micro Tasks
+
+➤ Definition:
+
+Micro-tasks are **smaller, faster** async tasks that are  **executed immediately after the current task** , *before* moving on to the next macro-task.
+
+➤ Examples:
+
+* `Promise.then()`, `Promise.catch()`, `Promise.finally()`
+* `queueMicrotask()`
+* `process.nextTick()` (Node.js only)
+* `MutationObserver` callbacks
+
+
+## What is a Memory Leak?
+
+A **memory leak** happens when your program keeps  **references to objects that are no longer needed** , preventing the **garbage collector** (GC) from freeing up that memory.
+
+Common Scenarios That Cause Memory Leaks in JavaScript
+
+Uncleared Timers or Intervals
+
+Event Listeners Not Removed
+
+Accidental Global Variables
+
+Closures Holding References
