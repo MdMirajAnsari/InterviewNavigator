@@ -19,6 +19,8 @@ Handle async data with Resource API (auto-loading, error, success states). Run s
 
 ## ANGULAR 16 - Signal
 
+## ANGULAR 17 - Required Parameter, defer loading, lazy laoding component, ssr
+
 ---
 
 ## Angular Directives
@@ -1157,3 +1159,39 @@ Recalculates every change detection cycle (useful for dynamic data).
 ## Track By
 
 The trackby clause allows you to specify a unique identifier for each item in your list. This way, Angular can effeciently track which items have changed and only re-render those specific elements instead of the whole list.
+
+## what resolver in routes
+
+A **Resolver** is a service that runs  **before a route is activated** , and it **fetches data in advance** — so your component has all the data ready when it loads.
+
+```typescript
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { UserService } from './user.service';
+
+@Injectable({ providedIn: 'root' })
+export class UserResolver implements Resolve<any> {
+  constructor(private userService: UserService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    const id = route.paramMap.get('id');
+    return this.userService.getUserById(id!);
+  }
+}
+
+```
+
+## What is Package-lock.json file
+
+Dependency tree snapshot
+
+version locking
+
+faster installation
+
+security and stability
+
+## Difference between dependencies and dev dependencies?
+
+while building dev dependencies will not be copeid in manifest
