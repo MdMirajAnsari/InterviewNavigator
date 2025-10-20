@@ -1,4 +1,4 @@
-## Latest Version-
+## tLatest Version-
 
 ## Angular 16
 
@@ -688,8 +688,6 @@ where observable is a data source, subscribe is like a method/function , Observe
 
 ---
 
-
-
 ## Rxjs Subject
 
 Plain Observable unicast the values to observable
@@ -724,8 +722,6 @@ const replaySub = new ReplaySubject<number>(2);
 ```
 
 ---
-
-
 
 ## ContentChild && ContentChildren
 
@@ -1128,7 +1124,6 @@ export class AppModule {}
 
 ```
 
-
 ---
 
 ## PIPE
@@ -1158,3 +1153,7 @@ All built-in pipe are pure (default)
 Recalculates every change detection cycle (useful for dynamic data).
 
 ---
+
+## Track By
+
+The trackby clause allows you to specify a unique identifier for each item in your list. This way, Angular can effeciently track which items have changed and only re-render those specific elements instead of the whole list.
