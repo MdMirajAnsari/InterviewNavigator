@@ -655,3 +655,10 @@ trackBy
 ## checking for **vulnerable packages** in an Angular project
 
 Using `npm audit` (Built-in)
+
+
+## **What is a JavaScript Module?**
+
+A **module** in JavaScript is simply a  **file that contains reusable code** .
+
+You can **export** variables, functions, or classes from one file, and **import** them into another.
