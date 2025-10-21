@@ -1195,3 +1195,41 @@ security and stability
 ## Difference between dependencies and dev dependencies?
 
 while building dev dependencies will not be copeid in manifest
+
+## what is ng-container?
+
+`ng-container` is a **logical container** in Angular that allows you to group elements in the template  **without adding an actual DOM element** .
+
+---
+
+
+
+## What is smart component and dumb component?
+
+Smart Component (Container Component)
+
+**Purpose:**
+
+Handles  **business logic** ,  **data fetching** , and  **state management** .
+
+**Responsibilities:**
+
+* Interacts with services (HTTP calls, APIs, etc.)
+* Manages application state
+* Passes data **down** to dumb components via `@Input()`
+* Listens to events **from** dumb components via `@Output()`
+* Decides **what to show** and **how to react**
+
+
+Dumb Component (Presentational Component)
+
+**Purpose:**
+
+Focuses  **only on displaying data and UI logic** , no business logic.
+
+**Responsibilities:**
+
+* Receives data via `@Input()`
+* Emits events via `@Output()`
+* Does not know *where* data comes from
+* Purely presentational (reusable across contexts)
