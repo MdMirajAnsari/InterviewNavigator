@@ -466,6 +466,8 @@ console.log(multiply(2, 1, 2, 3, 4)); // [2, 4, 6, 8]
 
 The **spread operator** expands an iterable (array, string, object) into individual elements.
 
+it works on iterator
+
 **Use Cases:**
 
 - Array operations (copying, merging, adding elements)
@@ -3162,11 +3164,12 @@ console.log(original.address.city); // "Mumbai" ✅ (unchanged)
 
 ```
 
-## Difference between Promise.all(), Promise.allSettled(), Promise.any()
+## Difference between Promise.all(), Promise.allSettled(), Promise.any(), Promise.race() (Promise Type)
 
 * Use **`Promise.all`** when you need *all results* but fail fast if any error.
 * Use **`Promise.allSettled`** when you want *all outcomes* regardless of success/failure.
 * Use **`Promise.any`** when you only care about the  *first successful result* .
+* `Promise.race()` returns a **promise that settles (fulfills or rejects) as soon as any one of the input promises settles** — with that promise’s value or reason.
 
 ## What is truthy and falsy value in javascript?
 
@@ -3390,12 +3393,10 @@ user.greet();             // "Hello!" (not in user → found in prototype)
 
 ## Difference Between For of and For in?
 
-* Use **`for...in`** → when you need  **keys or indexes** .
-* Use **`for...of`** → when you need  **actual values** .
+* Use **`for...in`** → when you need  **keys or indexes** . (object)
+* Use **`for...of`** → when you need  **actual values** .(array)
 
 ---
-
-
 
 ## JavaScipt Internal
 
@@ -3435,7 +3436,6 @@ Micro-tasks are **smaller, faster** async tasks that are  **executed immediately
 * `process.nextTick()` (Node.js only)
 * `MutationObserver` callbacks
 
-
 ## What is a Memory Leak?
 
 A **memory leak** happens when your program keeps  **references to objects that are no longer needed** , preventing the **garbage collector** (GC) from freeing up that memory.
@@ -3449,3 +3449,9 @@ Event Listeners Not Removed
 Accidental Global Variables
 
 Closures Holding References
+
+## what is foreach return and what map return?
+
+`forEach()` **always returns `undefined`** — it doesn’t create or return a new array.
+
+`map()` **returns a new array** with the results of applying the callback function to each element.
