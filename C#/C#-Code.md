@@ -52,16 +52,50 @@ public char FirstNonRepeatingChar(string s)
 }
 ```
 
-
-
 ## **Reverse words in a sentence** .
-
-
-
 
 ---
 
 ## ARRAY OPERATIONS
+
+## Max Frequency Count
+
+```csharp
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+public class Program
+{
+	public static void Main()
+	{
+		List<int> numbers = new List<int>
+		{
+			2,
+			3,
+			5,
+			3,
+			2,
+			3,
+			5,
+			5,
+			5
+		};
+		Dictionary<int, int> counts = new Dictionary<int, int>();
+		foreach (var num in numbers)
+		{
+			if (counts.ContainsKey(num))
+				counts[num]++;
+			else
+				counts[num] = 1;
+		}
+
+		int maxCount = counts.Values.Max();
+		int mostFrequent = counts.First(kv => kv.Value == maxCount).Key;
+		Console.WriteLine($"Most frequent element: {mostFrequent}, Count: {maxCount}");
+	}
+}
+```
 
 ## Remove Duplicate and Sort
 
