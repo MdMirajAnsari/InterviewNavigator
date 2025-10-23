@@ -17,4 +17,14 @@ Azure Functions run when  **triggered by an event** :
 
 ## EventHub
 
-Azure Event Hub is =a fully managed, real-time data ingestion service that streams millions of events per second from any source, enabling dynamic data pipelines, real-time analytics, and immediate response to business challenges=
+Azure Event Hub is =a fully managed, real-time data ingestion service that streams millions of events per second from any source, enabling dynamic data pipelines, real-time analytics, and immediate response to business challenges.
+
+## What is a Persistent Volume?
+
+A **Persistent Volume (PV)** is **independent storage** that can **persist data beyond the lifecycle of the application** using it.
+
+In Azure, this typically maps to  **Azure-managed storage resources** , such as:
+
+* **Azure Disk** (block storage)
+* **Azure File Share** (file-based network storage)
+* **Azure Blob Storage** (object storage, used differently)
