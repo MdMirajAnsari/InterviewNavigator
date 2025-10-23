@@ -1190,9 +1190,12 @@ App.config :
 
 ## How is memory management handled in .NET (GC generations, IDisposable)?
 
-
 ## **What is an AppDomain?**
 
 An **AppDomain (Application Domain)** is a **logical isolation boundary** provided by the  **.NET CLR (Common Language Runtime)** .
 
 It allows  **multiple .NET applications to run within a single process** , while keeping their code, memory, and security contexts **isolated** from each other.
+
+## What is isolation level in dotnet
+
+In  **.NET** , **isolation levels** define how transactions interact with each other, particularly in relation to data visibility and concurrency. They control  **how much one transaction can see the changes made by another concurrent transaction** .

@@ -9,6 +9,7 @@
 3. Module Initializer
 4. Nullable References Types
 5. Null Propogation .?
+6. Record
 
 It was officially released for General Availability in Nov, 2024 with the announcement of .NET 9 and c# 13
 
