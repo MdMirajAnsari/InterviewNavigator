@@ -14,3 +14,7 @@ Azure Functions run when  **triggered by an event** :
 ## Azure Active Directory
 
 **Azure AD** is Microsoft’s  **cloud-based Identity and Access Management (IAM) service** .
+
+## EventHub
+
+Azure Event Hub is =a fully managed, real-time data ingestion service that streams millions of events per second from any source, enabling dynamic data pipelines, real-time analytics, and immediate response to business challenges=
