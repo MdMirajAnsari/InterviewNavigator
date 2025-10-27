@@ -275,5 +275,8 @@ END
 
 ```
 
-
 ## Transaction Isolation Levels in DBMS
+
+## Difference between cte and temp table
+
+The main differences are that **CTEs** are temporary, in-memory result sets for a single statement, improving readability, while **temp tables** are actual, physical tables stored in the `tempdb` that persist for a session and can be reused. CTEs are better for complex queries where readability is key, while temp tables are more efficient for large datasets or when the results need to be accessed multiple times.** **

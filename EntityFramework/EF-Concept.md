@@ -35,8 +35,6 @@ await context.Entry(product)
     .LoadAsync();
 ```
 
-
-
 ## Difference between EFCore and EF6?
 
 EF Core is a complete rewrite focused on performance and extensibility, while EF6 is for legacy systems, lacking the cross-platform capabilities and ongoing development of EF Core
@@ -273,3 +271,5 @@ using (var context = new AppDbContext())
 1. **Use Eager Loading with `Include`**
 2. Use Explicit Loading (Selective)
 3. Use Projection (`Select`)
+
+## How to handle transaction in ef core?
