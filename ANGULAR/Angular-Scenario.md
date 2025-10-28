@@ -656,9 +656,35 @@ trackBy
 
 Using `npm audit` (Built-in)
 
-
 ## **What is a JavaScript Module?**
 
 A **module** in JavaScript is simply a  **file that contains reusable code** .
 
 You can **export** variables, functions, or classes from one file, and **import** them into another.
+
+## How Angular Boostrap?
+
+main.ts->BootstrapApplication(AppCompoent, appConfig);
+
+## How to import one Component to Another?
+
+**Standalone components** must include all dependencies in their own `imports` array.
+
+```typescript
+import { Component } from '@angular/core';
+import { ButtonComponent } from './button.component'; // ✅ Import the standalone component
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [ButtonComponent], // ✅ Add it here
+  template: `
+    <h2>Dashboard</h2>
+    <app-button></app-button> <!-- ✅ Use it in the template -->
+  `,
+})
+export class DashboardComponent {}
+
+```
+
+## Circular Dependency Error

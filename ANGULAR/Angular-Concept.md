@@ -1202,8 +1202,6 @@ while building dev dependencies will not be copeid in manifest
 
 ---
 
-
-
 ## What is smart component and dumb component?
 
 Smart Component (Container Component)
@@ -1220,7 +1218,6 @@ Handles  **business logic** ,  **data fetching** , and  **state management** .
 * Listens to events **from** dumb components via `@Output()`
 * Decides **what to show** and **how to react**
 
-
 Dumb Component (Presentational Component)
 
 **Purpose:**
@@ -1233,3 +1230,9 @@ Focuses  **only on displaying data and UI logic** , no business logic.
 * Emits events via `@Output()`
 * Does not know *where* data comes from
 * Purely presentational (reusable across contexts)
+
+---
+
+## Loading
+
+PreLoading
