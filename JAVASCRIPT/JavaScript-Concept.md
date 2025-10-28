@@ -3332,6 +3332,10 @@ Event capturing is the opposite phase where the event **starts from the root** a
 
 Instead of adding event listeners to  **every child element** , you add **a single listener to a parent element** and let events “bubble up” from the target child.
 
+stopPropogation
+
+stopImmediatePropogation
+
 ```typescript
 document.getElementById('menu').addEventListener('click', function(event) {
   if (event.target.tagName === 'LI') {
@@ -3455,3 +3459,5 @@ Closures Holding References
 `forEach()` **always returns `undefined`** — it doesn’t create or return a new array.
 
 `map()` **returns a new array** with the results of applying the callback function to each element.
+
+## What is Infinte Curring?

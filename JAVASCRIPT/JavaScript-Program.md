@@ -8,6 +8,7 @@ function longestWord(sentence) {
 }
 // console.log(longestWord('I love JavaScript interview prep'));
 ```
+
 ## How to check whether a string is palindrome or not
 
 ```javascript
@@ -20,11 +21,13 @@ function isPalindrome(str) {
   return true;
 }
 ```
+
 ## Write a program to remove duplicates from an array
 
 ```javascript
 const unique = arr => [...new Set(arr)];
 ```
+
 ## Program to find reverse of a string without using built-in method
 
 ```javascript
@@ -34,6 +37,7 @@ function reverseString(s) {
   return out;
 }
 ```
+
 ## Find the max count of consecutive 1’s in an array
 
 ```javascript
@@ -46,6 +50,7 @@ function maxConsecutiveOnes(arr) {
   return max;
 }
 ```
+
 ## Find the factorial of given number
 
 ```javascript
@@ -56,6 +61,7 @@ function factorial(n) {
   return res;
 }
 ```
+
 ## Merge two sorted arrays
 
 ```javascript
@@ -70,6 +76,7 @@ function mergeSorted(a, b) {
   return out;
 }
 ```
+
 ## Check if arr2 contains squares of arr1 with same frequency
 
 ```javascript
@@ -85,6 +92,7 @@ function sameSquared(arr1, arr2) {
   return true;
 }
 ```
+
 ## Check if two strings are anagrams
 
 ```javascript
@@ -101,16 +109,19 @@ function areAnagrams(a, b) {
   return true;
 }
 ```
+
 ## Find the maximum number in an array
 
 ```javascript
 const maxInArray = arr => arr.reduce((m, x) => (x > m ? x : m), -Infinity);
 ```
+
 ## Filter even numbers from an array
 
 ```javascript
 const evens = arr => arr.filter(x => x % 2 === 0);
 ```
+
 ## Check if a number is prime
 
 ```javascript
@@ -121,6 +132,7 @@ function isPrime(n) {
   return true;
 }
 ```
+
 ## Find the largest element in a nested array
 
 ```javascript
@@ -133,6 +145,7 @@ function maxNested(arr) {
 }
 // Example: maxNested([[3,4,58],[709,8,9,[10,11]],[111,2]])
 ```
+
 ## Return Fibonacci sequence up to N terms
 
 ```javascript
@@ -144,6 +157,7 @@ function fib(n) {
   return out;
 }
 ```
+
 ## Count occurrences of each character in a string
 
 ```javascript
@@ -153,16 +167,19 @@ function charCount(str) {
   return Object.fromEntries(map);
 }
 ```
+
 ## Sort an array of numbers in ascending order
 
 ```javascript
 const sortAsc = arr => [...arr].sort((a, b) => a - b);
 ```
+
 ## Sort an array of numbers in descending order
 
 ```javascript
 const sortDesc = arr => [...arr].sort((a, b) => b - a);
 ```
+
 ## Reverse the order of words in a sentence without using reverse()
 
 ```javascript
@@ -173,12 +190,9 @@ function reverseWords(sentence) {
   return words.join(' ');
 }
 ```
+
 ## Flatten a nested array into a single-dimensional array
 
 ```javascript
-function flatten(arr) {
-  const out = [];
-  (function walk(a) { for (const v of a) Array.isArray(v) ? walk(v) : out.push(v); })(arr);
-  return out;
-}
+arr.flat(infinity)
 ```
