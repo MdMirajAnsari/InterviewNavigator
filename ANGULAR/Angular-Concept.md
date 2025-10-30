@@ -1154,6 +1154,8 @@ All built-in pipe are pure (default)
 
 Recalculates every change detection cycle (useful for dynamic data).
 
+async pipe is impure pipe
+
 ---
 
 ## Track By
@@ -1239,9 +1241,18 @@ PreLoading
 
 ---
 
-SetValue 
+SetValue
 
 PatchValue
 
-
 FormBuilder
+
+---
+
+## AOT Compiler
+
+## Angular Analyzer
+
+## Multi Step From
+
+## PreLoading vs Lazy Loading
