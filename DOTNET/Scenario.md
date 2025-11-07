@@ -834,3 +834,7 @@ When a **generation’s heap (Gen 0, Gen 1, or Gen 2)** becomes full, the GC run
 #### 3. **Manual Trigger**
 
 You can **manually force** garbage collection using:
+
+## migrate assistance
+
+## .net lifecycle

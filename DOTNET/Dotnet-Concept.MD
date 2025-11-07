@@ -1199,3 +1199,7 @@ It allows  **multiple .NET applications to run within a single process** , while
 ## What is isolation level in dotnet
 
 In  **.NET** , **isolation levels** define how transactions interact with each other, particularly in relation to data visibility and concurrency. They control  **how much one transaction can see the changes made by another concurrent transaction** .
+
+## typed client , named client
+IhttpContextAccessor
+Parallel.ForEach
