@@ -158,6 +158,10 @@ How Webhooks Work1. **Setup**: The receiving application provides a URL (the web
 
 ## Idempotent API
 
+**Idempotent API** means: even if the same API request is called multiple times, the final result should be the same and should not create duplicate or wrong data.
+
+Example: Suppose payment API is called twice because of network retry. Idempotent API ensures payment happens only once.
+
 # What are solid principles ?
 
 S- Single responsibility - Each class should have single job/responsibility.
@@ -346,10 +350,9 @@ Horizontal Scaling (Scaling Out)* Definition: Increasing system capacity by addi
 Sharding is typically used to address challenges in large-scale systems, such as:
 
 1. **Scalability**: As data grows, a single database server may struggle to handle increased traffic or storage. Sharding allows you to scale horizontally by adding more servers.
-
-1. **Performance**: Queries run faster on smaller datasets, as each shard processes only a subset of the data.
-2. **Availability**: Distributing data across multiple servers reduces the risk of a single point of failure.
-3. **Geographic Distribution**: Shards can be placed closer to users in different regions, reducing latency (e.g., one shard in the US, another in Europe).
+2. **Performance**: Queries run faster on smaller datasets, as each shard processes only a subset of the data.
+3. **Availability**: Distributing data across multiple servers reduces the risk of a single point of failure.
+4. **Geographic Distribution**: Shards can be placed closer to users in different regions, reducing latency (e.g., one shard in the US, another in Europe).
 
 How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, location, or timestamp) is chosen to determine how data is distributed across shards. This is also called the **partition key**.
 
