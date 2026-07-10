@@ -68,7 +68,7 @@ Sometimes, you need to write a complex formula or logic in every query.
 
 To make it consistent, you can hide the complex queries logic and calculations in views.
 
-Once views are defined, you can reference the logic from the views rather than rewriting it in separate queries.	
+Once views are defined, you can reference the logic from the views rather than rewriting it in separate queries.
 
 ## Check And Default
 
@@ -93,3 +93,21 @@ UnionAll
 * **Purpose**: Combines the result sets of multiple **SELECT** queries and **includes all rows**, including duplicates.
 * **Behavior**: Does not perform duplicate removal or sorting, simply concatenates the results.
 * **Performance**: Faster than **UNION** because it skips the duplicate removal step, making it more efficient for large datasets.
+
+## Magic Table
+
+In  **SQL Server** , “magic tables” usually refer to the temporary logical tables available inside a trigger:
+
+* `inserted`
+* `deleted`
+
+```
+CREATE TRIGGER trg_EmployeeUpdate
+ON Employees
+AFTER UPDATE
+AS
+BEGIN
+    SELECT * FROM deleted;   -- Old values
+    SELECT * FROM inserted;  -- New values
+END;
+```
