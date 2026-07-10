@@ -1,4 +1,4 @@
-What are semantic and non-symentic HTML elements ?
+## **What are semantic and non-symentic HTML elements ?**
 
 Semantic elements: They clearly describes what type of content they hold.
 Eg: header,article,nav,footer,section etc.

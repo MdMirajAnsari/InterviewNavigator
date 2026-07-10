@@ -99,7 +99,6 @@ public class Program
        new B().Bar();
     }
 }
-
 ```
 
 would output
@@ -329,7 +328,6 @@ If you do not have any additional logic while setting and getting the data from 
 Syntax: Access_specifier Datatype Property_Name { get; set; }
 Example: public int A { get; set; }
 
-
 ## **IEnumerable and IQueryable**
 
 IEnumerable in C# is an interface that defines one method, GetEnumerator, which returns an IEnumerator object. This interface is found in the **System.Collections** namespace. It is a key part of the .NET Framework and is used to iterate over a collection of objects.
@@ -341,7 +339,6 @@ This is the only method defined in the IEnumerable interface. It returns an IEnu
 * **Current** : A property that gets the current element in the collection.
 * **MoveNext()** : This advances the enumerator to the next element of the collection.
 * **Reset():** Sets the enumerator to its initial position, which is before the first element in the collection.
-
 
 IQueryable in C# is an interface that is used to query data from a data source. It is part of the System.Linq namespace and is a key component in LINQ (Language Integrated Query). Unlike IEnumerable, which is used for iterating over in-memory collections, IQueryable is designed for querying data sources where the query is not executed until the object is enumerated. This is particularly useful for remote data sources, like databases, enabling efficient querying by allowing the query to be executed on the server side.
 
@@ -355,3 +352,9 @@ IQueryable in C# is an interface that is used to query data from a data source. 
 
 * Use IEnumerable when working with in-memory data collections where the data set is not excessively large.
 * Use IQueryable when querying data from out-of-memory sources like databases, especially when dealing with large data sets, to take advantage of server-side processing and optimizations.
+
+# ICollection vs IList
+
+Use it when you only need to add, remove, count, or loop through items.
+
+IList<T></t> inherits from ICollection<T></t> and additionally supports indexing and position-based operations.
