@@ -22,7 +22,6 @@ const source = of(1, 2, 3);
 source.pipe(
   mergeMap(val => of(`API call for ${val}`).pipe(delay(1000 - val * 100))) // Simulate faster response for higher values
 ).subscribe(result => console.log(result));
-
 ```
 
 Output (order depends on completion time):
@@ -75,7 +74,6 @@ const source = of(1, 2, 3);
 source.pipe(
   switchMap(val => of(`API call for ${val}`).pipe(delay(1000)))
 ).subscribe(result => console.log(result));
-
 ```
 
 Output:
@@ -83,6 +81,12 @@ Output:
 API call for 3
 
 Only the result of the last emission (3) is logged because switchMap cancels previous Observables when a new value arrives.
+
+## Subject
+
+A `Subject` does not store any previous value.
+
+Subscribers receive only values emitted **after** they subscribe.
 
 ## BehaviourSubject
 
@@ -101,6 +105,11 @@ Use Cases
 State Management: Share application state (e.g., user authentication status, theme settings).
 Form Data: Track form input changes across components.
 Real-Time Updates: Reflect changes like notifications or live data feeds.
+
+
+## ReplaySubject
+
+A `ReplaySubject` stores multiple previous values and sends them to new subscribers.
 
 ## Lifecycle Hooks
 
@@ -249,17 +258,10 @@ Two-Way Binding: Requires FormsModule for ngModel and is useful for form inputs.
 Performance: Angular’s change detection automatically updates the UI when bound data changes, but overuse of two-way binding can impact performance in large applications.
 Directives: Structural directives like *ngIf and *ngFor often work with data binding to conditionally render or iterate over elements.
 
-
 ## Angular Directives
-Angular directives are special markers (attributes or elements) in the DOM that extend HTML functionality or manipulate the DOM in Angular applications. They allow you to attach behavior to elements, modify their structure, or create reusable components. Angular has three main types of directives: Component Directives, Structural Directives, and Attribute Directives. 
+
+Angular directives are special markers (attributes or elements) in the DOM that extend HTML functionality or manipulate the DOM in Angular applications. They allow you to attach behavior to elements, modify their structure, or create reusable components. Angular has three main types of directives: Component Directives, Structural Directives, and Attribute Directives.
 
 Defined using the @Component decorator, they encapsulate HTML, CSS, and TypeScript logic.
 Identified by a leading asterisk (*) in templates. *ngif
 Modify the behavior or appearance of an element without altering the DOM structure. ngClass
-
-
-
-
-
-
-

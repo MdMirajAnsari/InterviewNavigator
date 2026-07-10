@@ -270,7 +270,7 @@ public class Program
 
 ```
 using System;
-		
+	
 public class Program
 {
 	public static void Main()
@@ -472,18 +472,17 @@ class Program
 
 ```
 
-
 ## Find the longest substring without repeating characters.
 
 ```
 public class Solution {
     public int LongestSubstringWithoutRepeat(string s) {
         if (string.IsNullOrEmpty(s)) return 0;
-      
+    
         HashSet<char> seen = new HashSet<char>();
         int maxLength = 0;
         int start = 0;
-      
+    
         for (int end = 0; end < s.Length; end++) {
             // While we encounter a duplicate, shrink the window
             while (seen.Contains(s[end])) {
@@ -495,7 +494,7 @@ public class Solution {
             // Update maxLength if current window is larger
             maxLength = Math.Max(maxLength, end - start + 1);
         }
-      
+    
         return maxLength;
     }
 }
@@ -551,17 +550,17 @@ public class Program
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
         Dictionary<int, int> numToIndex = new Dictionary<int, int>();
-      
+    
         for (int i = 0; i < nums.Length; i++) {
             int complement = target - nums[i];
-          
+        
             if (numToIndex.ContainsKey(complement)) {
                 return new int[] { numToIndex[complement], i };
             }
-          
+        
             numToIndex[nums[i]] = i;
         }
-      
+    
         return new int[0]; // Empty array if no solution (not reached due to problem guarantee)
     }
 }
@@ -575,17 +574,17 @@ public class Solution {
         if (nums == null || nums.Length == 0) {
             return 0;
         }
-    
+  
         int maxSum = nums[0];  // Initialize max sum with first element
         int currentSum = nums[0];  // Initialize current sum with first element
-    
+  
         for (int i = 1; i < nums.Length; i++) {
             // Decide whether to start new subarray or extend existing
             currentSum = Math.Max(nums[i], currentSum + nums[i]);
             // Update maxSum if currentSum is larger
             maxSum = Math.Max(maxSum, currentSum);
         }
-    
+  
         return maxSum;
     }
 }

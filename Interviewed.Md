@@ -1,33 +1,47 @@
-# Infosys - react js
+Infosys - react js
 
-# TCS - React js
+TCS - React js
 
-# Xoriant - fresher
+Xoriant - fresher
 
-# HashedIn - fresher
+HashedIn - fresher
 
-# Eurofins
+Eurofins
 
-# Diatoz
+Diatoz
 
-# Hach
+Hach
 
-# Columbia Sportswear
+Columbia Sportswear
 
-# Siemens
+Siemens
 
-# societe generale
+societe generale
 
-# NCR Corporation
+NCR Corporation
 
-# Persistent
+Persistent
 
-# Accion Labs
+Accion Labs
 
-# Empower
+Empower
 
-# MindFire- 2-mar-2024
+MindFire- 2-mar-2024
 
-# Coforge
+Coforge
 
-# EsyaSoft
+EsyaSoft
+
+--------------------------------------------------------------------------------------------
+
+## **4TH SWITCH**
+
+Allegion India
+
+Capegemini
+
+infogain
+
+socite generl
+
+tcs
