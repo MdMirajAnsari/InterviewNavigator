@@ -48,9 +48,26 @@ GC automatically gets trigged in the following conditions:
 
 Heap contains three segments (called generations):
 
-* Generation 2 [Long-Lived Generation]
-* Generation 1 [Survival Generation]
-* Generation 0 [Short-Lived Generation]
+* Generation 2 [Long-Lived Generation]-
+
+These are usually long-lived objects, such as:
+
+* Static objects
+* Application-level caches
+* Singleton services
+* Objects used throughout the application lifetime
+
+* Generation 1 [Survival Generation] - Generation 1 acts as a middle area between short-lived and long-lived objects.
+* Generation 0 [Short-Lived Generation] -This contains newly created, short-lived objects.
+
+These are usually long-lived objects, such as:
+
+* Static objects
+* Application-level caches
+* Singleton services
+* Objects used throughout the application lifetime
+
+.NET GC uses three generations: Gen 0 for newly created short-lived objects, Gen 1 for objects that survive a Gen 0 collection, and Gen 2 for long-lived objects. The purpose is performance, because most objects die young, so GC frequently collects the smaller Gen 0 instead of scanning the entire heap. A Gen 2 collection is more expensive and usually includes all generations.
 
 # IDisposable
 
@@ -67,6 +84,8 @@ You can prefix "using" keyword before the local variable declaration, in order t
 # Destructor
 
 Destructor is a special method of the class, which is used to close un-managed resources (such as database connections and file connections), that are opened during the class execution.
+
+## Filalize
 
 # Base Keyword
 
