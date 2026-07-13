@@ -377,3 +377,307 @@ IQueryable in C# is an interface that is used to query data from a data source. 
 Use it when you only need to add, remove, count, or loop through items.
 
 IList<T></t> inherits from ICollection<T></t> and additionally supports indexing and position-based operations.
+
+# C# Interview Questions and Answers
+
+## Difference between IEnumerable, IQueryable, ICollection and IList
+
+**IEnumerable<T>** is used to iterate over a sequence of items. It is best for in-memory collections and supports forward-only iteration using `foreach`. LINQ queries on `IEnumerable` are executed in memory.
+
+**IQueryable<T>** is used to build queries against external data sources like databases. It stores the query as an expression tree, so providers like Entity Framework can translate it into SQL and execute it on the server.
+
+**ICollection<T>** extends `IEnumerable<T>` and adds collection operations such as `Add`, `Remove`, `Contains`, `Count`, and `Clear`. Use it when you need to modify a collection but do not need index-based access.
+
+**IList<T>** extends `ICollection<T>` and adds index-based access using `collection[index]`, plus insert and remove operations by position. Use it when item order and positions matter.
+
+## What is deferred execution in LINQ?
+
+Deferred execution means a LINQ query is not executed when it is created. It runs only when the result is actually enumerated, such as by using `foreach`, `ToList()`, `ToArray()`, `First()`, `Count()`, or similar terminal operations.
+
+Example:
+
+```csharp
+var query = users.Where(u => u.IsActive); // query is only defined here
+var list = query.ToList();                // query executes here
+```
+
+Deferred execution allows queries to be composed step by step before they run.
+
+## What happens when you call ToList() on an IQueryable?
+
+Calling `ToList()` on an `IQueryable<T>` executes the query immediately. For Entity Framework or LINQ to SQL, the expression tree is translated into SQL, sent to the database, executed there, and the returned rows are materialized into a `List<T>` in memory.
+
+After `ToList()`, further LINQ operations run in memory on the list, not in the database.
+
+## Difference between async/await, Task, thread and process
+
+**Process** is an independent running program with its own memory space.
+
+**Thread** is an execution path inside a process. A process can have multiple threads sharing the same memory.
+
+**Task** represents an asynchronous operation. It may use a thread, but it does not always mean a dedicated thread is running. For example, I/O work can be represented by a `Task` while no thread is blocked waiting.
+
+**async/await** is a language feature that makes asynchronous code easier to write. `async` marks a method as asynchronous, and `await` pauses the method until the awaited `Task` completes without blocking the current thread.
+
+## Can an async method still block a thread?
+
+Yes. An `async` method can still block a thread if it contains blocking calls such as `Thread.Sleep`, `.Result`, `.Wait()`, synchronous file/database/network calls, or CPU-heavy work without offloading it appropriately.
+
+Example:
+
+```csharp
+public async Task DoWorkAsync()
+{
+    Thread.Sleep(5000); // blocks the thread
+    await Task.Delay(1000);
+}
+```
+
+`async` does not automatically make every operation non-blocking.
+
+## What causes deadlocks in asynchronous code?
+
+Deadlocks commonly happen when asynchronous code is forced to run synchronously, especially by calling `.Result` or `.Wait()` on a `Task`.
+
+In UI apps or older ASP.NET apps, the awaited operation may try to resume on the original synchronization context. But that context is blocked waiting for `.Result` or `.Wait()`, so the continuation cannot run and the caller waits forever.
+
+## Why should .Result and .Wait() generally be avoided?
+
+`.Result` and `.Wait()` block the current thread until the task completes. This can cause deadlocks, thread pool starvation, poor scalability, and less responsive applications.
+
+Prefer using `await`:
+
+```csharp
+var result = await GetDataAsync();
+```
+
+Use synchronous blocking only when you are certain it is safe and necessary.
+
+## Difference between value types and reference types
+
+**Value types** store the actual value. Examples include `int`, `bool`, `double`, `DateTime`, `enum`, and `struct`. Assigning one value type variable to another usually copies the value.
+
+**Reference types** store a reference to an object in memory. Examples include `class`, `string`, arrays, delegates, and interfaces. Assigning one reference variable to another copies the reference, so both variables can point to the same object.
+
+Value types usually live on the stack or inline inside other objects, while reference type objects live on the managed heap.
+
+## Difference between ref, out and in
+
+**ref** passes an argument by reference. The variable must be initialized before it is passed, and the method can read and modify it.
+
+**out** passes an argument by reference for output. The variable does not need to be initialized before the call, but the called method must assign it before returning.
+
+**in** passes an argument by reference as read-only. It avoids copying large value types while preventing the method from modifying the value.
+
+Example:
+
+```csharp
+void Update(ref int x) { x++; }
+void Create(out int x) { x = 10; }
+void Read(in int x) { Console.WriteLine(x); }
+```
+
+## What is boxing and unboxing?
+
+**Boxing** is converting a value type to `object` or an interface type. The value is copied into an object on the heap.
+
+```csharp
+int number = 10;
+object boxed = number; // boxing
+```
+
+**Unboxing** is converting the boxed object back to the original value type.
+
+```csharp
+int unboxed = (int)boxed; // unboxing
+```
+
+Boxing and unboxing can affect performance if done frequently.
+
+## Difference between abstract class and interface
+
+An **abstract class** can contain implemented methods, abstract methods, fields, constructors, properties, and access modifiers. A class can inherit from only one abstract class.
+
+An **interface** defines a contract that a type must implement. A class can implement multiple interfaces. Modern C# interfaces can contain default implementations, but they are still mainly used to define capabilities or contracts.
+
+Use an abstract class when you want to share common base behavior. Use an interface when you want to define what a type can do.
+
+## When would you choose an interface over an abstract class?
+
+Choose an interface when different unrelated classes should follow the same contract, when multiple inheritance of behavior is not needed, or when you want loose coupling for dependency injection and testing.
+
+Example: `IRepository`, `ILogger`, and `IPaymentGateway` are good interface candidates because many different implementations can exist.
+
+## Explain method overloading and method overriding
+
+**Method overloading** means having multiple methods with the same name but different parameter lists in the same class. It is compile-time polymorphism.
+
+```csharp
+void Print(string value) { }
+void Print(int value) { }
+```
+
+**Method overriding** means redefining a base class virtual or abstract method in a derived class. It is runtime polymorphism.
+
+```csharp
+class Animal
+{
+    public virtual void Speak() { }
+}
+
+class Dog : Animal
+{
+    public override void Speak() { }
+}
+```
+
+## Difference between virtual, override and new
+
+**virtual** allows a base class method to be overridden in a derived class.
+
+**override** replaces the base class virtual or abstract implementation.
+
+**new** hides a member from the base class instead of overriding it. Which method gets called can depend on the reference type.
+
+```csharp
+class Base
+{
+    public virtual void Show() { }
+}
+
+class Derived : Base
+{
+    public override void Show() { }
+}
+```
+
+Use `override` for polymorphic behavior. Use `new` only when you intentionally want to hide a base member.
+
+## What is an immutable class? How would you create one?
+
+An immutable class is a class whose state cannot be changed after the object is created.
+
+To create one:
+
+* Make the class properties read-only or `init`-only.
+* Set values through the constructor.
+* Avoid setters that mutate state.
+* Use read-only collections or defensive copies for collection properties.
+* Mark the class as `sealed` if inheritance could break immutability.
+
+Example:
+
+```csharp
+public sealed class Person
+{
+    public string Name { get; }
+    public int Age { get; }
+
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+}
+```
+
+## What are delegates, events, Func, Action and Predicate?
+
+**Delegate** is a type-safe reference to a method.
+
+```csharp
+public delegate int Calculator(int a, int b);
+```
+
+**Event** is a wrapper around a delegate used for publish-subscribe communication. It allows a class to notify subscribers when something happens.
+
+**Func** is a built-in generic delegate that returns a value. The last generic type is the return type.
+
+```csharp
+Func<int, int, int> add = (a, b) => a + b;
+```
+
+**Action** is a built-in generic delegate that returns `void`.
+
+```csharp
+Action<string> log = message => Console.WriteLine(message);
+```
+
+**Predicate<T>** is a delegate that takes one input and returns `bool`.
+
+```csharp
+Predicate<int> isEven = x => x % 2 == 0;
+```
+
+## Explain covariance and contravariance
+
+Covariance and contravariance allow more flexible assignment of generic types and delegates while preserving type safety.
+
+**Covariance** uses `out` and allows a more derived return type.
+
+```csharp
+IEnumerable<string> strings = new List<string>();
+IEnumerable<object> objects = strings;
+```
+
+Because `string` is an `object`, `IEnumerable<string>` can be used as `IEnumerable<object>`.
+
+**Contravariance** uses `in` and allows a less derived input type.
+
+```csharp
+Action<object> handleObject = obj => Console.WriteLine(obj);
+Action<string> handleString = handleObject;
+```
+
+An action that can handle any `object` can also handle a `string`.
+
+## What is reflection, and where have you used it?
+
+Reflection is the ability to inspect metadata about types, methods, properties, attributes, and assemblies at runtime. It can also be used to create objects or invoke members dynamically.
+
+Common uses include:
+
+* Reading custom attributes.
+* Building serializers and mappers.
+* Dependency injection container scanning.
+* Unit test discovery.
+* Loading plugins or assemblies dynamically.
+
+Example:
+
+```csharp
+Type type = typeof(Person);
+var properties = type.GetProperties();
+```
+
+Reflection is powerful but should be used carefully because it can be slower and less type-safe than normal code.
+
+## What is dependency injection?
+
+Dependency injection is a design pattern where a class receives its dependencies from outside instead of creating them directly. It improves loose coupling, testability, and maintainability.
+
+Example:
+
+```csharp
+public class OrderService
+{
+    private readonly ILogger _logger;
+
+    public OrderService(ILogger logger)
+    {
+        _logger = logger;
+    }
+}
+```
+
+Here, `OrderService` depends on `ILogger`, but it does not create the logger itself.
+
+## Explain transient, scoped and singleton lifetimes
+
+**Transient** creates a new instance every time the service is requested. Use it for lightweight, stateless services.
+
+**Scoped** creates one instance per scope. In ASP.NET Core, a scope is usually one HTTP request. Use it for services that should share state during a single request, such as Entity Framework `DbContext`.
+
+**Singleton** creates one instance for the entire application lifetime. Use it for stateless, thread-safe services or shared caches.
+
+Be careful not to inject a scoped service into a singleton, because the singleton lives longer than the scoped dependency.

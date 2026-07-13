@@ -376,3 +376,365 @@ Sharding is typically used to address challenges in large-scale systems, such as
 How Sharding Works1. **Sharding Key**: A specific attribute (e.g., user ID, location, or timestamp) is chosen to determine how data is distributed across shards. This is also called the **partition key**.
 
 * **Example: For a social media app, you might shard by **user_id**, so all data for a specific user resides in one shard.**
+
+# Design Principles and Patterns Interview Questions and Answers
+
+## Explain all five SOLID principles with project examples
+
+**SOLID** is a set of object-oriented design principles that help create maintainable, testable, and flexible software.
+
+### Single Responsibility Principle
+
+A class should have only one reason to change. It should do one main job.
+
+Example: In an e-commerce project, `OrderService` should handle order-related business rules, but it should not send emails, write logs, and generate invoices directly. Those responsibilities can be moved to `IEmailService`, `ILogger`, and `IInvoiceService`.
+
+```csharp
+public class OrderService
+{
+    private readonly IEmailService _emailService;
+
+    public OrderService(IEmailService emailService)
+    {
+        _emailService = emailService;
+    }
+
+    public void PlaceOrder(Order order)
+    {
+        // order business logic
+        _emailService.SendOrderConfirmation(order);
+    }
+}
+```
+
+### Open/Closed Principle
+
+Software should be open for extension but closed for modification. We should add new behavior without changing existing tested code.
+
+Example: In a payment system, instead of modifying one large `PaymentService` every time a new payment method is added, create an `IPaymentProcessor` interface and add new implementations like `CardPaymentProcessor`, `UpiPaymentProcessor`, and `PayPalPaymentProcessor`.
+
+```csharp
+public interface IPaymentProcessor
+{
+    void Pay(decimal amount);
+}
+
+public class CardPaymentProcessor : IPaymentProcessor
+{
+    public void Pay(decimal amount) { }
+}
+```
+
+### Liskov Substitution Principle
+
+A derived class should be replaceable wherever its base class is expected without breaking the application.
+
+Example: If `Bird` has a `Fly()` method, then `Penguin : Bird` violates this principle because penguins cannot fly. A better design is to separate flying behavior into another abstraction.
+
+```csharp
+public interface IFlyingBird
+{
+    void Fly();
+}
+```
+
+### Interface Segregation Principle
+
+Clients should not be forced to depend on methods they do not use. Prefer smaller, focused interfaces.
+
+Example: Instead of one large `IWorker` interface with `Work()`, `Eat()`, and `Sleep()`, split it into separate interfaces. A robot worker may need `Work()` but not `Eat()`.
+
+```csharp
+public interface IWorkable
+{
+    void Work();
+}
+
+public interface IEatable
+{
+    void Eat();
+}
+```
+
+### Dependency Inversion Principle
+
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+Example: `OrderService` should depend on `IOrderRepository`, not directly on `SqlOrderRepository`. This allows switching from SQL Server to another storage implementation without changing business logic.
+
+```csharp
+public class OrderService
+{
+    private readonly IOrderRepository _repository;
+
+    public OrderService(IOrderRepository repository)
+    {
+        _repository = repository;
+    }
+}
+```
+
+## What problem does dependency inversion solve?
+
+Dependency inversion solves tight coupling between business logic and low-level implementation details.
+
+Without it, high-level code directly depends on concrete classes like `SqlRepository`, `SmtpEmailSender`, or `FileLogger`. This makes code harder to test, harder to change, and harder to reuse.
+
+With dependency inversion, high-level code depends on abstractions like `IRepository`, `IEmailSender`, or `ILogger`. Concrete implementations can be replaced without changing the business logic.
+
+## Difference between dependency inversion and dependency injection
+
+**Dependency inversion** is a design principle. It says high-level modules should depend on abstractions, not concrete implementations.
+
+**Dependency injection** is a technique used to provide those dependencies from outside the class, usually through constructor injection.
+
+Example:
+
+```csharp
+public class UserService
+{
+    private readonly IUserRepository _repository;
+
+    public UserService(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+}
+```
+
+Here, depending on `IUserRepository` is dependency inversion. Passing the dependency through the constructor is dependency injection.
+
+## Which design patterns have you used?
+
+Common design patterns used in .NET projects include:
+
+* **Repository Pattern**: To abstract data access logic.
+* **Unit of Work**: To commit multiple repository changes in one transaction.
+* **Factory Pattern**: To create objects based on runtime conditions.
+* **Strategy Pattern**: To switch business algorithms without changing the caller.
+* **Singleton Pattern**: For one shared instance, such as configuration or cache services.
+* **Decorator Pattern**: To add behavior around an existing service, such as logging, validation, or caching.
+* **Observer Pattern**: For event-based communication.
+* **Mediator Pattern**: To reduce direct dependencies between components, commonly using MediatR.
+* **CQRS**: To separate read and write models in complex systems.
+
+## Repository pattern: advantages and disadvantages
+
+Advantages:
+
+* Separates business logic from data access logic.
+* Makes code easier to unit test by mocking repositories.
+* Centralizes data access queries.
+* Helps maintain a clean architecture boundary.
+* Can hide ORM-specific details from the application layer.
+
+Disadvantages:
+
+* Can add unnecessary abstraction if the repository only wraps EF Core methods like `Add`, `Update`, and `Find`.
+* May hide useful ORM features such as change tracking, eager loading, transactions, and LINQ queries.
+* Generic repositories can become too limited for real business queries.
+* Adds more interfaces and classes to maintain.
+
+## Is repository pattern required when using EF Core?
+
+No. EF Core already implements repository-like and unit-of-work-like behavior through `DbSet<T>` and `DbContext`.
+
+A separate repository can still be useful when:
+
+* You want to isolate application code from EF Core.
+* You have complex query logic that should be centralized.
+* You follow clean architecture and want persistence details outside the application layer.
+* You want easier mocking or integration boundaries.
+
+It may not be useful when the repository simply exposes the same methods as `DbSet<T>` without adding business value.
+
+## Factory versus abstract factory
+
+**Factory Pattern** creates one type of object based on input or runtime conditions.
+
+Example: Create the correct payment processor based on payment type.
+
+```csharp
+public IPaymentProcessor Create(string type)
+{
+    return type == "Card" ? new CardPaymentProcessor() : new UpiPaymentProcessor();
+}
+```
+
+**Abstract Factory Pattern** creates families of related objects without specifying their concrete classes.
+
+Example: A UI library may have `WindowsButton` and `WindowsTextbox`, or `MacButton` and `MacTextbox`. The abstract factory creates matching controls for the selected platform.
+
+Use factory for one object. Use abstract factory for a group of related objects.
+
+## Strategy pattern versus factory pattern
+
+**Strategy Pattern** is used to choose between different algorithms or behaviors at runtime.
+
+Example: Discount calculation can use `FestivalDiscountStrategy`, `LoyalCustomerDiscountStrategy`, or `NoDiscountStrategy`.
+
+**Factory Pattern** is used to create objects without exposing creation logic to the caller.
+
+In many projects, they are used together. A factory creates the correct strategy, and the caller executes it.
+
+```csharp
+IDiscountStrategy strategy = discountFactory.Create(customerType);
+decimal finalAmount = strategy.Apply(totalAmount);
+```
+
+## Singleton pattern and thread safety
+
+Singleton ensures only one instance of a class exists during the application lifetime.
+
+In .NET, a thread-safe singleton can be created using `Lazy<T>`:
+
+```csharp
+public sealed class AppSettings
+{
+    private static readonly Lazy<AppSettings> _instance = new(() => new AppSettings());
+
+    public static AppSettings Instance => _instance.Value;
+
+    private AppSettings() { }
+}
+```
+
+Thread safety is important because multiple threads may try to create the singleton at the same time. In ASP.NET Core, singleton services registered in the DI container must also be thread-safe because they can be used by many requests concurrently.
+
+## Decorator pattern and middleware
+
+**Decorator Pattern** adds behavior before or after an existing object without changing the original class.
+
+Example: Add logging around a service call.
+
+```csharp
+public class LoggingOrderService : IOrderService
+{
+    private readonly IOrderService _inner;
+
+    public LoggingOrderService(IOrderService inner)
+    {
+        _inner = inner;
+    }
+
+    public void PlaceOrder(Order order)
+    {
+        // log before
+        _inner.PlaceOrder(order);
+        // log after
+    }
+}
+```
+
+ASP.NET Core middleware works in a similar way. Each middleware wraps the next middleware in the pipeline and can run logic before and after calling `next()`.
+
+Common examples are authentication, authorization, exception handling, logging, and request/response modification.
+
+## Observer pattern and events
+
+Observer Pattern allows one object, called the subject, to notify multiple observers when something changes.
+
+C# events are a built-in way to implement this pattern.
+
+Example:
+
+```csharp
+public class OrderService
+{
+    public event Action<Order>? OrderPlaced;
+
+    public void PlaceOrder(Order order)
+    {
+        // save order
+        OrderPlaced?.Invoke(order);
+    }
+}
+```
+
+Subscribers can listen to `OrderPlaced` and perform actions like sending email, updating analytics, or publishing integration events.
+
+## Mediator pattern and MediatR
+
+Mediator Pattern reduces direct dependencies between objects by making them communicate through a central mediator.
+
+MediatR is a popular .NET library that implements this pattern. Instead of a controller directly calling many services, it sends a command or query to MediatR, and MediatR finds the correct handler.
+
+Example flow:
+
+```csharp
+public record CreateOrderCommand(int CustomerId) : IRequest<int>;
+
+public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
+{
+    public Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    {
+        // business logic
+        return Task.FromResult(1);
+    }
+}
+```
+
+This keeps controllers thin and moves use-case logic into handlers.
+
+## CQRS: when should it be used?
+
+CQRS should be used when read and write operations have different requirements or complexity.
+
+Good use cases:
+
+* Complex business workflows on the write side.
+* High-read systems that need optimized read models.
+* Different scaling needs for reads and writes.
+* Event sourcing systems.
+* Applications where commands and queries have very different models.
+
+CQRS is usually not needed for simple CRUD applications because it adds extra structure and complexity.
+
+## What are the disadvantages of CQRS?
+
+Disadvantages of CQRS include:
+
+* More classes, handlers, models, and mapping code.
+* Higher learning curve for the team.
+* More complex debugging because logic is split between commands and queries.
+* Possible eventual consistency if separate read and write databases are used.
+* More infrastructure if combined with messaging, events, or event sourcing.
+* Can be overengineering for simple CRUD systems.
+
+## Explain clean architecture or onion architecture
+
+Clean architecture and onion architecture organize code so business logic is independent of frameworks, databases, UI, and external services.
+
+Typical layers:
+
+* **Domain Layer**: Entities, value objects, domain rules, domain events.
+* **Application Layer**: Use cases, commands, queries, interfaces, validation, orchestration.
+* **Infrastructure Layer**: EF Core, repositories, file storage, email, external APIs.
+* **Presentation Layer**: Controllers, minimal APIs, UI, request/response models.
+
+The main rule is that dependencies point inward. The domain should not depend on infrastructure or presentation. Infrastructure depends on application/domain contracts and provides implementations.
+
+Example: The application layer defines `IEmailSender`, and the infrastructure layer implements it using SMTP or SendGrid.
+
+## Where should business logic reside?
+
+Business logic should mainly reside in the domain and application layers, not in controllers or database classes.
+
+* Domain layer should contain core business rules that belong to entities, value objects, and domain services.
+* Application layer should contain use-case orchestration, transaction flow, validation coordination, and calls to repositories or external services.
+* Controllers should only handle HTTP concerns like routing, model binding, authentication context, status codes, and calling the application layer.
+
+This keeps the system testable and prevents business rules from being scattered across the application.
+
+## How do you prevent controllers from becoming too large?
+
+To keep controllers small:
+
+* Move business logic into application services, command handlers, or use-case classes.
+* Use MediatR to send commands and queries to handlers.
+* Move validation to validators such as FluentValidation.
+* Move mapping logic to mapping profiles or dedicated mapper classes.
+* Move repeated filters into middleware, filters, or attributes.
+* Keep controllers focused on HTTP request and response handling.
+
+A controller action should usually receive the request, call one application-level operation, and return the response.
