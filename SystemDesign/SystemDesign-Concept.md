@@ -738,3 +738,460 @@ To keep controllers small:
 * Keep controllers focused on HTTP request and response handling.
 
 A controller action should usually receive the request, call one application-level operation, and return the response.
+
+# Microservices and Scalability Interview Questions and Answers
+
+## Monolith versus microservices
+
+A **monolith** is an application where most features are built, deployed, and scaled as one unit. It usually has one codebase and often one database.
+
+**Microservices** split the system into smaller independently deployable services. Each service owns a business capability, such as orders, payments, inventory, or notifications.
+
+Monolith advantages:
+
+* Simple to build, test, deploy, and debug at the beginning.
+* Easier local development.
+* Simple transactions because most logic is in one process and often one database.
+* Lower operational complexity.
+
+Microservices advantages:
+
+* Services can be deployed independently.
+* Teams can own separate services.
+* Each service can scale independently.
+* Technology choices can vary by service.
+* Fault isolation is better when designed properly.
+
+A monolith is often better for small teams and early-stage products. Microservices are useful when the domain, team size, and scaling needs justify the extra complexity.
+
+## When should you not use microservices?
+
+Avoid microservices when:
+
+* The product domain is not clear yet.
+* The team is small and cannot handle distributed-system complexity.
+* The application is mostly simple CRUD.
+* Independent scaling is not needed.
+* Deployment, monitoring, logging, tracing, and DevOps maturity are weak.
+* Strong consistency and simple transactions are more important than independent service boundaries.
+
+A poorly designed microservice system can become a distributed monolith, where services are separate but tightly coupled and hard to deploy independently.
+
+## How do microservices communicate?
+
+Microservices commonly communicate using:
+
+* **HTTP/REST** for request-response APIs.
+* **gRPC** for high-performance typed service calls.
+* **Messaging** using brokers like RabbitMQ, Kafka, Azure Service Bus, or AWS SQS.
+* **Events** for publishing business changes such as `OrderCreated` or `PaymentCompleted`.
+
+Synchronous communication is simpler but increases runtime coupling. Asynchronous communication improves decoupling and resilience but introduces eventual consistency.
+
+## Synchronous versus asynchronous communication
+
+**Synchronous communication** means the caller waits for the response. Examples include REST and gRPC.
+
+Use it when:
+
+* The caller needs an immediate answer.
+* The operation is quick and reliable.
+* The user is waiting for the result.
+
+**Asynchronous communication** means the caller sends a message or event and continues without waiting for the final processing. Examples include queues and event streams.
+
+Use it when:
+
+* Work can happen in the background.
+* Services should be loosely coupled.
+* The system needs better resilience during temporary failures.
+* Eventual consistency is acceptable.
+
+## REST versus messaging
+
+**REST** is good for synchronous request-response communication, especially when one service needs to query another service immediately.
+
+Example: Order Service calls Customer Service to validate a customer.
+
+**Messaging** is good for asynchronous communication, decoupling, retries, and event-driven workflows.
+
+Example: Order Service publishes `OrderCreated`, and Inventory, Payment, and Notification services process it independently.
+
+REST is easier to understand and debug. Messaging is better for scalability and resilience, but it requires handling retries, duplicate messages, ordering, and eventual consistency.
+
+## What is eventual consistency?
+
+Eventual consistency means data across services may not be immediately consistent, but it will become consistent after all events or messages are processed.
+
+Example: After an order is placed, the Order Service may show `Pending Payment` while Payment Service is still processing. After payment succeeds, an event updates the order status to `Confirmed`.
+
+Eventual consistency is common in microservices because each service owns its own database and distributed transactions are usually avoided.
+
+## Explain the CAP theorem
+
+CAP theorem says a distributed system cannot fully guarantee all three at the same time:
+
+* **Consistency**: Every read receives the latest write.
+* **Availability**: Every request receives a response.
+* **Partition tolerance**: The system continues working even when network communication between nodes fails.
+
+In real distributed systems, network partitions can happen, so systems usually choose between consistency and availability during a partition.
+
+Example: A banking system may prefer consistency. A social media feed may prefer availability and accept slightly stale data.
+
+## Explain the Saga pattern
+
+Saga pattern manages a business transaction across multiple services without using a distributed database transaction.
+
+A saga breaks the workflow into multiple local transactions. If one step fails, compensating actions undo or correct earlier steps.
+
+Example order flow:
+
+* Order Service creates an order with `Pending` status.
+* Payment Service charges the customer.
+* Inventory Service reserves stock.
+* If inventory reservation fails, Payment Service refunds the payment and Order Service cancels the order.
+
+Saga is useful for long-running distributed workflows.
+
+## Choreography versus orchestration
+
+**Choreography** means each service reacts to events and decides what to do next. There is no central coordinator.
+
+Example: Order Service publishes `OrderCreated`, Payment Service reacts and publishes `PaymentCompleted`, Inventory Service reacts and publishes `StockReserved`.
+
+Advantages: Loose coupling and fewer central dependencies.
+
+Disadvantages: Workflow can become hard to understand because logic is spread across services.
+
+**Orchestration** uses a central orchestrator to control the workflow.
+
+Example: An Order Saga Orchestrator tells Payment Service to charge, then tells Inventory Service to reserve stock, then confirms or cancels the order.
+
+Advantages: Easier to see and manage the workflow.
+
+Disadvantages: The orchestrator can become complex or too central.
+
+## What is the Outbox pattern?
+
+Outbox pattern ensures database changes and messages are saved reliably together.
+
+Instead of saving data and directly publishing a message, the service saves both the business data and an outbox message in the same local database transaction. A background worker then reads the outbox table and publishes the message to the broker.
+
+This prevents a common failure where the database update succeeds but message publishing fails.
+
+Example:
+
+* Save order in `Orders` table.
+* Save `OrderCreated` event in `OutboxMessages` table in the same transaction.
+* Background publisher sends the event to Kafka, RabbitMQ, or Azure Service Bus.
+* Mark the outbox message as processed.
+
+## How do you ensure a message is processed only once?
+
+In distributed systems, true exactly-once processing is difficult. A practical approach is **at-least-once delivery with idempotent processing**.
+
+Techniques include:
+
+* Store processed message IDs in a table.
+* Use idempotency keys for commands.
+* Use unique constraints to prevent duplicate inserts.
+* Make updates naturally idempotent, such as setting status to `Paid` instead of incrementing a counter.
+* Use broker features like duplicate detection where available.
+
+Example:
+
+```sql
+CREATE TABLE ProcessedMessages
+(
+    MessageId uniqueidentifier PRIMARY KEY,
+    ProcessedAt datetime2 NOT NULL
+);
+```
+
+Before processing a message, check whether its `MessageId` was already processed.
+
+## What is idempotency?
+
+Idempotency means performing the same operation multiple times produces the same final result as performing it once.
+
+Example: `SetOrderStatus(orderId, 'Cancelled')` is idempotent because running it multiple times leaves the order cancelled.
+
+A non-idempotent example is `AddBalance(accountId, 100)`, because running it twice adds 200.
+
+Idempotency is important for retries, message processing, APIs, and payment workflows.
+
+## How do you handle retries without duplicating transactions?
+
+Use retries together with idempotency.
+
+Common techniques:
+
+* Use an idempotency key from the client or message.
+* Store request IDs or message IDs in the database.
+* Add unique constraints to prevent duplicate records.
+* Use the Outbox pattern for reliable event publishing.
+* Retry only transient failures, not validation or business-rule failures.
+* Use exponential backoff to avoid overwhelming a failing dependency.
+
+Example: For payment, store a unique `PaymentRequestId`. If the same request is retried, return the existing payment result instead of charging again.
+
+## What is a circuit breaker?
+
+Circuit breaker is a resilience pattern that stops calling a failing dependency for a short period after repeated failures.
+
+States:
+
+* **Closed**: Calls are allowed normally.
+* **Open**: Calls are blocked immediately to protect the system.
+* **Half-open**: A limited number of test calls are allowed to check if the dependency recovered.
+
+Circuit breakers prevent cascading failures and give unhealthy services time to recover.
+
+## Explain retry, timeout, fallback and bulkhead patterns
+
+**Retry** repeats a failed operation, usually for transient failures like network timeouts.
+
+**Timeout** limits how long the caller waits for a dependency before failing fast.
+
+**Fallback** provides an alternative response when the main dependency fails, such as cached data or a default response.
+
+**Bulkhead** isolates resources so one failing dependency does not consume all threads, connections, or memory.
+
+Example: If Recommendation Service is down, the Product API can use a short timeout, retry once, then return cached popular products as fallback.
+
+## How have you used Polly?
+
+Polly is a .NET resilience library used to define policies such as retry, timeout, circuit breaker, fallback, and bulkhead.
+
+Example with `HttpClientFactory`:
+
+```csharp
+services.AddHttpClient<PaymentClient>()
+    .AddTransientHttpErrorPolicy(policy =>
+        policy.WaitAndRetryAsync(3, retryAttempt =>
+            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
+    .AddTransientHttpErrorPolicy(policy =>
+        policy.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+```
+
+Typical usage:
+
+* Retry transient HTTP failures.
+* Apply timeouts for slow dependencies.
+* Use circuit breakers for unstable downstream services.
+* Return fallback responses for non-critical features.
+
+## What is service discovery?
+
+Service discovery helps services find the network location of other services dynamically.
+
+In cloud and container environments, service instances can start, stop, and move frequently. Hardcoding IP addresses does not work well.
+
+Common approaches:
+
+* Kubernetes Services and DNS.
+* Consul, Eureka, or etcd.
+* Cloud load balancers or service registries.
+
+Example: Instead of calling a fixed IP, Order Service calls `http://payment-service`, and the platform routes it to a healthy Payment Service instance.
+
+## How do you handle distributed logging?
+
+Distributed logging means collecting logs from all services in a central place.
+
+Good practices:
+
+* Use structured logs, usually JSON.
+* Include correlation ID, trace ID, user ID, service name, and request path.
+* Centralize logs using tools like ELK, OpenSearch, Seq, Splunk, Datadog, or Application Insights.
+* Keep log levels meaningful.
+* Avoid logging secrets or sensitive data.
+
+Correlation IDs help trace one user request across many services.
+
+## What is distributed tracing?
+
+Distributed tracing tracks a request as it moves through multiple services.
+
+A trace is made of spans. Each span represents one operation, such as an API call, database query, or message handling step.
+
+Tools include OpenTelemetry, Jaeger, Zipkin, Datadog, New Relic, and Azure Application Insights.
+
+Tracing helps answer questions like:
+
+* Which service is slow?
+* Where did the request fail?
+* Which downstream dependency caused latency?
+
+## How do you secure service-to-service communication?
+
+Common approaches:
+
+* Use HTTPS/TLS for encrypted communication.
+* Use mutual TLS when both services must authenticate each other.
+* Use short-lived tokens such as OAuth2 client credentials or JWTs.
+* Validate issuer, audience, expiry, and scopes.
+* Use network policies, private networks, or service mesh rules.
+* Apply least privilege for service identities.
+
+For internal APIs, authentication and authorization should still be enforced. Internal does not mean trusted by default.
+
+## How do you manage secrets?
+
+Secrets should not be stored in source code, appsettings files committed to Git, or container images.
+
+Use secret managers such as:
+
+* Azure Key Vault.
+* AWS Secrets Manager.
+* Google Secret Manager.
+* HashiCorp Vault.
+* Kubernetes Secrets with proper encryption and access controls.
+
+Good practices:
+
+* Rotate secrets regularly.
+* Use managed identities where possible.
+* Restrict access by environment and service.
+* Audit secret access.
+* Avoid printing secrets in logs.
+
+## Database per service versus shared database
+
+**Database per service** means each microservice owns its own database schema or database.
+
+Advantages:
+
+* Strong service ownership.
+* Independent schema changes.
+* Less coupling between services.
+* Different storage technologies can be used per service.
+
+Disadvantages:
+
+* Cross-service queries are harder.
+* Transactions across services become eventual-consistency workflows.
+* Reporting may need read models, ETL, or data pipelines.
+
+**Shared database** is simpler at first but couples services through tables. One service changing a table can break another service, making independent deployment difficult.
+
+For true microservices, database per service is usually preferred.
+
+## How do you deploy services independently?
+
+To deploy services independently:
+
+* Keep service code, database schema, and ownership boundaries separate.
+* Use CI/CD pipelines per service.
+* Version APIs and messages.
+* Make database changes backward compatible.
+* Avoid shared libraries that force every service to deploy together.
+* Use consumer-driven contract tests where useful.
+* Monitor each service independently after deployment.
+
+The key is ensuring one service can change without requiring immediate coordinated deployments of all other services.
+
+## Blue-green versus canary deployment
+
+**Blue-green deployment** uses two production-like environments: blue and green. One serves live traffic while the new version is deployed to the other. After validation, traffic is switched to the new version.
+
+Advantages: Fast rollback by switching traffic back.
+
+Disadvantages: Requires duplicate environment capacity.
+
+**Canary deployment** releases the new version to a small percentage of users or traffic first. If metrics look good, traffic is gradually increased.
+
+Advantages: Lower risk because only a small group is affected initially.
+
+Disadvantages: Requires good monitoring, routing, and rollback controls.
+
+## How do you handle backward-compatible API changes?
+
+Backward-compatible API changes allow old and new clients to work during deployment.
+
+Good practices:
+
+* Add new optional fields instead of removing or renaming fields.
+* Do not change the meaning of existing fields.
+* Support old and new versions during migration.
+* Use API versioning for breaking changes.
+* For events, allow consumers to ignore unknown fields.
+* Deploy changes in phases: expand, migrate, contract.
+
+Example: Add `FullName` while keeping `FirstName` and `LastName`. After all clients migrate, remove old fields in a later version.
+
+## How do you cache data?
+
+Caching stores frequently used data closer to the application so repeated requests are faster and reduce load on databases or APIs.
+
+Common cache levels:
+
+* In-memory cache inside the application.
+* Distributed cache like Redis.
+* HTTP cache/CDN for static or public content.
+* Database query/result cache for expensive reads.
+
+Use caching for frequently read, rarely changed data such as configuration, product catalog data, lookup tables, access permissions, and computed reports.
+
+## Cache-aside versus write-through
+
+**Cache-aside** means the application checks the cache first. If data is missing, it reads from the database and stores the result in cache.
+
+Flow:
+
+* Read from cache.
+* If missing, read from database.
+* Store in cache.
+* Return data.
+
+Cache-aside is common and flexible.
+
+**Write-through** means writes go through the cache, and the cache updates the database as part of the write flow.
+
+Write-through can keep cache and database more consistent, but it adds complexity and write latency.
+
+## How do you handle cache invalidation?
+
+Cache invalidation means removing or updating stale cache data when the source data changes.
+
+Common techniques:
+
+* Use expiration time, also called TTL.
+* Delete cache entries after successful database updates.
+* Publish events like `ProductUpdated` so other services clear related cache keys.
+* Use versioned cache keys.
+* Use short TTLs for data that changes often.
+* Avoid caching data that must always be strongly consistent.
+
+A common pattern is cache-aside with explicit invalidation on writes plus a TTL as a safety net.
+
+## Redis distributed lock: when would you use it?
+
+A Redis distributed lock can be used when multiple application instances must coordinate access to a shared resource.
+
+Examples:
+
+* Ensure only one instance runs a scheduled job.
+* Prevent duplicate processing of the same expensive operation.
+* Coordinate access to a shared external resource.
+
+Use it carefully. Distributed locks can fail if leases expire too early, clocks drift, or the process pauses. Prefer database constraints, idempotency, or queue partitioning when they solve the problem more safely.
+
+## How would you scale an application receiving thousands of requests per minute?
+
+A practical scaling approach:
+
+* Measure first using metrics, logs, tracing, and load tests.
+* Scale stateless API servers horizontally behind a load balancer.
+* Add caching for hot reads using Redis or CDN where appropriate.
+* Optimize database queries, indexes, and connection pooling.
+* Use pagination and projection to reduce payload size.
+* Move slow work to background queues.
+* Use asynchronous messaging for non-critical workflows.
+* Split read and write workloads when needed.
+* Add rate limiting to protect the system.
+* Use autoscaling based on CPU, memory, latency, queue length, or request count.
+* Remove single points of failure and add health checks.
+
+For very high traffic, also consider database read replicas, sharding, CDN caching, partitioned queues, and service-level scaling based on bottlenecks.
