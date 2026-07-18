@@ -19,6 +19,31 @@ public class Program
 }
 ```
 
+```C#
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string input = "this is my name";
+
+        string[] words = input.Split(' ');
+
+        for (int i = 0; i < words.Length; i++)  
+        {
+            char[] chars = words[i].ToCharArray();
+            Array.Reverse(chars);  
+            words[i] = new string(chars);
+        }
+
+        string output = string.Join(" ", words);
+
+        Console.WriteLine(output);
+    }
+}
+```
+
 ---
 
 ## String sort
