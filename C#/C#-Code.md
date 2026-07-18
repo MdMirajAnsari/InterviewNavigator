@@ -1,6 +1,29 @@
+## Reverse Each Word in a Sentence
+
+```csharp
+using System;
+using System.Linq;
+
+public class Program
+{
+    public static void Main()
+    {
+        string sentence = "Welcome to CSharp programming";
+
+        string result = string.Join(" ", sentence
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Select(word => new string(word.Reverse().ToArray())));
+
+        Console.WriteLine(result);
+    }
+}
+```
+
+---
+
 ## String sort
 
-```
+```C#
 using System;
 using System.Linq;
 
@@ -17,7 +40,7 @@ class Program
 
 ---
 
-```
+```C#
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -37,7 +60,7 @@ public class HelloWorld
 
 ## Remove Vowels
 
-```
+```C#
 using System;
 using System.Linq;
 public class HelloWorld
@@ -56,7 +79,7 @@ public class HelloWorld
 
 ## Remove Duplicate
 
-```
+```C#
 using System;
 using System.Linq;
 
@@ -75,7 +98,7 @@ public class Program
 
 ## Remove duplicate
 
-```
+```C#
 using System;
 public class Program
 {
@@ -95,7 +118,7 @@ public class Program
 
 ## Count Occurance using Dictionary
 
-```
+```C#
 using System;
 using System.Collections.Generic;
 public class Program
@@ -128,7 +151,7 @@ public class Program
 
 ## Count occurance
 
-```
+```C#
 using System;
 
 public class Program
@@ -144,7 +167,7 @@ public class Program
 }
 ```
 
-```
+```C#
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,7 +191,7 @@ public class Program
 
 ## Sum of digit
 
-```
+```C#
 using System;
 
 public class Program
@@ -189,7 +212,7 @@ public class Program
 
 ## Reverse digit
 
-```
+```C#
 using System;
 
 public class Program
@@ -212,7 +235,7 @@ public class Program
 
 ## Factorial
 
-```
+```C#
 if n = 0 return 1
 else
 return fact(n-1)*n
@@ -220,7 +243,7 @@ return fact(n-1)*n
 
 ## Fibonacci
 
-```
+```C#
 if n <= 1 return
 else
 return fib(n-1) + fib(n-1)
@@ -228,7 +251,7 @@ return fib(n-1) + fib(n-1)
 
 ## Using string.Join
 
-```
+```C#
 using System;
 using System.Collections.Generic;
 
@@ -242,12 +265,11 @@ class Program
         Console.WriteLine(string.Join(", ", list));
     }
 }
-
 ```
 
 ## Reverse String
 
-```
+```C#
 using System;
 
 public class Program
@@ -268,9 +290,9 @@ public class Program
 
 # Reverse an Array
 
-```
+```C#
 using System;
-	
+
 public class Program
 {
 	public static void Main()
@@ -288,7 +310,7 @@ public class Program
 
 # Move zero at Last
 
-```
+```C#
 using System;
 
 public class Program
@@ -315,7 +337,7 @@ public class Program
 
 # Check Big Letter
 
-```
+```C#
 using System;
 using System.Linq;
 
@@ -332,7 +354,7 @@ public class Program
 
 # Bubble Sort
 
-```
+```C#
 
 using System;
 
@@ -372,7 +394,7 @@ public class Program
 
 # Custom largest Number
 
-```
+```C#
 using System;
 
 public class Program
@@ -402,7 +424,7 @@ public class Program
 
 # Largest Array Value
 
-```
+```C#
 using System;
 
 class Program
@@ -423,12 +445,11 @@ class Program
         Console.WriteLine("The highest value is: " + maxValue);
     }
 }
-
 ```
 
 # Sum of Array
 
-```
+```C#
 using System;
 
 class Program
@@ -450,7 +471,7 @@ class Program
 
 # Convert string into Array of Integers
 
-```
+```C#
 using System;
 using System.Collections.Generic;
 
@@ -469,20 +490,19 @@ class Program
 		Console.WriteLine(string.Join(",", da));
     }
 }
-
 ```
 
 ## Find the longest substring without repeating characters.
 
-```
+```C#
 public class Solution {
     public int LongestSubstringWithoutRepeat(string s) {
         if (string.IsNullOrEmpty(s)) return 0;
-    
+  
         HashSet<char> seen = new HashSet<char>();
         int maxLength = 0;
         int start = 0;
-    
+  
         for (int end = 0; end < s.Length; end++) {
             // While we encounter a duplicate, shrink the window
             while (seen.Contains(s[end])) {
@@ -494,7 +514,7 @@ public class Solution {
             // Update maxLength if current window is larger
             maxLength = Math.Max(maxLength, end - start + 1);
         }
-    
+  
         return maxLength;
     }
 }
@@ -502,7 +522,7 @@ public class Solution {
 
 ## Valid Parenthesis
 
-```
+```C#
 using System;
 using System.Collections.Generic;
 
@@ -546,21 +566,21 @@ public class Program
 
 ## Two Sum
 
-```
+```C#
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
         Dictionary<int, int> numToIndex = new Dictionary<int, int>();
-    
+  
         for (int i = 0; i < nums.Length; i++) {
             int complement = target - nums[i];
-        
+      
             if (numToIndex.ContainsKey(complement)) {
                 return new int[] { numToIndex[complement], i };
             }
-        
+      
             numToIndex[nums[i]] = i;
         }
-    
+  
         return new int[0]; // Empty array if no solution (not reached due to problem guarantee)
     }
 }
@@ -568,7 +588,7 @@ public class Solution {
 
 ## Find the maximum subarray sum.
 
-```
+```C#
 public class Solution {
     public int MaxSubarraySum(int[] nums) {
         if (nums == null || nums.Length == 0) {
