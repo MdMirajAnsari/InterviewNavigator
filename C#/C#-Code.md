@@ -598,11 +598,11 @@ public class Solution {
   
         for (int i = 0; i < nums.Length; i++) {
             int complement = target - nums[i];
-      
+    
             if (numToIndex.ContainsKey(complement)) {
                 return new int[] { numToIndex[complement], i };
             }
-      
+    
             numToIndex[nums[i]] = i;
         }
   
